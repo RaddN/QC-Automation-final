@@ -1,0 +1,14 @@
+{
+  "id": "S01-city-priority-zone",
+  "description": "City-level rule should win (Ahmedabad).",
+  "startedAt": "2026-04-07T05:24:45.178Z",
+  "success": false,
+  "failures": [
+    "Expected at least one shipping method, but none found."
+  ],
+  "observations": {
+    "methodsBefore": [],
+    "noShippingMessage": ""
+  },
+  "finishedAt": "2026-04-07T05:33:18.415Z"
+}

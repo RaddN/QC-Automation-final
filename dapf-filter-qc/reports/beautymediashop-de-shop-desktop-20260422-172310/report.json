@@ -1,0 +1,1526 @@
+{
+  "siteLabel": "beautymediashop-de-shop",
+  "runMode": "url-auto",
+  "deviceMode": "desktop",
+  "baseUrl": "https://beautymediashop.de/shop/",
+  "configPath": null,
+  "outputDir": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\dapf-filter-qc\\reports\\beautymediashop-de-shop-desktop-20260422-172310",
+  "reportJsonPath": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\dapf-filter-qc\\reports\\beautymediashop-de-shop-desktop-20260422-172310\\report.json",
+  "reportMarkdownPath": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\dapf-filter-qc\\reports\\beautymediashop-de-shop-desktop-20260422-172310\\report.md",
+  "generatedConfigPath": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\dapf-filter-qc\\reports\\beautymediashop-de-shop-desktop-20260422-172310\\generated-config.json",
+  "startedAt": "2026-04-22T11:23:36.852Z",
+  "finishedAt": "2026-04-22T11:33:36.448Z",
+  "baselineSummary": {
+    "resultCount": null,
+    "emptyMessage": null,
+    "titles": [
+      "Abonnement Vertrag für kosmetische Behandlungen",
+      "Allgemeine Geschäftsbedingungen",
+      "Anzahlungsvereinbarung",
+      "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+      "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+    ],
+    "productCount": 30
+  },
+  "totalActionTests": 5,
+  "totalFilterTests": 17,
+  "passedActionTests": 5,
+  "passedFilterTests": 17,
+  "failedCount": 0,
+  "skippedActionTests": 4,
+  "actionTests": [
+    {
+      "id": "action-overlay-toggle",
+      "title": "Overlay toggle",
+      "skipped": true,
+      "passed": true,
+      "issues": [],
+      "reason": "Overlay button was not found for this viewport."
+    },
+    {
+      "id": "action-shortcode-toggle",
+      "title": "Shortcode collapsible toggle",
+      "skipped": true,
+      "passed": true,
+      "issues": [],
+      "reason": "Shortcode collapsible wrapper was not found."
+    },
+    {
+      "id": "action-collapse-toggle",
+      "title": "Collapse toggle on Rating Reset",
+      "beforeState": {
+        "collapsed": false,
+        "visible": false,
+        "displays": [
+          "block"
+        ],
+        "hiddenClassCount": 0
+      },
+      "afterCollapseState": {
+        "collapsed": true,
+        "visible": false,
+        "displays": [
+          "none"
+        ],
+        "hiddenClassCount": 1
+      },
+      "afterExpandState": {
+        "collapsed": false,
+        "visible": false,
+        "displays": [
+          "block"
+        ],
+        "hiddenClassCount": 0
+      },
+      "messages": [],
+      "issues": [],
+      "passed": true
+    },
+    {
+      "id": "action-option-search",
+      "title": "Internal option search",
+      "skipped": true,
+      "passed": true,
+      "issues": [],
+      "reason": "Field (auto not found) was not found."
+    },
+    {
+      "id": "action-reset-filters",
+      "title": "Reset Filters",
+      "skipped": true,
+      "passed": true,
+      "issues": [],
+      "reason": "Reset action is not enabled in the current filter UI."
+    }
+  ],
+  "filterTests": [
+    {
+      "id": "000-search-text-filter",
+      "fieldId": "search_text",
+      "title": "Filter",
+      "kind": "text",
+      "expected": {
+        "plugincy_search": "Vorabinformationen Mesotherapie"
+      },
+      "baselineUrl": "https://beautymediashop.de/shop/",
+      "baselineSummary": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "applyMechanism": "search-submit",
+      "urlMode": "ajax",
+      "applyUrl": "https://beautymediashop.de/shop/",
+      "reloadUrl": "https://beautymediashop.de/shop/",
+      "urlChanged": false,
+      "reloadUrlStable": true,
+      "summaryChangedAfterApply": true,
+      "applyNetworkActivity": [
+        {
+          "kind": "response",
+          "method": "GET",
+          "resourceType": "xhr",
+          "status": 200,
+          "url": "https://beautymediashop.de/shop/?gm-product-filter-nonce=2d84889e69&_wp_http_referer=%2Fshop%2F&plugincy_search=Vorabinformationen+Mesotherapie&cat_operator=OR&gm_pf_fragment=1",
+          "timestamp": 1776857093353
+        }
+      ],
+      "observedApplyEffect": true,
+      "expectsUrlChange": false,
+      "expectsReloadPersistence": false,
+      "baselineState": {
+        "plugincy_search": ""
+      },
+      "stateAfterApply": {
+        "plugincy_search": "Vorabinformationen Mesotherapie"
+      },
+      "stateAfterReload": {
+        "plugincy_search": ""
+      },
+      "applyStateOk": true,
+      "reloadStateOk": false,
+      "summaryAfterApply": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Vorabinformationen Mesotherapie"
+        ],
+        "productCount": 1
+      },
+      "summaryAfterReload": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "issues": [],
+      "messages": [],
+      "screenshot": null,
+      "passed": true
+    },
+    {
+      "id": "002-price-range-preisspanne",
+      "fieldId": "price-range",
+      "title": "Preisspanne",
+      "kind": "inputs",
+      "expected": {
+        "mn_price": "10",
+        "mx_price": "40"
+      },
+      "baselineUrl": "https://beautymediashop.de/shop/",
+      "baselineSummary": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "applyMechanism": "input-blur",
+      "urlMode": "ajax",
+      "applyUrl": "https://beautymediashop.de/shop/",
+      "reloadUrl": "https://beautymediashop.de/shop/",
+      "urlChanged": false,
+      "reloadUrlStable": true,
+      "summaryChangedAfterApply": true,
+      "applyNetworkActivity": [
+        {
+          "kind": "response",
+          "method": "GET",
+          "resourceType": "xhr",
+          "status": 200,
+          "url": "https://beautymediashop.de/shop/?gm-product-filter-nonce=2d84889e69&_wp_http_referer=%2Fshop%2F&plugincy_search=&mn_price=10&mx_price=40&cat_operator=OR&default_min=0&default_max=99&gm_pf_fragment=1",
+          "timestamp": 1776857130671
+        }
+      ],
+      "observedApplyEffect": true,
+      "expectsUrlChange": false,
+      "expectsReloadPersistence": false,
+      "baselineState": {
+        "mn_price": "0",
+        "mx_price": "99"
+      },
+      "stateAfterApply": {
+        "mn_price": "10",
+        "mx_price": "40"
+      },
+      "stateAfterReload": {
+        "mn_price": "0",
+        "mx_price": "99"
+      },
+      "applyStateOk": true,
+      "reloadStateOk": false,
+      "summaryAfterApply": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Bundle Basic Studiounterlagen",
+          "Bundle Medium Studiounterlagen",
+          "Bundle Professional Studiounterlagen",
+          "Bundle Ultra Studiounterlagen",
+          "Marketingpaket Beautiful"
+        ],
+        "productCount": 30
+      },
+      "summaryAfterReload": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "issues": [],
+      "messages": [],
+      "screenshot": null,
+      "passed": true
+    },
+    {
+      "id": "003-category-with-child-allg-schulungsunterlagen",
+      "fieldId": "category-with-child",
+      "title": "Allg. Schulungsunterlagen",
+      "kind": "checkboxes",
+      "expected": [
+        "schulungsunterlagen"
+      ],
+      "baselineUrl": "https://beautymediashop.de/shop/",
+      "baselineSummary": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "applyMechanism": "auto-change",
+      "urlMode": "ajax",
+      "applyUrl": "https://beautymediashop.de/shop/",
+      "reloadUrl": "https://beautymediashop.de/shop/",
+      "urlChanged": false,
+      "reloadUrlStable": true,
+      "summaryChangedAfterApply": true,
+      "applyNetworkActivity": [
+        {
+          "kind": "response",
+          "method": "GET",
+          "resourceType": "xhr",
+          "status": 200,
+          "url": "https://beautymediashop.de/shop/?gm-product-filter-nonce=2d84889e69&_wp_http_referer=%2Fshop%2F&plugincy_search=&product-category=schulungsunterlagen&cat_operator=OR&gm_pf_fragment=1",
+          "timestamp": 1776857161981
+        }
+      ],
+      "observedApplyEffect": true,
+      "expectsUrlChange": false,
+      "expectsReloadPersistence": false,
+      "baselineState": [],
+      "stateAfterApply": [
+        "schulungsunterlagen"
+      ],
+      "stateAfterReload": [],
+      "applyStateOk": true,
+      "reloadStateOk": false,
+      "summaryAfterApply": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Schulung für die Grundlagen der Kosmetik",
+          "Schulung für die Haut- /, Haar- und Körperanalyse",
+          "Schulung zu Hygienestandards im Studio und Salon"
+        ],
+        "productCount": 3
+      },
+      "summaryAfterReload": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "issues": [],
+      "messages": [],
+      "screenshot": null,
+      "passed": true
+    },
+    {
+      "id": "004-category-with-child-bundle-studiounterlagen",
+      "fieldId": "category-with-child",
+      "title": "Bundle Studiounterlagen",
+      "kind": "checkboxes",
+      "expected": [
+        "basic"
+      ],
+      "baselineUrl": "https://beautymediashop.de/shop/",
+      "baselineSummary": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "applyMechanism": "auto-change",
+      "urlMode": "ajax",
+      "applyUrl": "https://beautymediashop.de/shop/",
+      "reloadUrl": "https://beautymediashop.de/shop/",
+      "urlChanged": false,
+      "reloadUrlStable": true,
+      "summaryChangedAfterApply": true,
+      "applyNetworkActivity": [
+        {
+          "kind": "response",
+          "method": "GET",
+          "resourceType": "xhr",
+          "status": 200,
+          "url": "https://beautymediashop.de/shop/?gm-product-filter-nonce=2d84889e69&_wp_http_referer=%2Fshop%2F&plugincy_search=&product-category=basic&cat_operator=OR&gm_pf_fragment=1",
+          "timestamp": 1776857193033
+        }
+      ],
+      "observedApplyEffect": true,
+      "expectsUrlChange": false,
+      "expectsReloadPersistence": false,
+      "baselineState": [],
+      "stateAfterApply": [
+        "basic"
+      ],
+      "stateAfterReload": [],
+      "applyStateOk": true,
+      "reloadStateOk": false,
+      "summaryAfterApply": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Bundle Basic Studiounterlagen"
+        ],
+        "productCount": 1
+      },
+      "summaryAfterReload": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "issues": [],
+      "messages": [],
+      "screenshot": null,
+      "passed": true
+    },
+    {
+      "id": "005-category-with-child-einverst-ndniserkl-rung",
+      "fieldId": "category-with-child",
+      "title": "Einverständniserklärung",
+      "kind": "checkboxes",
+      "expected": [
+        "airbrush-brows-einverstaendniserklaerung-2"
+      ],
+      "baselineUrl": "https://beautymediashop.de/shop/",
+      "baselineSummary": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "applyMechanism": "auto-change",
+      "urlMode": "ajax",
+      "applyUrl": "https://beautymediashop.de/shop/",
+      "reloadUrl": "https://beautymediashop.de/shop/",
+      "urlChanged": false,
+      "reloadUrlStable": true,
+      "summaryChangedAfterApply": true,
+      "applyNetworkActivity": [
+        {
+          "kind": "response",
+          "method": "GET",
+          "resourceType": "xhr",
+          "status": 200,
+          "url": "https://beautymediashop.de/shop/?gm-product-filter-nonce=2d84889e69&_wp_http_referer=%2Fshop%2F&plugincy_search=&product-category=airbrush-brows-einverstaendniserklaerung-2&cat_operator=OR&gm_pf_fragment=1",
+          "timestamp": 1776857224613
+        }
+      ],
+      "observedApplyEffect": true,
+      "expectsUrlChange": false,
+      "expectsReloadPersistence": false,
+      "baselineState": [],
+      "stateAfterApply": [
+        "airbrush-brows-einverstaendniserklaerung-2"
+      ],
+      "stateAfterReload": [],
+      "applyStateOk": true,
+      "reloadStateOk": false,
+      "summaryAfterApply": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Einverständnis für die Airbrush Brows Behandlung"
+        ],
+        "productCount": 1
+      },
+      "summaryAfterReload": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "issues": [],
+      "messages": [],
+      "screenshot": null,
+      "passed": true
+    },
+    {
+      "id": "006-category-with-child-komplettpaket",
+      "fieldId": "category-with-child",
+      "title": "Komplettpaket",
+      "kind": "checkboxes",
+      "expected": [
+        "airbrush-brows-komplettpaket"
+      ],
+      "baselineUrl": "https://beautymediashop.de/shop/",
+      "baselineSummary": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "applyMechanism": "auto-change",
+      "urlMode": "ajax",
+      "applyUrl": "https://beautymediashop.de/shop/",
+      "reloadUrl": "https://beautymediashop.de/shop/",
+      "urlChanged": false,
+      "reloadUrlStable": true,
+      "summaryChangedAfterApply": true,
+      "applyNetworkActivity": [
+        {
+          "kind": "response",
+          "method": "GET",
+          "resourceType": "xhr",
+          "status": 200,
+          "url": "https://beautymediashop.de/shop/?gm-product-filter-nonce=2d84889e69&_wp_http_referer=%2Fshop%2F&plugincy_search=&product-category=airbrush-brows-komplettpaket&cat_operator=OR&gm_pf_fragment=1",
+          "timestamp": 1776857255427
+        }
+      ],
+      "observedApplyEffect": true,
+      "expectsUrlChange": false,
+      "expectsReloadPersistence": false,
+      "baselineState": [],
+      "stateAfterApply": [
+        "airbrush-brows-komplettpaket"
+      ],
+      "stateAfterReload": [],
+      "applyStateOk": true,
+      "reloadStateOk": false,
+      "summaryAfterApply": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Paket – Airbrush Brows Behandlung"
+        ],
+        "productCount": 1
+      },
+      "summaryAfterReload": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "issues": [],
+      "messages": [],
+      "screenshot": null,
+      "passed": true
+    },
+    {
+      "id": "007-category-with-child-kundenkartei",
+      "fieldId": "category-with-child",
+      "title": "Kundenkartei",
+      "kind": "checkboxes",
+      "expected": [
+        "airbrush-brows-kundenkartei"
+      ],
+      "baselineUrl": "https://beautymediashop.de/shop/",
+      "baselineSummary": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "applyMechanism": "auto-change",
+      "urlMode": "ajax",
+      "applyUrl": "https://beautymediashop.de/shop/",
+      "reloadUrl": "https://beautymediashop.de/shop/",
+      "urlChanged": false,
+      "reloadUrlStable": true,
+      "summaryChangedAfterApply": true,
+      "applyNetworkActivity": [
+        {
+          "kind": "response",
+          "method": "GET",
+          "resourceType": "xhr",
+          "status": 200,
+          "url": "https://beautymediashop.de/shop/?gm-product-filter-nonce=2d84889e69&_wp_http_referer=%2Fshop%2F&plugincy_search=&product-category=airbrush-brows-kundenkartei&cat_operator=OR&gm_pf_fragment=1",
+          "timestamp": 1776857286601
+        }
+      ],
+      "observedApplyEffect": true,
+      "expectsUrlChange": false,
+      "expectsReloadPersistence": false,
+      "baselineState": [],
+      "stateAfterApply": [
+        "airbrush-brows-kundenkartei"
+      ],
+      "stateAfterReload": [],
+      "applyStateOk": true,
+      "reloadStateOk": false,
+      "summaryAfterApply": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Kundenkartei für Airbrush Brows"
+        ],
+        "productCount": 1
+      },
+      "summaryAfterReload": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "issues": [],
+      "messages": [],
+      "screenshot": null,
+      "passed": true
+    },
+    {
+      "id": "008-category-with-child-nebenwirkung",
+      "fieldId": "category-with-child",
+      "title": "Nebenwirkung",
+      "kind": "checkboxes",
+      "expected": [
+        "airbrush-brows-nebenwirkung"
+      ],
+      "baselineUrl": "https://beautymediashop.de/shop/",
+      "baselineSummary": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "applyMechanism": "auto-change",
+      "urlMode": "ajax",
+      "applyUrl": "https://beautymediashop.de/shop/",
+      "reloadUrl": "https://beautymediashop.de/shop/",
+      "urlChanged": false,
+      "reloadUrlStable": true,
+      "summaryChangedAfterApply": true,
+      "applyNetworkActivity": [
+        {
+          "kind": "response",
+          "method": "GET",
+          "resourceType": "xhr",
+          "status": 200,
+          "url": "https://beautymediashop.de/shop/?gm-product-filter-nonce=2d84889e69&_wp_http_referer=%2Fshop%2F&plugincy_search=&product-category=airbrush-brows-nebenwirkung&cat_operator=OR&gm_pf_fragment=1",
+          "timestamp": 1776857317851
+        }
+      ],
+      "observedApplyEffect": true,
+      "expectsUrlChange": false,
+      "expectsReloadPersistence": false,
+      "baselineState": [],
+      "stateAfterApply": [
+        "airbrush-brows-nebenwirkung"
+      ],
+      "stateAfterReload": [],
+      "applyStateOk": true,
+      "reloadStateOk": false,
+      "summaryAfterApply": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Nebenwirkung Airbrush Brows"
+        ],
+        "productCount": 1
+      },
+      "summaryAfterReload": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "issues": [],
+      "messages": [],
+      "screenshot": null,
+      "passed": true
+    },
+    {
+      "id": "009-category-with-child-pflegehinweis",
+      "fieldId": "category-with-child",
+      "title": "Pflegehinweis",
+      "kind": "checkboxes",
+      "expected": [
+        "airbrush-brows-pflegehinweis"
+      ],
+      "baselineUrl": "https://beautymediashop.de/shop/",
+      "baselineSummary": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "applyMechanism": "auto-change",
+      "urlMode": "ajax",
+      "applyUrl": "https://beautymediashop.de/shop/",
+      "reloadUrl": "https://beautymediashop.de/shop/",
+      "urlChanged": false,
+      "reloadUrlStable": true,
+      "summaryChangedAfterApply": true,
+      "applyNetworkActivity": [
+        {
+          "kind": "response",
+          "method": "GET",
+          "resourceType": "xhr",
+          "status": 200,
+          "url": "https://beautymediashop.de/shop/?gm-product-filter-nonce=2d84889e69&_wp_http_referer=%2Fshop%2F&plugincy_search=&product-category=airbrush-brows-pflegehinweis&cat_operator=OR&gm_pf_fragment=1",
+          "timestamp": 1776857349153
+        }
+      ],
+      "observedApplyEffect": true,
+      "expectsUrlChange": false,
+      "expectsReloadPersistence": false,
+      "baselineState": [],
+      "stateAfterApply": [
+        "airbrush-brows-pflegehinweis"
+      ],
+      "stateAfterReload": [],
+      "applyStateOk": true,
+      "reloadStateOk": false,
+      "summaryAfterApply": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Pflegehinweis für die Airbrush Brows Behandlung"
+        ],
+        "productCount": 1
+      },
+      "summaryAfterReload": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "issues": [],
+      "messages": [],
+      "screenshot": null,
+      "passed": true
+    },
+    {
+      "id": "010-category-with-child-pflegehinweise-visitenkarten",
+      "fieldId": "category-with-child",
+      "title": "Pflegehinweise Visitenkarten",
+      "kind": "checkboxes",
+      "expected": [
+        "airbrush-brows-pflegehinweise-visitenkarten"
+      ],
+      "baselineUrl": "https://beautymediashop.de/shop/",
+      "baselineSummary": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "applyMechanism": "auto-change",
+      "urlMode": "ajax",
+      "applyUrl": "https://beautymediashop.de/shop/",
+      "reloadUrl": "https://beautymediashop.de/shop/",
+      "urlChanged": false,
+      "reloadUrlStable": true,
+      "summaryChangedAfterApply": true,
+      "applyNetworkActivity": [
+        {
+          "kind": "response",
+          "method": "GET",
+          "resourceType": "xhr",
+          "status": 200,
+          "url": "https://beautymediashop.de/shop/?gm-product-filter-nonce=2d84889e69&_wp_http_referer=%2Fshop%2F&plugincy_search=&product-category=airbrush-brows-pflegehinweise-visitenkarten&cat_operator=OR&gm_pf_fragment=1",
+          "timestamp": 1776857380170
+        }
+      ],
+      "observedApplyEffect": true,
+      "expectsUrlChange": false,
+      "expectsReloadPersistence": false,
+      "baselineState": [],
+      "stateAfterApply": [
+        "airbrush-brows-pflegehinweise-visitenkarten"
+      ],
+      "stateAfterReload": [],
+      "applyStateOk": true,
+      "reloadStateOk": false,
+      "summaryAfterApply": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Visitenkarten-Pflegehinweis für Airbrush Brows"
+        ],
+        "productCount": 1
+      },
+      "summaryAfterReload": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "issues": [],
+      "messages": [],
+      "screenshot": null,
+      "passed": true
+    },
+    {
+      "id": "011-category-with-child-schulungen-zu-behandlungen",
+      "fieldId": "category-with-child",
+      "title": "Schulungen zu Behandlungen",
+      "kind": "checkboxes",
+      "expected": [
+        "airbrush-brows-schulung"
+      ],
+      "baselineUrl": "https://beautymediashop.de/shop/",
+      "baselineSummary": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "applyMechanism": "auto-change",
+      "urlMode": "ajax",
+      "applyUrl": "https://beautymediashop.de/shop/",
+      "reloadUrl": "https://beautymediashop.de/shop/",
+      "urlChanged": false,
+      "reloadUrlStable": true,
+      "summaryChangedAfterApply": true,
+      "applyNetworkActivity": [
+        {
+          "kind": "response",
+          "method": "GET",
+          "resourceType": "xhr",
+          "status": 200,
+          "url": "https://beautymediashop.de/shop/?gm-product-filter-nonce=2d84889e69&_wp_http_referer=%2Fshop%2F&plugincy_search=&product-category=airbrush-brows-schulung&cat_operator=OR&gm_pf_fragment=1",
+          "timestamp": 1776857411382
+        }
+      ],
+      "observedApplyEffect": true,
+      "expectsUrlChange": false,
+      "expectsReloadPersistence": false,
+      "baselineState": [],
+      "stateAfterApply": [
+        "airbrush-brows-schulung"
+      ],
+      "stateAfterReload": [],
+      "applyStateOk": true,
+      "reloadStateOk": false,
+      "summaryAfterApply": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Schulung für die Airbrush Brows Behandlung"
+        ],
+        "productCount": 1
+      },
+      "summaryAfterReload": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "issues": [],
+      "messages": [],
+      "screenshot": null,
+      "passed": true
+    },
+    {
+      "id": "012-category-with-child-schulungsvideos",
+      "fieldId": "category-with-child",
+      "title": "Schulungsvideos",
+      "kind": "checkboxes",
+      "expected": [
+        "maderotherapie-schulungsvideos"
+      ],
+      "baselineUrl": "https://beautymediashop.de/shop/",
+      "baselineSummary": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "applyMechanism": "auto-change",
+      "urlMode": "ajax",
+      "applyUrl": "https://beautymediashop.de/shop/",
+      "reloadUrl": "https://beautymediashop.de/shop/",
+      "urlChanged": false,
+      "reloadUrlStable": true,
+      "summaryChangedAfterApply": true,
+      "applyNetworkActivity": [
+        {
+          "kind": "response",
+          "method": "GET",
+          "resourceType": "xhr",
+          "status": 200,
+          "url": "https://beautymediashop.de/shop/?gm-product-filter-nonce=2d84889e69&_wp_http_referer=%2Fshop%2F&plugincy_search=&product-category=maderotherapie-schulungsvideos&cat_operator=OR&gm_pf_fragment=1",
+          "timestamp": 1776857442489
+        }
+      ],
+      "observedApplyEffect": true,
+      "expectsUrlChange": false,
+      "expectsReloadPersistence": false,
+      "baselineState": [],
+      "stateAfterApply": [
+        "maderotherapie-schulungsvideos"
+      ],
+      "stateAfterReload": [],
+      "applyStateOk": true,
+      "reloadStateOk": false,
+      "summaryAfterApply": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Schulungsvideo Maderotherapie"
+        ],
+        "productCount": 1
+      },
+      "summaryAfterReload": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "issues": [],
+      "messages": [],
+      "screenshot": null,
+      "passed": true
+    },
+    {
+      "id": "013-category-with-child-vorabinfo",
+      "fieldId": "category-with-child",
+      "title": "Vorabinfo",
+      "kind": "checkboxes",
+      "expected": [
+        "airbrush-brows-vorabinfo"
+      ],
+      "baselineUrl": "https://beautymediashop.de/shop/",
+      "baselineSummary": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "applyMechanism": "auto-change",
+      "urlMode": "ajax",
+      "applyUrl": "https://beautymediashop.de/shop/",
+      "reloadUrl": "https://beautymediashop.de/shop/",
+      "urlChanged": false,
+      "reloadUrlStable": true,
+      "summaryChangedAfterApply": true,
+      "applyNetworkActivity": [
+        {
+          "kind": "response",
+          "method": "GET",
+          "resourceType": "xhr",
+          "status": 200,
+          "url": "https://beautymediashop.de/shop/?gm-product-filter-nonce=2d84889e69&_wp_http_referer=%2Fshop%2F&plugincy_search=&product-category=airbrush-brows-vorabinfo&cat_operator=OR&gm_pf_fragment=1",
+          "timestamp": 1776857481124
+        }
+      ],
+      "observedApplyEffect": true,
+      "expectsUrlChange": false,
+      "expectsReloadPersistence": false,
+      "baselineState": [],
+      "stateAfterApply": [
+        "airbrush-brows-vorabinfo"
+      ],
+      "stateAfterReload": [],
+      "applyStateOk": true,
+      "reloadStateOk": false,
+      "summaryAfterApply": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Vorabinformationen Airbrush Brows"
+        ],
+        "productCount": 1
+      },
+      "summaryAfterReload": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "issues": [],
+      "messages": [],
+      "screenshot": null,
+      "passed": true
+    },
+    {
+      "id": "014-category-with-child-weitere-studioformulare",
+      "fieldId": "category-with-child",
+      "title": "Weitere Studioformulare",
+      "kind": "checkboxes",
+      "expected": [
+        "abo-vertrag"
+      ],
+      "baselineUrl": "https://beautymediashop.de/shop/",
+      "baselineSummary": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "applyMechanism": "auto-change",
+      "urlMode": "ajax",
+      "applyUrl": "https://beautymediashop.de/shop/",
+      "reloadUrl": "https://beautymediashop.de/shop/",
+      "urlChanged": false,
+      "reloadUrlStable": true,
+      "summaryChangedAfterApply": true,
+      "applyNetworkActivity": [
+        {
+          "kind": "response",
+          "method": "GET",
+          "resourceType": "xhr",
+          "status": 200,
+          "url": "https://beautymediashop.de/shop/?gm-product-filter-nonce=2d84889e69&_wp_http_referer=%2Fshop%2F&plugincy_search=&product-category=abo-vertrag&cat_operator=OR&gm_pf_fragment=1",
+          "timestamp": 1776857504633
+        }
+      ],
+      "observedApplyEffect": true,
+      "expectsUrlChange": false,
+      "expectsReloadPersistence": false,
+      "baselineState": [],
+      "stateAfterApply": [
+        "abo-vertrag"
+      ],
+      "stateAfterReload": [],
+      "applyStateOk": true,
+      "reloadStateOk": false,
+      "summaryAfterApply": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen"
+        ],
+        "productCount": 1
+      },
+      "summaryAfterReload": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "issues": [],
+      "messages": [],
+      "screenshot": null,
+      "passed": true
+    },
+    {
+      "id": "015-category-with-child-xxl-marketingpaket",
+      "fieldId": "category-with-child",
+      "title": "XXL Marketingpaket",
+      "kind": "checkboxes",
+      "expected": [
+        "beautiful"
+      ],
+      "baselineUrl": "https://beautymediashop.de/shop/",
+      "baselineSummary": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "applyMechanism": "auto-change",
+      "urlMode": "ajax",
+      "applyUrl": "https://beautymediashop.de/shop/",
+      "reloadUrl": "https://beautymediashop.de/shop/",
+      "urlChanged": false,
+      "reloadUrlStable": true,
+      "summaryChangedAfterApply": true,
+      "applyNetworkActivity": [
+        {
+          "kind": "response",
+          "method": "GET",
+          "resourceType": "xhr",
+          "status": 200,
+          "url": "https://beautymediashop.de/shop/?gm-product-filter-nonce=2d84889e69&_wp_http_referer=%2Fshop%2F&plugincy_search=&product-category=beautiful&cat_operator=OR&gm_pf_fragment=1",
+          "timestamp": 1776857535815
+        }
+      ],
+      "observedApplyEffect": true,
+      "expectsUrlChange": false,
+      "expectsReloadPersistence": false,
+      "baselineState": [],
+      "stateAfterApply": [
+        "beautiful"
+      ],
+      "stateAfterReload": [],
+      "applyStateOk": true,
+      "reloadStateOk": false,
+      "summaryAfterApply": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Marketingpaket Beautiful"
+        ],
+        "productCount": 1
+      },
+      "summaryAfterReload": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "issues": [],
+      "messages": [],
+      "screenshot": null,
+      "passed": true
+    },
+    {
+      "id": "016-category-with-child-zertifikat",
+      "fieldId": "category-with-child",
+      "title": "Zertifikat",
+      "kind": "checkboxes",
+      "expected": [
+        "airbrush-brows-zertifikat"
+      ],
+      "baselineUrl": "https://beautymediashop.de/shop/",
+      "baselineSummary": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "applyMechanism": "auto-change",
+      "urlMode": "ajax",
+      "applyUrl": "https://beautymediashop.de/shop/",
+      "reloadUrl": "https://beautymediashop.de/shop/",
+      "urlChanged": false,
+      "reloadUrlStable": true,
+      "summaryChangedAfterApply": true,
+      "applyNetworkActivity": [
+        {
+          "kind": "response",
+          "method": "GET",
+          "resourceType": "xhr",
+          "status": 200,
+          "url": "https://beautymediashop.de/shop/?gm-product-filter-nonce=2d84889e69&_wp_http_referer=%2Fshop%2F&plugincy_search=&product-category=airbrush-brows-zertifikat&cat_operator=OR&gm_pf_fragment=1",
+          "timestamp": 1776857566897
+        }
+      ],
+      "observedApplyEffect": true,
+      "expectsUrlChange": false,
+      "expectsReloadPersistence": false,
+      "baselineState": [],
+      "stateAfterApply": [
+        "airbrush-brows-zertifikat"
+      ],
+      "stateAfterReload": [],
+      "applyStateOk": true,
+      "reloadStateOk": false,
+      "summaryAfterApply": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Zertifikat für die Airbrush Brows Schulung"
+        ],
+        "productCount": 1
+      },
+      "summaryAfterReload": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "issues": [],
+      "messages": [],
+      "screenshot": null,
+      "passed": true
+    },
+    {
+      "id": "017-category-with-child-bungsbl-tter",
+      "fieldId": "category-with-child",
+      "title": "Übungsblätter",
+      "kind": "checkboxes",
+      "expected": [
+        "permanent-make-up-uebungsblaetter"
+      ],
+      "baselineUrl": "https://beautymediashop.de/shop/",
+      "baselineSummary": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "applyMechanism": "auto-change",
+      "urlMode": "ajax",
+      "applyUrl": "https://beautymediashop.de/shop/",
+      "reloadUrl": "https://beautymediashop.de/shop/",
+      "urlChanged": false,
+      "reloadUrlStable": true,
+      "summaryChangedAfterApply": true,
+      "applyNetworkActivity": [
+        {
+          "kind": "response",
+          "method": "GET",
+          "resourceType": "xhr",
+          "status": 200,
+          "url": "https://beautymediashop.de/shop/?gm-product-filter-nonce=2d84889e69&_wp_http_referer=%2Fshop%2F&plugincy_search=&product-category=permanent-make-up-uebungsblaetter&cat_operator=OR&gm_pf_fragment=1",
+          "timestamp": 1776857598249
+        }
+      ],
+      "observedApplyEffect": true,
+      "expectsUrlChange": false,
+      "expectsReloadPersistence": false,
+      "baselineState": [],
+      "stateAfterApply": [
+        "permanent-make-up-uebungsblaetter"
+      ],
+      "stateAfterReload": [],
+      "applyStateOk": true,
+      "reloadStateOk": false,
+      "summaryAfterApply": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Übungsblätter für Augenbrauen"
+        ],
+        "productCount": 1
+      },
+      "summaryAfterReload": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "issues": [],
+      "messages": [],
+      "screenshot": null,
+      "passed": true
+    }
+  ],
+  "uniqueMessages": [],
+  "pluginDebug": {
+    "available": true,
+    "applyMode": "auto",
+    "urlMode": "ajax",
+    "useOverlay": true,
+    "mobileBreakpoint": 1024,
+    "mobileStyle": "style_4",
+    "selectors": {
+      "product": "ul.products",
+      "pagination": ".woocommerce-pagination ul.page-numbers",
+      "sorting": "form.woocommerce-ordering select",
+      "resultCount": ".woocommerce-result-count"
+    },
+    "style": {
+      "showApplyButton": null,
+      "showResetButton": null,
+      "showApplyResetOn": null,
+      "applyBehavior": null
+    },
+    "manage": {
+      "useUrlFilter": "ajax",
+      "showLoader": "on"
+    }
+  },
+  "autoDiscovery": {
+    "used": true,
+    "source": "dom+woo-store-api",
+    "storeApiEndpoint": "https://beautymediashop.de/wp-json/wc/store/v1/products?per_page=50",
+    "storeApiOk": true,
+    "storeApiError": null,
+    "discoveredProductCount": 50
+  },
+  "effectiveConfig": {
+    "siteLabel": "beautymediashop-de-shop",
+    "baseUrl": "https://beautymediashop.de/shop/",
+    "deviceMode": "desktop",
+    "selectors": {
+      "form": "#product-filter",
+      "applyButtonName": "Apply Filters",
+      "resetButtonName": "Reset Filters",
+      "resultCount": ".woocommerce-result-count",
+      "emptyMessage": ".woocommerce-info, .woocommerce-no-products-found",
+      "productTitles": "ul.products li.product .woocommerce-loop-product__title, ul.products li.product h2, ul.products .product h2, ul.products h2"
+    },
+    "testData": {
+      "searchText": "Vorabinformationen Mesotherapie",
+      "priceRange": {
+        "min": "10",
+        "max": "40"
+      },
+      "sku": "VEB-2-2-2-1-1-1",
+      "discount": "",
+      "dimensions": {
+        "min_height": "",
+        "max_height": "",
+        "min_length": "",
+        "max_length": ""
+      }
+    },
+    "fieldOverrides": {
+      "003-category-with-child-allg-schulungsunterlagen": {
+        "kind": "checkboxes",
+        "values": [
+          "schulungsunterlagen"
+        ]
+      },
+      "004-category-with-child-bundle-studiounterlagen": {
+        "kind": "checkboxes",
+        "values": [
+          "basic"
+        ]
+      },
+      "005-category-with-child-einverst-ndniserkl-rung": {
+        "kind": "checkboxes",
+        "values": [
+          "airbrush-brows-einverstaendniserklaerung-2"
+        ]
+      },
+      "006-category-with-child-komplettpaket": {
+        "kind": "checkboxes",
+        "values": [
+          "airbrush-brows-komplettpaket"
+        ]
+      },
+      "007-category-with-child-kundenkartei": {
+        "kind": "checkboxes",
+        "values": [
+          "airbrush-brows-kundenkartei"
+        ]
+      },
+      "008-category-with-child-nebenwirkung": {
+        "kind": "checkboxes",
+        "values": [
+          "airbrush-brows-nebenwirkung"
+        ]
+      },
+      "009-category-with-child-pflegehinweis": {
+        "kind": "checkboxes",
+        "values": [
+          "airbrush-brows-pflegehinweis"
+        ]
+      },
+      "010-category-with-child-pflegehinweise-visitenkarten": {
+        "kind": "checkboxes",
+        "values": [
+          "airbrush-brows-pflegehinweise-visitenkarten"
+        ]
+      },
+      "011-category-with-child-schulungen-zu-behandlungen": {
+        "kind": "checkboxes",
+        "values": [
+          "airbrush-brows-schulung"
+        ]
+      },
+      "012-category-with-child-schulungsvideos": {
+        "kind": "checkboxes",
+        "values": [
+          "maderotherapie-schulungsvideos"
+        ]
+      },
+      "013-category-with-child-vorabinfo": {
+        "kind": "checkboxes",
+        "values": [
+          "airbrush-brows-vorabinfo"
+        ]
+      },
+      "014-category-with-child-weitere-studioformulare": {
+        "kind": "checkboxes",
+        "values": [
+          "abo-vertrag"
+        ]
+      },
+      "015-category-with-child-xxl-marketingpaket": {
+        "kind": "checkboxes",
+        "values": [
+          "beautiful"
+        ]
+      },
+      "016-category-with-child-zertifikat": {
+        "kind": "checkboxes",
+        "values": [
+          "airbrush-brows-zertifikat"
+        ]
+      },
+      "017-category-with-child-bungsbl-tter": {
+        "kind": "checkboxes",
+        "values": [
+          "permanent-make-up-uebungsblaetter"
+        ]
+      }
+    },
+    "actionTargets": {
+      "collapseFieldsetId": "plugincy_rating",
+      "optionSearchFieldsetId": "",
+      "optionSearchPlaceholder": "",
+      "optionSearchText": "",
+      "resetFieldsetId": "plugincy_rating",
+      "resetValue": "1",
+      "collapseFieldset": "001-plugincy-rating-rating-reset",
+      "optionSearchFieldset": "",
+      "resetFieldset": "001-plugincy-rating-rating-reset"
+    },
+    "skipFieldsets": []
+  },
+  "summary": {
+    "failedActionTests": 0,
+    "failedFilterTests": 0
+  }
+}

@@ -1,0 +1,8 @@
+Scenario: S01-city-priority-zone
+Description: City-level rule should win (Ahmedabad).
+Success: false
+Started: 2026-04-07T05:21:04.108Z
+Finished: 2026-04-07T05:29:45.106Z
+Failures: Expected at least one shipping method, but none found.
+Methods before: None
+No-shipping message: 

@@ -1,0 +1,25 @@
+Scenario: S01-city-priority-zone
+Description: City-level rule should win (Ahmedabad).
+Success: false
+Started: 2026-04-07T05:02:08.634Z
+Finished: 2026-04-07T05:04:31.093Z
+Failures: Runtime error: locator.click: Timeout 120000ms exceeded.
+Call log:
+  - waiting for locator('a.add_to_cart_button').first()
+    - locator resolved to <a rel="nofollow" data-quantity="1" data-product_sku="" data-product_id="517" href="/shop/?add-to-cart=517" aria-label="Add to cart: “Apple Laptop”" class="ast-on-card-button ast-select-options-trigger product_type_simple add_to_cart_button ajax_add_to_cart">…</a>
+  - attempting click action
+    2 × waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 × waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    231 × waiting for element to be visible, enabled and stable
+        - element is not visible
+      - retrying click action
+        - waiting 500ms
+
+Methods before: None
+No-shipping message: 

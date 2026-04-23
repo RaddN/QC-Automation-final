@@ -1,0 +1,45 @@
+{
+  "id": "S01-city-priority-zone",
+  "description": "City-level rule should win (Ahmedabad).",
+  "startedAt": "2026-04-07T04:38:30.113Z",
+  "notes": "",
+  "success": false,
+  "failures": [
+    "Expected at least one shipping method, but none found."
+  ],
+  "observations": {
+    "login": {
+      "loggedIn": true,
+      "loginTried": true
+    },
+    "adminCapture": [
+      {
+        "ok": true,
+        "name": "admin-shipping-zones",
+        "file": "01-config-admin-shipping-zones.png",
+        "url": "http://location-wise-product.local/wp-admin/admin.php?page=wc-settings&tab=shipping"
+      },
+      {
+        "ok": true,
+        "name": "admin-location-settings",
+        "file": "01-config-admin-location-settings.png",
+        "url": "http://location-wise-product.local/wp-admin/admin.php?page=multi-location-product-and-inventory-management-pro"
+      }
+    ],
+    "locationSelection": {
+      "attempted": true,
+      "changed": false,
+      "details": "Location selector found (select[id*='location']) but no matching option.",
+      "options": [
+        "Home",
+        "Work",
+        "Partner",
+        "Other"
+      ]
+    },
+    "methodsBefore": [],
+    "noShippingMessage": ""
+  },
+  "screenshots": [],
+  "finishedAt": "2026-04-07T04:47:29.208Z"
+}

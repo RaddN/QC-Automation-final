@@ -1,0 +1,104 @@
+{
+  "generatedAt": "2026-04-22T10:45:15.300Z",
+  "baseUrl": "http://free-filter-plugin.local/products/",
+  "runMode": "url-auto",
+  "deviceMode": "desktop",
+  "siteLabel": "free-filter-plugin-local-products",
+  "testData": {
+    "searchText": "Months product",
+    "priceRange": {
+      "min": "169900",
+      "max": "500000"
+    },
+    "sku": "21sgsgh",
+    "discount": "33",
+    "dimensions": {
+      "min_height": "",
+      "max_height": "",
+      "min_length": "",
+      "max_length": ""
+    }
+  },
+  "fieldOverrides": {
+    "plugincy_rating": {
+      "kind": "checkboxes",
+      "values": [
+        "1"
+      ]
+    },
+    "product-category": {
+      "kind": "radios",
+      "values": [
+        "test-parent-with-zero-product"
+      ]
+    },
+    "months": {
+      "kind": "checkboxes",
+      "values": [
+        "apr-2026",
+        "feb-2026"
+      ]
+    },
+    "material": {
+      "kind": "checkboxes",
+      "values": [
+        "cord-fabric",
+        "cotton"
+      ]
+    },
+    "size": {
+      "kind": "checkboxes",
+      "values": [
+        "l",
+        "m"
+      ]
+    },
+    "mens-trend": {
+      "kind": "checkboxes",
+      "values": [
+        "nautical",
+        "office"
+      ]
+    },
+    "test10": {
+      "kind": "checkboxes",
+      "values": [
+        "test"
+      ]
+    },
+    "tag": {
+      "kind": "radios",
+      "values": [
+        "10-attachments"
+      ]
+    },
+    "brands": {
+      "kind": "radios",
+      "values": [
+        "lenevo"
+      ]
+    },
+    "sale_status": {
+      "kind": "checkboxes",
+      "values": [
+        "notonsale"
+      ]
+    }
+  },
+  "actionTargets": {
+    "collapseFieldsetId": "plugincy_rating",
+    "optionSearchFieldsetId": "product-category",
+    "optionSearchPlaceholder": "Search Category Terms",
+    "optionSearchText": "test parent",
+    "resetFieldsetId": "plugincy_rating",
+    "resetValue": "1"
+  },
+  "autoDiscovery": {
+    "used": true,
+    "source": "dom+woo-store-api",
+    "storeApiEndpoint": "http://free-filter-plugin.local/wp-json/wc/store/v1/products?per_page=50",
+    "storeApiOk": true,
+    "storeApiError": null,
+    "discoveredProductCount": 50
+  }
+}

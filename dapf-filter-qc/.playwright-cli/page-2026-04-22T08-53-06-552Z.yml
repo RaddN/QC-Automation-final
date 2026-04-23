@@ -1,0 +1,417 @@
+- generic [ref=e1]:
+  - dialog "Zustimmung verwalten" [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e4]: Zustimmung verwalten
+      - button "Dialog schließen" [active] [ref=e5] [cursor=pointer]:
+        - img [ref=e6]
+    - generic [ref=e9]: Um dir ein optimales Erlebnis zu bieten, verwenden wir Technologien wie Cookies, um Geräteinformationen zu speichern und/oder darauf zuzugreifen. Wenn du diesen Technologien zustimmst, können wir Daten wie das Surfverhalten oder eindeutige IDs auf dieser Website verarbeiten. Wenn du deine Zustimmung nicht erteilst oder zurückziehst, können bestimmte Merkmale und Funktionen beeinträchtigt werden.
+    - generic [ref=e10]:
+      - button "Akzeptieren" [ref=e11] [cursor=pointer]
+      - button "Ablehnen" [ref=e12] [cursor=pointer]
+      - button "Einstellungen ansehen" [ref=e13] [cursor=pointer]
+    - list [ref=e15]:
+      - listitem [ref=e16]:
+        - link "Cookie-Richtlinie" [ref=e17] [cursor=pointer]:
+          - /url: https://beautymediashop.de/cookie-richtlinie-eu/
+      - listitem [ref=e18]:
+        - link "Datenschutzerklärung" [ref=e19] [cursor=pointer]:
+          - /url: https://beautymediashop.de/datenschutzerklaerung/
+      - listitem [ref=e20]:
+        - link "Impressum" [ref=e21] [cursor=pointer]:
+          - /url: https://beautymediashop.de/impressum/
+  - link "Zum Inhalt springen" [ref=e22] [cursor=pointer]:
+    - /url: "#content"
+  - banner [ref=e23]:
+    - generic [ref=e25]:
+      - link [ref=e30] [cursor=pointer]:
+        - /url: /
+      - generic [ref=e32]:
+        - link "Warenkorb" [ref=e38] [cursor=pointer]:
+          - /url: "#"
+          - generic [ref=e39]:
+            - img [ref=e40]
+            - generic [ref=e42]: Warenkorb
+        - button "Menu Toggle" [ref=e45] [cursor=pointer]:
+          - img [ref=e47]
+  - generic [ref=e48]:
+    - heading "Produkte" [level=1] [ref=e55]
+    - generic [ref=e71]:
+      - list [ref=e72]:
+        - listitem [ref=e73]:
+          - link "Abonnement Vertrag für kosmetische Behandlungen Abonnement Vertrag für kosmetische Behandlungen 4,19 €" [ref=e74] [cursor=pointer]:
+            - /url: https://beautymediashop.de/produkt/abonnement-vertrag-fuer-kosmetische-behandlungen/
+            - img "Abonnement Vertrag für kosmetische Behandlungen" [ref=e75]
+            - heading "Abonnement Vertrag für kosmetische Behandlungen" [level=2] [ref=e76]
+            - generic [ref=e79]: 4,19 €
+          - 'button "In den Warenkorb legen: „Abonnement Vertrag für kosmetische Behandlungen“" [ref=e81] [cursor=pointer]': In den Warenkorb
+        - listitem [ref=e83]:
+          - link "Professionelle AGB für Ihr Studio leicht gemacht. Holen Sie sich unser Formular, passen Sie es an und bieten Sie Ihren Kunden Sicherheit! Allgemeine Geschäftsbedingungen 4,19 €" [ref=e84] [cursor=pointer]:
+            - /url: https://beautymediashop.de/produkt/allgemeine-geschaeftsbedingungen-fuer-dein-studio-als-pdf-canva-format-buchung-stornierung-geistiges-eigentum-haftungsausschluss-uvm/
+            - img "Professionelle AGB für Ihr Studio leicht gemacht. Holen Sie sich unser Formular, passen Sie es an und bieten Sie Ihren Kunden Sicherheit!" [ref=e85]
+            - heading "Allgemeine Geschäftsbedingungen" [level=2] [ref=e86]
+            - generic [ref=e89]: 4,19 €
+          - 'button "In den Warenkorb legen: „Allgemeine Geschäftsbedingungen“" [ref=e91] [cursor=pointer]': In den Warenkorb
+        - listitem [ref=e93]:
+          - link "Hier sehen Sie eine Vorschau unseres Anzahlungsvereinbarungs Dokuments – zum sofortigen Download als PDF sowie Canva-Link Anzahlungsvereinbarung 4,19 €" [ref=e94] [cursor=pointer]:
+            - /url: https://beautymediashop.de/produkt/anzahlungsvereinbarung-einfach-und-rechtssicher-fuer-dienstleister/
+            - img "Hier sehen Sie eine Vorschau unseres Anzahlungsvereinbarungs Dokuments – zum sofortigen Download als PDF sowie Canva-Link" [ref=e95]
+            - heading "Anzahlungsvereinbarung" [level=2] [ref=e96]
+            - generic [ref=e99]: 4,19 €
+          - 'button "In den Warenkorb legen: „Anzahlungsvereinbarung“" [ref=e101] [cursor=pointer]': In den Warenkorb
+        - listitem [ref=e103]:
+          - link "Optimieren Sie die rechtliche Absicherung für Minijobs! Holen Sie sich unseren Arbeitsvertrag für geringfügige Beschäftigung – jetzt herunterladen! Arbeitsvertrag für geringfügige Beschäftigung (Minijob) 4,19 €" [ref=e104] [cursor=pointer]:
+            - /url: https://beautymediashop.de/produkt/arbeitsvertrag-minijob-als-pdf-canva-vorlage-fuer-jede-branche-inkl-kosmetik-taetowierer-friseure-muster-vertrag-fuer-angestellte/
+            - img "Optimieren Sie die rechtliche Absicherung für Minijobs! Holen Sie sich unseren Arbeitsvertrag für geringfügige Beschäftigung – jetzt herunterladen!" [ref=e105]
+            - heading "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)" [level=2] [ref=e106]
+            - generic [ref=e109]: 4,19 €
+          - 'button "In den Warenkorb legen: „Arbeitsvertrag für geringfügige Beschäftigung (Minijob)“" [ref=e111] [cursor=pointer]': In den Warenkorb
+        - listitem [ref=e113]:
+          - link "Stellen Sie die medizinische Bestätigung sicher! Jetzt das Formular zur Ärztebescheinigung herunterladen und für Ihre Kunden bereitstellen. Ärztebescheinigung für Kosmetik Behandlung als Absicherung 4,19 €" [ref=e114] [cursor=pointer]:
+            - /url: https://beautymediashop.de/produkt/aerztebescheinigung-fuer-kosmetik-behandlung-als-absicherung-im-pdf-canva-format/
+            - img "Stellen Sie die medizinische Bestätigung sicher! Jetzt das Formular zur Ärztebescheinigung herunterladen und für Ihre Kunden bereitstellen." [ref=e115]
+            - heading "Ärztebescheinigung für Kosmetik Behandlung als Absicherung" [level=2] [ref=e116]
+            - generic [ref=e119]: 4,19 €
+          - 'button "In den Warenkorb legen: „Ärztebescheinigung für Kosmetik Behandlung als Absicherung“" [ref=e121] [cursor=pointer]': In den Warenkorb
+        - listitem [ref=e123]:
+          - link "Geben Sie Ihren Kunden die Möglichkeit, Feedback zu geben! Mit unserem Beschwerde-, Lob- und Verbesserungsformular. Jetzt herunterladen und professionell nutzen! Beschwerde / Verbesserung / Lob – Formular für Kundenmeinung 4,19 €" [ref=e124] [cursor=pointer]:
+            - /url: https://beautymediashop.de/produkt/beschwerde-verbesserung-lob-formular-fuer-kundenmeinung-als-pdf-und-canva/
+            - img "Geben Sie Ihren Kunden die Möglichkeit, Feedback zu geben! Mit unserem Beschwerde-, Lob- und Verbesserungsformular. Jetzt herunterladen und professionell nutzen!" [ref=e125]
+            - heading "Beschwerde / Verbesserung / Lob – Formular für Kundenmeinung" [level=2] [ref=e126]
+            - generic [ref=e129]: 4,19 €
+          - 'button "In den Warenkorb legen: „Beschwerde / Verbesserung / Lob - Formular für Kundenmeinung“" [ref=e131] [cursor=pointer]': In den Warenkorb
+        - listitem [ref=e133]:
+          - link "Bundle Basic Studiounterlagen Bundle Basic Studiounterlagen 17,90 €" [ref=e134] [cursor=pointer]:
+            - /url: https://beautymediashop.de/produkt/bundle-basic-studiounterlagen/
+            - img "Bundle Basic Studiounterlagen" [ref=e135]
+            - heading "Bundle Basic Studiounterlagen" [level=2] [ref=e136]
+            - generic [ref=e139]: 17,90 €
+          - 'button "In den Warenkorb legen: „Bundle Basic Studiounterlagen“" [ref=e141] [cursor=pointer]': In den Warenkorb
+        - listitem [ref=e143]:
+          - link "Bundle Medium Studiounterlagen Bundle Medium Studiounterlagen 24,90 €" [ref=e144] [cursor=pointer]:
+            - /url: https://beautymediashop.de/produkt/bundle-medium-studiounterlagen/
+            - img "Bundle Medium Studiounterlagen" [ref=e145]
+            - heading "Bundle Medium Studiounterlagen" [level=2] [ref=e146]
+            - generic [ref=e149]: 24,90 €
+          - 'button "In den Warenkorb legen: „Bundle Medium Studiounterlagen“" [ref=e151] [cursor=pointer]': In den Warenkorb
+        - listitem [ref=e153]:
+          - link "Bundle Professional Studiounterlagen Bundle Professional Studiounterlagen 28,90 €" [ref=e154] [cursor=pointer]:
+            - /url: https://beautymediashop.de/produkt/bundle-professional-studiounterlagen/
+            - img "Bundle Professional Studiounterlagen" [ref=e155]
+            - heading "Bundle Professional Studiounterlagen" [level=2] [ref=e156]
+            - generic [ref=e159]: 28,90 €
+          - 'button "In den Warenkorb legen: „Bundle Professional Studiounterlagen“" [ref=e161] [cursor=pointer]': In den Warenkorb
+        - listitem [ref=e163]:
+          - link "Bundle Ultra Studiounterlagen Bundle Ultra Studiounterlagen 34,90 €" [ref=e164] [cursor=pointer]:
+            - /url: https://beautymediashop.de/produkt/bundle-ultra-studiounterlagen/
+            - img "Bundle Ultra Studiounterlagen" [ref=e165]
+            - heading "Bundle Ultra Studiounterlagen" [level=2] [ref=e166]
+            - generic [ref=e169]: 34,90 €
+          - 'button "In den Warenkorb legen: „Bundle Ultra Studiounterlagen“" [ref=e171] [cursor=pointer]': In den Warenkorb
+        - listitem [ref=e173]:
+          - link "Bundle XXL Studiounterlagen Bundle XXL Studiounterlagen 44,90 €" [ref=e174] [cursor=pointer]:
+            - /url: https://beautymediashop.de/produkt/bundle-xxl-studiounterlagen/
+            - img "Bundle XXL Studiounterlagen" [ref=e175]
+            - heading "Bundle XXL Studiounterlagen" [level=2] [ref=e176]
+            - generic [ref=e179]: 44,90 €
+          - 'button "In den Warenkorb legen: „Bundle XXL Studiounterlagen“" [ref=e181] [cursor=pointer]': In den Warenkorb
+        - listitem [ref=e183]:
+          - link "Für eine saubere Arbeitsumgebung! Jetzt das Chargenprotokoll für Sterilisation und Desinfektion herunterladen und Ihre Hygieneverpflichtungen erfüllen. Chargenprotokoll für die Sterilisation und Desinfektion 4,19 €" [ref=e184] [cursor=pointer]:
+            - /url: https://beautymediashop.de/produkt/chargenprotokoll-fuer-die-sterilisation-und-desinfektion/
+            - img "Für eine saubere Arbeitsumgebung! Jetzt das Chargenprotokoll für Sterilisation und Desinfektion herunterladen und Ihre Hygieneverpflichtungen erfüllen." [ref=e185]
+            - heading "Chargenprotokoll für die Sterilisation und Desinfektion" [level=2] [ref=e186]
+            - generic [ref=e189]: 4,19 €
+          - 'button "In den Warenkorb legen: „Chargenprotokoll für die Sterilisation und Desinfektion“" [ref=e191] [cursor=pointer]': In den Warenkorb
+        - listitem [ref=e193]:
+          - link "Individuelle Haarpflege beginnt mit einer genauen Analyse. Jetzt Checkliste herunterladen und alles für eine optimale Behandlung vorbereiten! Checkliste für die Haaranalyse 4,19 €" [ref=e194] [cursor=pointer]:
+            - /url: https://beautymediashop.de/produkt/checkliste-fuer-die-haaranalyse-im-pdf-canva-format-informationen-zu-kontaktdaten-krankheiten-vorige-behandlungen-und-analyseverfahren/
+            - img "Individuelle Haarpflege beginnt mit einer genauen Analyse. Jetzt Checkliste herunterladen und alles für eine optimale Behandlung vorbereiten!" [ref=e195]
+            - heading "Checkliste für die Haaranalyse" [level=2] [ref=e196]
+            - generic [ref=e199]: 4,19 €
+          - 'button "In den Warenkorb legen: „Checkliste für die Haaranalyse“" [ref=e201] [cursor=pointer]': In den Warenkorb
+        - listitem [ref=e203]:
+          - link "Gründliche Hautanalyse für bessere Behandlungen! Holen Sie sich jetzt die Checkliste und bieten Sie Ihren Kunden maßgeschneiderte Hautpflege. Checkliste für die Hautanalyse 4,19 €" [ref=e204] [cursor=pointer]:
+            - /url: https://beautymediashop.de/produkt/checkliste-fuer-die-hautanalyse-im-pdf-canva-format-informationen-zu-kontaktdaten-krankheiten-vorige-behandlungen-und-analyseverfahren/
+            - img "Gründliche Hautanalyse für bessere Behandlungen! Holen Sie sich jetzt die Checkliste und bieten Sie Ihren Kunden maßgeschneiderte Hautpflege." [ref=e205]
+            - heading "Checkliste für die Hautanalyse" [level=2] [ref=e206]
+            - generic [ref=e209]: 4,19 €
+          - 'button "In den Warenkorb legen: „Checkliste für die Hautanalyse“" [ref=e211] [cursor=pointer]': In den Warenkorb
+        - listitem [ref=e213]:
+          - 'link "Für maßgeschneiderte Körperpflege: Holen Sie sich die Checkliste zur Körperanalyse und sammeln Sie alle wichtigen Informationen zu den Bedürfnissen Ihrer Kunden. Checkliste für die Körperanalyse 4,19 €" [ref=e214] [cursor=pointer]':
+            - /url: https://beautymediashop.de/produkt/checkliste-fuer-die-koerperanalyse-im-pdf-canva-format-informationen-kontaktdaten-krankheiten-vorige-behandlungen-und-analyseverfahren/
+            - 'img "Für maßgeschneiderte Körperpflege: Holen Sie sich die Checkliste zur Körperanalyse und sammeln Sie alle wichtigen Informationen zu den Bedürfnissen Ihrer Kunden." [ref=e215]'
+            - heading "Checkliste für die Körperanalyse" [level=2] [ref=e216]
+            - generic [ref=e219]: 4,19 €
+          - 'button "In den Warenkorb legen: „Checkliste für die Körperanalyse“" [ref=e221] [cursor=pointer]': In den Warenkorb
+        - listitem [ref=e223]:
+          - link "Datenschutz in Ihrem Studio? Kein Problem! Holen Sie sich das Formular für die Datenschutzerklärung, passen Sie es individuell an und starten Sie durch. DSGVO Datenschutzerklärung Vorlage 4,19 €" [ref=e224] [cursor=pointer]:
+            - /url: https://beautymediashop.de/produkt/dsgvo-datenschutzerklaerung-im-pdf-und-canva-format-fuer-die-homepage-als-rechtliche-absicherung-laut-gesetz-und-grundverordnung/
+            - img "Datenschutz in Ihrem Studio? Kein Problem! Holen Sie sich das Formular für die Datenschutzerklärung, passen Sie es individuell an und starten Sie durch." [ref=e225]
+            - heading "DSGVO Datenschutzerklärung Vorlage" [level=2] [ref=e226]
+            - generic [ref=e229]: 4,19 €
+          - 'button "In den Warenkorb legen: „DSGVO Datenschutzerklärung Vorlage“" [ref=e231] [cursor=pointer]': In den Warenkorb
+        - listitem [ref=e233]:
+          - link "Einverständniserklärung für Ayurveda-Massage, die Kunden über Behandlung und Risiken informiert. Einverständnis Ayurveda Massage 4,19 €" [ref=e234] [cursor=pointer]:
+            - /url: https://beautymediashop.de/produkt/einverstaendnis-ayurveda-massage-pdf-canva/
+            - img "Einverständniserklärung für Ayurveda-Massage, die Kunden über Behandlung und Risiken informiert." [ref=e235]
+            - heading "Einverständnis Ayurveda Massage" [level=2] [ref=e236]
+            - generic [ref=e239]: 4,19 €
+          - 'button "In den Warenkorb legen: „Einverständnis Ayurveda Massage“" [ref=e241] [cursor=pointer]': In den Warenkorb
+        - listitem [ref=e243]:
+          - link "Einverständnis für das Algenpeeling Einverständnis für das Algenpeeling 4,19 €" [ref=e244] [cursor=pointer]:
+            - /url: https://beautymediashop.de/produkt/einverstaendnis-zur-algenpeeling-behandlung-pdf-canva/
+            - img "Einverständnis für das Algenpeeling" [ref=e245]
+            - heading "Einverständnis für das Algenpeeling" [level=2] [ref=e246]
+            - generic [ref=e249]: 4,19 €
+          - 'button "In den Warenkorb legen: „Einverständnis für das Algenpeeling“" [ref=e251] [cursor=pointer]': In den Warenkorb
+        - listitem [ref=e253]:
+          - link "Das Areola-Tattoo ist eine kunstvolle und präzise Technik, die oft als Teil der Brustrekonstruktion nach einer Mastektomie angewendet wird. Einverständnis für das Areola Tattoo 4,19 €" [ref=e254] [cursor=pointer]:
+            - /url: https://beautymediashop.de/produkt/einverstaendnis-fuer-areola-tattoo-behandlung/
+            - img "Das Areola-Tattoo ist eine kunstvolle und präzise Technik, die oft als Teil der Brustrekonstruktion nach einer Mastektomie angewendet wird." [ref=e255]
+            - heading "Einverständnis für das Areola Tattoo" [level=2] [ref=e256]
+            - generic [ref=e259]: 4,19 €
+          - 'button "In den Warenkorb legen: „Einverständnis für das Areola Tattoo“" [ref=e261] [cursor=pointer]': In den Warenkorb
+        - listitem [ref=e263]:
+          - link "Rechtssichere Vorlage für Microneedling Studios Einverständnis für das bio. Microneedling 4,19 €" [ref=e264] [cursor=pointer]:
+            - /url: https://beautymediashop.de/produkt/einverstaendnis-fuer-biologisches-microneedling-pdf-canva/
+            - img "Rechtssichere Vorlage für Microneedling Studios" [ref=e265]
+            - heading "Einverständnis für das bio. Microneedling" [level=2] [ref=e266]
+            - generic [ref=e269]: 4,19 €
+          - 'button "In den Warenkorb legen: „Einverständnis für das bio. Microneedling“" [ref=e271] [cursor=pointer]': In den Warenkorb
+        - listitem [ref=e273]:
+          - link "Downloadbare Vorlage für Carbonpeeling Einverständniserklärung als PDF Einverständnis für das Carbon Peeling 4,19 €" [ref=e274] [cursor=pointer]:
+            - /url: https://beautymediashop.de/produkt/einverstaendnis-carbon-peeling-behandlung-formular-zustimmung-im-pdf-canva-format-fragebogen-fuer-kohlenstoff-laser-aktivkohle-anwendung/
+            - img "Downloadbare Vorlage für Carbonpeeling Einverständniserklärung als PDF" [ref=e275]
+            - heading "Einverständnis für das Carbon Peeling" [level=2] [ref=e276]
+            - generic [ref=e279]: 4,19 €
+          - 'button "In den Warenkorb legen: „Einverständnis für das Carbon Peeling“" [ref=e281] [cursor=pointer]': In den Warenkorb
+        - listitem [ref=e283]:
+          - link "Professionelle Einverständniserklärung Enzympeeling Vorlage Einverständnis für das Enzympeeling 4,19 €" [ref=e284] [cursor=pointer]:
+            - /url: https://beautymediashop.de/produkt/einverstaendnis-fuer-die-enzympeeling-behandlung-formular-zustimmung-als-pdf-und-canva-format-fragebogen-als-e-file-kundenunterschrift/
+            - img "Professionelle Einverständniserklärung Enzympeeling Vorlage" [ref=e285]
+            - heading "Einverständnis für das Enzympeeling" [level=2] [ref=e286]
+            - generic [ref=e289]: 4,19 €
+          - 'button "In den Warenkorb legen: „Einverständnis für das Enzympeeling“" [ref=e291] [cursor=pointer]': In den Warenkorb
+        - listitem [ref=e293]:
+          - 'link "Einverständniserklärung für Fruchtsäurepeeling: Informieren Sie Ihre Kunden vor der Behandlung zur rechtlichen Absicherung. Einverständnis für das Fruchtsäurepeeling 4,19 €" [ref=e294] [cursor=pointer]':
+            - /url: https://beautymediashop.de/produkt/einverstaendnis-fuer-fruchtsaeure-behandlung-formular-zustimmung-als-pdf-canva-format-aha-peeling-fragebogen-als-e-file-inkl-unterschrift/
+            - 'img "Einverständniserklärung für Fruchtsäurepeeling: Informieren Sie Ihre Kunden vor der Behandlung zur rechtlichen Absicherung." [ref=e295]'
+            - heading "Einverständnis für das Fruchtsäurepeeling" [level=2] [ref=e296]
+            - generic [ref=e299]: 4,19 €
+          - 'button "In den Warenkorb legen: „Einverständnis für das Fruchtsäurepeeling“" [ref=e301] [cursor=pointer]': In den Warenkorb
+        - listitem [ref=e303]:
+          - link "Einfaches Formular für rechtliche Absicherung bei Permanent Make-up. Einverständnis für das Permanent Make-up 4,19 €" [ref=e304] [cursor=pointer]:
+            - /url: https://beautymediashop.de/produkt/einverstaendnis-fuer-permanent-make-up-im-pdf-und-canva-format-e-file-kaufen-downloaden-semi-permanent-pmu-fragebogen-inkl-unterschrift/
+            - img "Einfaches Formular für rechtliche Absicherung bei Permanent Make-up." [ref=e305]
+            - heading "Einverständnis für das Permanent Make-up" [level=2] [ref=e306]
+            - generic [ref=e309]: 4,19 €
+          - 'button "In den Warenkorb legen: „Einverständnis für das Permanent Make-up“" [ref=e311] [cursor=pointer]': In den Warenkorb
+        - listitem [ref=e313]:
+          - link "Einverständniserklärung für PRP-Behandlungen – sicher und transparent. Einverständnis für das Vampir Lifting 4,19 €" [ref=e314] [cursor=pointer]:
+            - /url: https://beautymediashop.de/produkt/einverstaendnis-fuer-das-vampir-lifting-formular-zustimmung-als-pdf-und-canva-format-fragebogen-als-e-file-kundenunterschrift/
+            - img "Einverständniserklärung für PRP-Behandlungen – sicher und transparent." [ref=e315]
+            - heading "Einverständnis für das Vampir Lifting" [level=2] [ref=e316]
+            - generic [ref=e319]: 4,19 €
+          - 'button "In den Warenkorb legen: „Einverständnis für das Vampir Lifting“" [ref=e321] [cursor=pointer]': In den Warenkorb
+        - listitem [ref=e323]:
+          - link "Einverständniserklärung für Wimpern- und Augenbrauenfärben – für mehr Sicherheit. Einverständnis für das Wimpern & Augenbrauen färben 4,19 €" [ref=e324] [cursor=pointer]:
+            - /url: https://beautymediashop.de/produkt/einverstaendnis-fuer-wimpern-augenbrauen-faerben-als-pdf-und-canva-format-e-file-download-bei-etsy-fragebogen-inkl-kunden-unterschrift/
+            - img "Einverständniserklärung für Wimpern- und Augenbrauenfärben – für mehr Sicherheit." [ref=e325]
+            - heading "Einverständnis für das Wimpern & Augenbrauen färben" [level=2] [ref=e326]
+            - generic [ref=e329]: 4,19 €
+          - 'button "In den Warenkorb legen: „Einverständnis für das Wimpern & Augenbrauen färben“" [ref=e331] [cursor=pointer]': In den Warenkorb
+        - listitem [ref=e333]:
+          - link "Die Kunst der Airbrush Brows kombiniert Präzision und Kreativität. Doch genauso wichtig wie das Design ist die rechtliche Absicherung sowohl für das Studio als auch für die Kund:innen. Einverständnis für die Airbrush Brows Behandlung 4,19 €" [ref=e334] [cursor=pointer]:
+            - /url: https://beautymediashop.de/produkt/einverstaendnis-fuer-airbrush-brows-behandlung/
+            - img "Die Kunst der Airbrush Brows kombiniert Präzision und Kreativität. Doch genauso wichtig wie das Design ist die rechtliche Absicherung sowohl für das Studio als auch für die Kund:innen." [ref=e335]
+            - heading "Einverständnis für die Airbrush Brows Behandlung" [level=2] [ref=e336]
+            - generic [ref=e339]: 4,19 €
+          - 'button "In den Warenkorb legen: „Einverständnis für die Airbrush Brows Behandlung“" [ref=e341] [cursor=pointer]': In den Warenkorb
+        - listitem [ref=e343]:
+          - link "Aquafacial-Formular zur Erfassung von Hauttyp und Behandlungspräferenzen. Einverständnis für die Aquafacial Behandlung 4,19 €" [ref=e344] [cursor=pointer]:
+            - /url: https://beautymediashop.de/produkt/einverstaendnis-fuer-aquafacial-behandlung/
+            - img "Aquafacial-Formular zur Erfassung von Hauttyp und Behandlungspräferenzen." [ref=e345]
+            - heading "Einverständnis für die Aquafacial Behandlung" [level=2] [ref=e346]
+            - generic [ref=e349]: 4,19 €
+          - 'button "In den Warenkorb legen: „Einverständnis für die Aquafacial Behandlung“" [ref=e351] [cursor=pointer]': In den Warenkorb
+        - listitem [ref=e353]:
+          - link "Aromatherapie-Formular zur Erfassung von Vorlieben und Zielen der Behandlung. Einverständnis für die Aromatherapie 4,19 €" [ref=e354] [cursor=pointer]:
+            - /url: https://beautymediashop.de/produkt/einverstaendnis-aromatherapie-pdf-canva/
+            - img "Aromatherapie-Formular zur Erfassung von Vorlieben und Zielen der Behandlung." [ref=e355]
+            - heading "Einverständnis für die Aromatherapie" [level=2] [ref=e356]
+            - generic [ref=e359]: 4,19 €
+          - 'button "In den Warenkorb legen: „Einverständnis für die Aromatherapie“" [ref=e361] [cursor=pointer]': In den Warenkorb
+        - listitem [ref=e363]:
+          - link "Einverständnis für die BB Glow Behandlung Einverständnis für die BB Glow Behandlung 4,19 €" [ref=e364] [cursor=pointer]:
+            - /url: https://beautymediashop.de/produkt/einverstaendnis-fuer-bb-glow-behandlung-als-pdf-canva-formular-fragebogen-fuer-semi-permanentes-make-up-e-file-inkl-kundenunterschrift/
+            - img "Einverständnis für die BB Glow Behandlung" [ref=e365]
+            - heading "Einverständnis für die BB Glow Behandlung" [level=2] [ref=e366]
+            - generic [ref=e369]: 4,19 €
+          - 'button "In den Warenkorb legen: „Einverständnis für die BB Glow Behandlung“" [ref=e371] [cursor=pointer]': In den Warenkorb
+      - navigation "Produkt-Seitennummerierung" [ref=e373]:
+        - list [ref=e374]:
+          - listitem [ref=e375]:
+            - generic "Seite 1" [ref=e376]: "1"
+          - listitem [ref=e377]:
+            - link "Seite 2" [ref=e378] [cursor=pointer]:
+              - /url: https://beautymediashop.de/shop/page/2/?plugincydebug=true
+              - text: "2"
+          - listitem [ref=e379]:
+            - link "Seite 3" [ref=e380] [cursor=pointer]:
+              - /url: https://beautymediashop.de/shop/page/3/?plugincydebug=true
+              - text: "3"
+          - listitem [ref=e381]:
+            - link "Seite 4" [ref=e382] [cursor=pointer]:
+              - /url: https://beautymediashop.de/shop/page/4/?plugincydebug=true
+              - text: "4"
+          - listitem [ref=e383]:
+            - generic [ref=e384]: …
+          - listitem [ref=e385]:
+            - link "Seite 20" [ref=e386] [cursor=pointer]:
+              - /url: https://beautymediashop.de/shop/page/20/?plugincydebug=true
+              - text: "20"
+          - listitem [ref=e387]:
+            - link "Seite 21" [ref=e388] [cursor=pointer]:
+              - /url: https://beautymediashop.de/shop/page/21/?plugincydebug=true
+              - text: "21"
+          - listitem [ref=e389]:
+            - link "Seite 22" [ref=e390] [cursor=pointer]:
+              - /url: https://beautymediashop.de/shop/page/22/?plugincydebug=true
+              - text: "22"
+          - listitem [ref=e391]:
+            - link "→" [ref=e392] [cursor=pointer]:
+              - /url: https://beautymediashop.de/shop/page/2/?plugincydebug=true
+    - heading "Weitere kategorien" [level=2] [ref=e399]:
+      - text: Weitere
+      - text: kategorien
+  - contentinfo [ref=e400]:
+    - generic [ref=e408]:
+      - paragraph [ref=e413]: Ihr Shop für professionelle Unterlagen zur Optimierung Ihres Studioalltags.
+      - generic [ref=e415]:
+        - heading "Über uns" [level=3] [ref=e418]
+        - list [ref=e421]:
+          - listitem [ref=e422]:
+            - link "Über uns" [ref=e423] [cursor=pointer]:
+              - /url: https://beautymediashop.de/ueber-uns/
+              - generic [ref=e424]: Über uns
+          - listitem [ref=e425]:
+            - link "Kontakt" [ref=e426] [cursor=pointer]:
+              - /url: /faq/#kontakt
+              - generic [ref=e427]: Kontakt
+          - listitem [ref=e428]:
+            - link "FAQ" [ref=e429] [cursor=pointer]:
+              - /url: /faq
+              - generic [ref=e430]: FAQ
+      - generic [ref=e432]:
+        - heading "Shop" [level=3] [ref=e435]
+        - list [ref=e438]:
+          - listitem [ref=e439]:
+            - link "Angebote" [ref=e440] [cursor=pointer]:
+              - /url: /angebote/
+              - generic [ref=e441]: Angebote
+          - listitem [ref=e442]:
+            - link "Alle Produkte" [ref=e443] [cursor=pointer]:
+              - /url: /shop
+              - generic [ref=e444]: Alle Produkte
+          - listitem [ref=e445]:
+            - link "Partner" [ref=e446] [cursor=pointer]:
+              - /url: https://beautymediashop.de/unsere-partner-und-kooperationen/
+              - generic [ref=e447]: Partner
+          - listitem [ref=e448]:
+            - link "Formular Insights" [ref=e449] [cursor=pointer]:
+              - /url: https://beautymediashop.de/unsere-downloads/
+              - generic [ref=e450]: Formular Insights
+      - generic [ref=e452]:
+        - heading "Benutzer" [level=3] [ref=e455]
+        - list [ref=e458]:
+          - listitem [ref=e459]:
+            - link "Login" [ref=e460] [cursor=pointer]:
+              - /url: /mein-konto
+              - generic [ref=e461]: Login
+          - listitem [ref=e462]:
+            - link "Account" [ref=e463] [cursor=pointer]:
+              - /url: /mein-konto
+              - generic [ref=e464]: Account
+          - listitem [ref=e465]:
+            - link "Dashboard" [ref=e466] [cursor=pointer]:
+              - /url: /mein-konto
+              - generic [ref=e467]: Dashboard
+          - listitem [ref=e468]:
+            - link "Newsletter" [ref=e469] [cursor=pointer]:
+              - /url: https://beautymediashop.de/tragen-sie-sich-in-unsere-mailingliste-ein/
+              - generic [ref=e470]: Newsletter
+          - listitem [ref=e471]:
+            - link "Barrierefreiheit" [ref=e472] [cursor=pointer]:
+              - /url: https://beautymediashop.de/barrierefreiheit/
+              - generic [ref=e473]: Barrierefreiheit
+      - generic [ref=e475]:
+        - heading "Affiliate" [level=3] [ref=e478]
+        - list [ref=e481]:
+          - listitem [ref=e482]:
+            - link "Unser Angebot" [ref=e483] [cursor=pointer]:
+              - /url: https://beautymediashop.de/affiliate-programm/
+              - generic [ref=e484]: Unser Angebot
+          - listitem [ref=e485]:
+            - link "Registrieren" [ref=e486] [cursor=pointer]:
+              - /url: https://beautymediashop.de/affiliate-home/affiliate-register/
+              - generic [ref=e487]: Registrieren
+          - listitem [ref=e488]:
+            - link "Login" [ref=e489] [cursor=pointer]:
+              - /url: https://beautymediashop.de/affiliate-home/affiliate-login/
+              - generic [ref=e490]: Login
+          - listitem [ref=e491]:
+            - link "Shop-Affiliates" [ref=e492] [cursor=pointer]:
+              - /url: https://beautymediashop.de/affiliate-home/
+              - generic [ref=e493]: Shop-Affiliates
+          - listitem [ref=e494]:
+            - link "AGB" [ref=e495] [cursor=pointer]:
+              - /url: https://beautymediashop.de/terms-and-conditions/
+              - generic [ref=e496]: AGB
+      - generic [ref=e498]:
+        - heading "Rechtliches" [level=3] [ref=e501]
+        - list [ref=e504]:
+          - listitem [ref=e505]:
+            - link "AGB" [ref=e506] [cursor=pointer]:
+              - /url: /agb
+              - generic [ref=e507]: AGB
+          - listitem [ref=e508]:
+            - link "Impressum" [ref=e509] [cursor=pointer]:
+              - /url: /impressum
+              - generic [ref=e510]: Impressum
+          - listitem [ref=e511]:
+            - link "Datenschutzerklärung" [ref=e512] [cursor=pointer]:
+              - /url: /datenschutz
+              - generic [ref=e513]: Datenschutzerklärung
+          - listitem [ref=e514]:
+            - link "Widerrufsbelehrung" [ref=e515] [cursor=pointer]:
+              - /url: /widerrufsbelehrung/
+              - generic [ref=e516]: Widerrufsbelehrung
+          - listitem [ref=e517]:
+            - link "Cookie-Belehrung (EU)" [ref=e518] [cursor=pointer]:
+              - /url: /cookie-richtlinie-eu/
+              - generic [ref=e519]: Cookie-Belehrung (EU)
+    - generic [ref=e521]:
+      - generic [ref=e526]: Copyright by © Beauty Media Shop 2018
+      - img "IHK Logo - Zertifizierung unseres Onlineshops für digitale Unterlagen in der Kosmetik Branche" [ref=e531]
+      - list [ref=e536]:
+        - listitem [ref=e537]:
+          - link "Facebook" [ref=e538] [cursor=pointer]:
+            - /url: https://www.facebook.com/beautymedia.shop
+            - generic [ref=e539]: Facebook
+            - img [ref=e540]
+        - listitem [ref=e542]:
+          - link "Instagram" [ref=e543] [cursor=pointer]:
+            - /url: https://www.instagram.com/beautymedia.shop/
+            - generic [ref=e544]: Instagram
+            - img [ref=e545]
+        - listitem [ref=e547]:
+          - link "Pinterest" [ref=e548] [cursor=pointer]:
+            - /url: https://de.pinterest.com/beautymediashop/
+            - generic [ref=e549]: Pinterest
+            - img [ref=e550]
+  - button " ×" [ref=e552] [cursor=pointer]:
+    - generic [ref=e553]: 
+    - generic: ×
+  - generic [ref=e554]: tablet
+  - button "Open filters" [ref=e555] [cursor=pointer]:
+    - img [ref=e556]
+  - status [ref=e558]

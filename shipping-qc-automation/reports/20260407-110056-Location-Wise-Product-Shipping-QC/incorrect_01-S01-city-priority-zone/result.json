@@ -1,0 +1,11 @@
+{
+  "id": "S01-city-priority-zone",
+  "description": "City-level rule should win (Ahmedabad).",
+  "startedAt": "2026-04-07T05:02:08.634Z",
+  "success": false,
+  "failures": [
+    "Runtime error: locator.click: Timeout 120000ms exceeded.\nCall log:\n  - waiting for locator('a.add_to_cart_button').first()\n    - locator resolved to <a rel=\"nofollow\" data-quantity=\"1\" data-product_sku=\"\" data-product_id=\"517\" href=\"/shop/?add-to-cart=517\" aria-label=\"Add to cart: “Apple Laptop”\" class=\"ast-on-card-button ast-select-options-trigger product_type_simple add_to_cart_button ajax_add_to_cart\">…</a>\n  - attempting click action\n    2 × waiting for element to be visible, enabled and stable\n      - element is not visible\n    - retrying click action\n    - waiting 20ms\n    2 × waiting for element to be visible, enabled and stable\n      - element is not visible\n    - retrying click action\n      - waiting 100ms\n    231 × waiting for element to be visible, enabled and stable\n        - element is not visible\n      - retrying click action\n        - waiting 500ms\n"
+  ],
+  "observations": {},
+  "finishedAt": "2026-04-07T05:04:31.093Z"
+}

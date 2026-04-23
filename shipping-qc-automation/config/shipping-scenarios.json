@@ -1,0 +1,617 @@
+[
+  {
+    "id": "S01-city-priority-zone",
+    "description": "City-level rule should win (Ahmedabad).",
+    "enabled": true,
+    "cart": { "productId": 1, "quantity": 1 },
+    "address": {
+      "type": "shipping",
+      "firstName": "QC",
+      "lastName": "City",
+      "country": "IN",
+      "address1": "Law Garden",
+      "city": "Ahmedabad",
+      "state": "GJ",
+      "postcode": "380015",
+      "email": "qc+city@example.com",
+      "phone": "9000000001"
+    },
+    "location": { "labelContains": "L2" },
+    "expected": { "atLeastOneMethod": true }
+  },
+  {
+    "id": "S02-state-level-zone",
+    "description": "State-level shipping for Gujarat.",
+    "enabled": true,
+    "cart": { "productId": 1, "quantity": 1 },
+    "address": {
+      "type": "shipping",
+      "firstName": "QC",
+      "lastName": "State",
+      "country": "IN",
+      "address1": "Science City",
+      "city": "Surat",
+      "state": "GJ",
+      "postcode": "395007",
+      "email": "qc+state@example.com",
+      "phone": "9000000002"
+    },
+    "location": { "labelContains": "L1" },
+    "expected": { "atLeastOneMethod": true }
+  },
+  {
+    "id": "S03-country-level-zone",
+    "description": "Country-level India shipping path.",
+    "enabled": true,
+    "cart": { "productId": 1, "quantity": 1 },
+    "address": {
+      "type": "shipping",
+      "firstName": "QC",
+      "lastName": "Country",
+      "country": "IN",
+      "address1": "MG Road",
+      "city": "Pune",
+      "state": "MH",
+      "postcode": "411001",
+      "email": "qc+country@example.com",
+      "phone": "9000000003"
+    },
+    "expected": { "atLeastOneMethod": true }
+  },
+  {
+    "id": "S04-continent-level-zone",
+    "description": "Asia continent fallback zone should be usable.",
+    "enabled": true,
+    "cart": { "productId": 1, "quantity": 1 },
+    "address": {
+      "type": "shipping",
+      "firstName": "QC",
+      "lastName": "Asia",
+      "country": "SG",
+      "address1": "Marina Bay",
+      "city": "Singapore",
+      "state": "",
+      "postcode": "018956",
+      "email": "qc+asia@example.com",
+      "phone": "9000000004"
+    },
+    "expected": { "atLeastOneMethod": true }
+  },
+  {
+    "id": "S05-europe-zone",
+    "description": "Europe continent shipping branch.",
+    "enabled": true,
+    "cart": { "productId": 1, "quantity": 1 },
+    "address": {
+      "type": "shipping",
+      "firstName": "QC",
+      "lastName": "Europe",
+      "country": "FR",
+      "address1": "10 Rue Test",
+      "city": "Paris",
+      "state": "",
+      "postcode": "75001",
+      "email": "qc+europe@example.com",
+      "phone": "9000000005"
+    },
+    "location": { "labelContains": "L4" },
+    "expected": { "atLeastOneMethod": true }
+  },
+  {
+    "id": "S06-postcode-boundary",
+    "description": "Postcode wildcard/range boundary low end.",
+    "enabled": true,
+    "cart": { "productId": 1, "quantity": 1 },
+    "address": {
+      "type": "shipping",
+      "firstName": "QC",
+      "lastName": "PostLow",
+      "country": "IN",
+      "address1": "Boundary Start",
+      "city": "Ahmedabad",
+      "state": "GJ",
+      "postcode": "380000",
+      "email": "qc+postlow@example.com",
+      "phone": "9000000006"
+    },
+    "expected": { "atLeastOneMethod": true }
+  },
+  {
+    "id": "S07-postcode-boundary-high",
+    "description": "Postcode wildcard/range boundary high end.",
+    "enabled": true,
+    "cart": { "productId": 1, "quantity": 1 },
+    "address": {
+      "type": "shipping",
+      "firstName": "QC",
+      "lastName": "PostHigh",
+      "country": "IN",
+      "address1": "Boundary End",
+      "city": "Ahmedabad",
+      "state": "GJ",
+      "postcode": "380099",
+      "email": "qc+posthigh@example.com",
+      "phone": "9000000007"
+    },
+    "expected": { "atLeastOneMethod": true }
+  },
+  {
+    "id": "S08-no-zone-match",
+    "description": "Address with likely no matching zone should return no method or configured fallback.",
+    "enabled": true,
+    "cart": { "productId": 1, "quantity": 1 },
+    "address": {
+      "type": "shipping",
+      "firstName": "QC",
+      "lastName": "NoZone",
+      "country": "BR",
+      "address1": "Unknown Street",
+      "city": "Manaus",
+      "state": "AM",
+      "postcode": "69000-000",
+      "email": "qc+nozone@example.com",
+      "phone": "9000000008"
+    },
+    "expected": {
+      "atLeastOneMethod": false,
+      "allowAsPassIfNoMethodMessageContainsAny": ["no shipping", "not available"]
+    }
+  },
+  {
+    "id": "S09-location-zone-method-linked",
+    "description": "Location with explicit zone+method assignment.",
+    "enabled": true,
+    "cart": { "productId": 1, "quantity": 1 },
+    "address": {
+      "type": "shipping",
+      "firstName": "QC",
+      "lastName": "LocMethod",
+      "country": "IN",
+      "address1": "CG Road",
+      "city": "Ahmedabad",
+      "state": "GJ",
+      "postcode": "380009",
+      "email": "qc+locmethod@example.com",
+      "phone": "9000000009"
+    },
+    "location": { "labelContains": "L1" },
+    "expected": { "atLeastOneMethod": true }
+  },
+  {
+    "id": "S10-location-zone-only",
+    "description": "Location has zone but no method restriction.",
+    "enabled": true,
+    "cart": { "productId": 1, "quantity": 1 },
+    "address": {
+      "type": "shipping",
+      "firstName": "QC",
+      "lastName": "LocZoneOnly",
+      "country": "IN",
+      "address1": "Drive In",
+      "city": "Vadodara",
+      "state": "GJ",
+      "postcode": "390001",
+      "email": "qc+loczoneonly@example.com",
+      "phone": "9000000010"
+    },
+    "location": { "labelContains": "L2" },
+    "expected": { "atLeastOneMethod": true }
+  },
+  {
+    "id": "S11-location-no-mapping",
+    "description": "Location without mapping should use fallback behavior.",
+    "enabled": true,
+    "cart": { "productId": 1, "quantity": 1 },
+    "address": {
+      "type": "shipping",
+      "firstName": "QC",
+      "lastName": "LocNone",
+      "country": "IN",
+      "address1": "Ring Road",
+      "city": "Rajkot",
+      "state": "GJ",
+      "postcode": "360001",
+      "email": "qc+locnone@example.com",
+      "phone": "9000000011"
+    },
+    "location": { "labelContains": "L3" },
+    "expected": { "atLeastOneMethod": true }
+  },
+  {
+    "id": "S12-location-mismatch",
+    "description": "Location mapped to Europe but India address should fail or fallback.",
+    "enabled": true,
+    "cart": { "productId": 1, "quantity": 1 },
+    "address": {
+      "type": "shipping",
+      "firstName": "QC",
+      "lastName": "LocMismatch",
+      "country": "IN",
+      "address1": "Mismatch Road",
+      "city": "Ahmedabad",
+      "state": "GJ",
+      "postcode": "380001",
+      "email": "qc+locmismatch@example.com",
+      "phone": "9000000012"
+    },
+    "location": { "labelContains": "L4" },
+    "expected": { "atLeastOneMethod": false }
+  },
+  {
+    "id": "S13-address-change-refresh",
+    "description": "Method should refresh after address changed in checkout.",
+    "enabled": true,
+    "cart": { "productId": 1, "quantity": 1 },
+    "address": {
+      "type": "shipping",
+      "firstName": "QC",
+      "lastName": "AddrChangeA",
+      "country": "IN",
+      "address1": "Phase A",
+      "city": "Ahmedabad",
+      "state": "GJ",
+      "postcode": "380015",
+      "email": "qc+addrchangea@example.com",
+      "phone": "9000000013"
+    },
+    "addressChange": {
+      "city": "Paris",
+      "country": "FR",
+      "state": "",
+      "postcode": "75001"
+    },
+    "expected": { "methodsShouldChangeAfterAddressUpdate": true }
+  },
+  {
+    "id": "S14-missing-city",
+    "description": "Missing city should not crash checkout calculation.",
+    "enabled": true,
+    "cart": { "productId": 1, "quantity": 1 },
+    "address": {
+      "type": "shipping",
+      "firstName": "QC",
+      "lastName": "NoCity",
+      "country": "IN",
+      "address1": "No City Road",
+      "city": "",
+      "state": "GJ",
+      "postcode": "380015",
+      "email": "qc+nocity@example.com",
+      "phone": "9000000014"
+    },
+    "expected": { "atLeastOneMethod": true }
+  },
+  {
+    "id": "S15-missing-postcode",
+    "description": "Missing postcode behavior should follow zone logic/fallback.",
+    "enabled": true,
+    "cart": { "productId": 1, "quantity": 1 },
+    "address": {
+      "type": "shipping",
+      "firstName": "QC",
+      "lastName": "NoPost",
+      "country": "IN",
+      "address1": "No Postcode Road",
+      "city": "Ahmedabad",
+      "state": "GJ",
+      "postcode": "",
+      "email": "qc+nopost@example.com",
+      "phone": "9000000015"
+    },
+    "expected": { "atLeastOneMethod": true }
+  },
+  {
+    "id": "S16-invalid-postcode",
+    "description": "Invalid postcode should not produce wrong specific-zone method.",
+    "enabled": true,
+    "cart": { "productId": 1, "quantity": 1 },
+    "address": {
+      "type": "shipping",
+      "firstName": "QC",
+      "lastName": "BadPost",
+      "country": "IN",
+      "address1": "Invalid Code Street",
+      "city": "Ahmedabad",
+      "state": "GJ",
+      "postcode": "XXXXX",
+      "email": "qc+badpost@example.com",
+      "phone": "9000000016"
+    },
+    "expected": { "atLeastOneMethod": true }
+  },
+  {
+    "id": "S17-guest-default",
+    "description": "Guest checkout default shipping evaluation.",
+    "enabled": true,
+    "cart": { "productId": 1, "quantity": 1 },
+    "address": {
+      "type": "shipping",
+      "firstName": "Guest",
+      "lastName": "User",
+      "country": "IN",
+      "address1": "Guest Test St",
+      "city": "Mumbai",
+      "state": "MH",
+      "postcode": "400001",
+      "email": "qc+guest@example.com",
+      "phone": "9000000017"
+    },
+    "expected": { "atLeastOneMethod": true }
+  },
+  {
+    "id": "S18-location-switch",
+    "description": "Switching location should refresh method list.",
+    "enabled": true,
+    "cart": { "productId": 1, "quantity": 1 },
+    "address": {
+      "type": "shipping",
+      "firstName": "QC",
+      "lastName": "LocSwitch",
+      "country": "IN",
+      "address1": "Switch Ave",
+      "city": "Ahmedabad",
+      "state": "GJ",
+      "postcode": "380015",
+      "email": "qc+locswitch@example.com",
+      "phone": "9000000018"
+    },
+    "location": { "labelContains": "L1" },
+    "locationChange": { "labelContains": "L3" },
+    "expected": { "methodsShouldChangeAfterLocationUpdate": true }
+  },
+  {
+    "id": "S19-per-location-off-baseline",
+    "description": "With setting off, behavior should follow global Woo zones.",
+    "enabled": true,
+    "notes": "Run this when per-location setting is disabled in plugin.",
+    "cart": { "productId": 1, "quantity": 1 },
+    "address": {
+      "type": "shipping",
+      "firstName": "QC",
+      "lastName": "ToggleOff",
+      "country": "IN",
+      "address1": "Toggle Off Road",
+      "city": "Ahmedabad",
+      "state": "GJ",
+      "postcode": "380015",
+      "email": "qc+toggleoff@example.com",
+      "phone": "9000000019"
+    },
+    "expected": { "atLeastOneMethod": true }
+  },
+  {
+    "id": "S20-per-location-on-override",
+    "description": "With setting on, location-specific behavior should apply.",
+    "enabled": true,
+    "notes": "Run this when per-location setting is enabled in plugin.",
+    "cart": { "productId": 1, "quantity": 1 },
+    "address": {
+      "type": "shipping",
+      "firstName": "QC",
+      "lastName": "ToggleOn",
+      "country": "IN",
+      "address1": "Toggle On Road",
+      "city": "Ahmedabad",
+      "state": "GJ",
+      "postcode": "380015",
+      "email": "qc+toggleon@example.com",
+      "phone": "9000000020"
+    },
+    "location": { "labelContains": "L1" },
+    "expected": { "atLeastOneMethod": true }
+  },
+  {
+    "id": "S21-virtual-plus-physical",
+    "description": "Mixed cart should still calculate physical shipping correctly.",
+    "enabled": true,
+    "cart": { "productId": 1, "quantity": 2 },
+    "address": {
+      "type": "shipping",
+      "firstName": "QC",
+      "lastName": "MixCart",
+      "country": "IN",
+      "address1": "Mix Cart Road",
+      "city": "Jaipur",
+      "state": "RJ",
+      "postcode": "302001",
+      "email": "qc+mixcart@example.com",
+      "phone": "9000000021"
+    },
+    "expected": { "atLeastOneMethod": true }
+  },
+  {
+    "id": "S22-session-refresh",
+    "description": "Reload checkout should keep valid method only.",
+    "enabled": true,
+    "cart": { "productId": 1, "quantity": 1 },
+    "address": {
+      "type": "shipping",
+      "firstName": "QC",
+      "lastName": "Session",
+      "country": "IN",
+      "address1": "Session Lane",
+      "city": "Delhi",
+      "state": "DL",
+      "postcode": "110001",
+      "email": "qc+session@example.com",
+      "phone": "9000000022"
+    },
+    "expected": {
+      "atLeastOneMethod": true,
+      "methodsShouldStayStableAfterReload": true
+    }
+  },
+  {
+    "id": "S23-special-char-city",
+    "description": "Unicode/special char city should not break matching.",
+    "enabled": true,
+    "cart": { "productId": 1, "quantity": 1 },
+    "address": {
+      "type": "shipping",
+      "firstName": "QC",
+      "lastName": "Special",
+      "country": "IN",
+      "address1": "Unicode Road",
+      "city": "São Paulo",
+      "state": "SP",
+      "postcode": "01000-000",
+      "email": "qc+special@example.com",
+      "phone": "9000000023"
+    },
+    "expected": { "atLeastOneMethod": true }
+  },
+  {
+    "id": "S24-long-address",
+    "description": "Very long address should not break shipping calculation.",
+    "enabled": true,
+    "cart": { "productId": 1, "quantity": 1 },
+    "address": {
+      "type": "shipping",
+      "firstName": "QC",
+      "lastName": "LongAddress",
+      "country": "IN",
+      "address1": "12345 Very Long Street Name For Quality Checking Shipping Address Resolution Suite Block C Tower 12 Near Big Landmark",
+      "city": "Ahmedabad",
+      "state": "GJ",
+      "postcode": "380015",
+      "email": "qc+longaddr@example.com",
+      "phone": "9000000024"
+    },
+    "expected": { "atLeastOneMethod": true }
+  },
+  {
+    "id": "S25-method-disabled-regression",
+    "description": "If mapped method is disabled, checkout should not show stale method.",
+    "enabled": true,
+    "notes": "Disable a mapped method in WooCommerce before running this scenario.",
+    "cart": { "productId": 1, "quantity": 1 },
+    "address": {
+      "type": "shipping",
+      "firstName": "QC",
+      "lastName": "DisabledMethod",
+      "country": "IN",
+      "address1": "Disable Ave",
+      "city": "Ahmedabad",
+      "state": "GJ",
+      "postcode": "380015",
+      "email": "qc+disabledmethod@example.com",
+      "phone": "9000000025"
+    },
+    "expected": {
+      "atLeastOneMethod": true,
+      "mustExcludeAll": ["disabled method label"]
+    }
+  },
+  {
+    "id": "S26-zone-deleted-mapping",
+    "description": "If assigned zone is removed, checkout should fail gracefully.",
+    "enabled": true,
+    "notes": "Delete a mapped zone before this scenario to verify graceful handling.",
+    "cart": { "productId": 1, "quantity": 1 },
+    "address": {
+      "type": "shipping",
+      "firstName": "QC",
+      "lastName": "DeletedZone",
+      "country": "IN",
+      "address1": "Deleted Zone Road",
+      "city": "Ahmedabad",
+      "state": "GJ",
+      "postcode": "380015",
+      "email": "qc+deletedzone@example.com",
+      "phone": "9000000026"
+    },
+    "expected": { "atLeastOneMethod": false }
+  },
+  {
+    "id": "S27-location-deactivated",
+    "description": "Disabled location should not be usable for shipping selection.",
+    "enabled": true,
+    "notes": "Deactivate a location before this scenario and verify handling.",
+    "cart": { "productId": 1, "quantity": 1 },
+    "address": {
+      "type": "shipping",
+      "firstName": "QC",
+      "lastName": "InactiveLoc",
+      "country": "IN",
+      "address1": "Inactive Loc Street",
+      "city": "Ahmedabad",
+      "state": "GJ",
+      "postcode": "380015",
+      "email": "qc+inactiveloc@example.com",
+      "phone": "9000000027"
+    },
+    "location": { "labelContains": "L1" },
+    "expected": { "atLeastOneMethod": false }
+  },
+  {
+    "id": "S28-overlap-priority-check",
+    "description": "Overlapping zones should return priority method only.",
+    "enabled": true,
+    "notes": "Set known method labels in expected list below once zones are configured.",
+    "cart": { "productId": 1, "quantity": 1 },
+    "address": {
+      "type": "shipping",
+      "firstName": "QC",
+      "lastName": "Overlap",
+      "country": "IN",
+      "address1": "Overlap Street",
+      "city": "Ahmedabad",
+      "state": "GJ",
+      "postcode": "380015",
+      "email": "qc+overlap@example.com",
+      "phone": "9000000028"
+    },
+    "expected": {
+      "atLeastOneMethod": true,
+      "mustIncludeAnyOf": ["flat rate", "local pickup"]
+    }
+  },
+  {
+    "id": "S29-reload-after-address-change",
+    "description": "After changing address and reload, invalid stale method should not stay selected.",
+    "enabled": true,
+    "cart": { "productId": 1, "quantity": 1 },
+    "address": {
+      "type": "shipping",
+      "firstName": "QC",
+      "lastName": "ReloadAddress",
+      "country": "IN",
+      "address1": "Reload Address Road",
+      "city": "Ahmedabad",
+      "state": "GJ",
+      "postcode": "380015",
+      "email": "qc+reloadaddress@example.com",
+      "phone": "9000000029"
+    },
+    "addressChange": {
+      "city": "Berlin",
+      "country": "DE",
+      "state": "",
+      "postcode": "10115"
+    },
+    "expected": {
+      "atLeastOneMethod": true,
+      "methodsShouldChangeAfterAddressUpdate": true
+    }
+  },
+  {
+    "id": "S30-final-smoke",
+    "description": "Release smoke check for core shipping flow.",
+    "enabled": true,
+    "cart": { "productId": 1, "quantity": 1 },
+    "address": {
+      "type": "shipping",
+      "firstName": "QC",
+      "lastName": "Smoke",
+      "country": "IN",
+      "address1": "Smoke Route",
+      "city": "Ahmedabad",
+      "state": "GJ",
+      "postcode": "380015",
+      "email": "qc+smoke@example.com",
+      "phone": "9000000030"
+    },
+    "location": { "labelContains": "L1" },
+    "expected": { "atLeastOneMethod": true }
+  }
+]

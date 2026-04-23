@@ -1,0 +1,105 @@
+{
+  "projectName": "My Shipping QC Project",
+  "site": {
+    "baseUrl": "https://example.com",
+    "adminUrl": "https://example.com/wp-admin/",
+    "checkoutUrl": "https://example.com/checkout/",
+    "cartUrl": "https://example.com/cart/",
+    "shopUrl": "https://example.com/shop/",
+    "locationSettingsUrl": "https://example.com/wp-admin/admin.php?page=multi-location-product-and-inventory-management-settings#location-wise-everything",
+    "addToCartUrlTemplate": "https://example.com/?add-to-cart={productId}&quantity={quantity}"
+  },
+  "auth": {
+    "username": "admin",
+    "password": "admin",
+    "forceLoginBeforeAdminChecks": true
+  },
+  "browser": {
+    "headed": true,
+    "slowMo": 120,
+    "timeoutMs": 120000,
+    "viewport": {
+      "width": 1600,
+      "height": 1000
+    }
+  },
+  "output": {
+    "rootDir": "./reports",
+    "saveHtmlSnapshot": true
+  },
+  "adminChecks": {
+    "enabled": true,
+    "screenshots": [
+      {
+        "name": "admin-shipping-zones",
+        "url": "https://example.com/wp-admin/admin.php?page=wc-settings&tab=shipping",
+        "waitForSelector": "body"
+      },
+      {
+        "name": "admin-location-settings",
+        "url": "https://example.com/wp-admin/admin.php?page=your-location-plugin",
+        "waitForSelector": "body"
+      }
+    ]
+  },
+  "selectors": {
+    "checkoutForm": "form.checkout",
+    "shippingMethods": [
+      "ul#shipping_method li",
+      "ul.woocommerce-shipping-methods li",
+      ".woocommerce-shipping-methods li",
+      "tr.shipping td"
+    ],
+    "billingFirstName": "#billing_first_name",
+    "billingLastName": "#billing_last_name",
+    "billingCountry": "#billing_country",
+    "billingAddress1": "#billing_address_1",
+    "billingCity": "#billing_city",
+    "billingState": "#billing_state",
+    "billingPostcode": "#billing_postcode",
+    "billingEmail": "#billing_email",
+    "billingPhone": "#billing_phone",
+    "shipToDifferentAddressCheckbox": "#ship-to-different-address-checkbox",
+    "shippingFirstName": "#shipping_first_name",
+    "shippingLastName": "#shipping_last_name",
+    "shippingCountry": "#shipping_country",
+    "shippingAddress1": "#shipping_address_1",
+    "shippingCity": "#shipping_city",
+    "shippingState": "#shipping_state",
+    "shippingPostcode": "#shipping_postcode",
+    "locationSelectCandidates": [
+      "select[name='pickup_location']",
+      "select[name='location_id']",
+      "select[name='store_location']",
+      "select[id*='location']",
+      "select[name*='location']"
+    ],
+    "emptyCartNotice": ".cart-empty, .woocommerce-info"
+  },
+  "defaults": {
+    "addToCartProductId": 1,
+    "addToCartQuantity": 1,
+    "addressType": "shipping",
+    "locationSelectionMode": "labelContains",
+    "storeLocationCookie": ""
+  },
+  "setup": {
+    "shippingZones": [
+      {
+        "name": "QC Zone A",
+        "regionLabels": ["Asia"],
+        "method": {
+          "methodId": "flat_rate",
+          "titleContains": "flat rate"
+        }
+      }
+    ],
+    "locationAssignments": [
+      {
+        "locationName": "Main Store",
+        "zoneName": "QC Zone A",
+        "shippingMethodContains": "flat rate"
+      }
+    ]
+  }
+}

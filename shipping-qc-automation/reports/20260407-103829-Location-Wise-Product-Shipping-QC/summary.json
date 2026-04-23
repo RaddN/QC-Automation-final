@@ -1,0 +1,17 @@
+{
+  "generatedAt": "2026-04-07T04:47:29.258Z",
+  "runDir": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\shipping-qc-automation\\reports\\20260407-103829-Location-Wise-Product-Shipping-QC",
+  "total": 1,
+  "passed": 0,
+  "failed": 1,
+  "scenarios": [
+    {
+      "id": "S01-city-priority-zone",
+      "success": false,
+      "folder": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\shipping-qc-automation\\reports\\20260407-103829-Location-Wise-Product-Shipping-QC\\incorrect_01-S01-city-priority-zone",
+      "failures": [
+        "Expected at least one shipping method, but none found."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,243 @@
+{
+  "generatedAt": "2026-04-07T09:02:27.883Z",
+  "runDir": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\shipping-qc-automation\\reports\\20260407-101535-Location-Wise-Product-Shipping-QC",
+  "total": 30,
+  "passed": 4,
+  "failed": 26,
+  "scenarios": [
+    {
+      "id": "S01-city-priority-zone",
+      "success": false,
+      "folder": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\shipping-qc-automation\\reports\\20260407-101535-Location-Wise-Product-Shipping-QC\\incorrect_01-S01-city-priority-zone",
+      "failures": [
+        "Expected at least one shipping method, but none found."
+      ]
+    },
+    {
+      "id": "S02-state-level-zone",
+      "success": false,
+      "folder": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\shipping-qc-automation\\reports\\20260407-101535-Location-Wise-Product-Shipping-QC\\incorrect_02-S02-state-level-zone",
+      "failures": [
+        "Expected at least one shipping method, but none found."
+      ]
+    },
+    {
+      "id": "S03-country-level-zone",
+      "success": false,
+      "folder": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\shipping-qc-automation\\reports\\20260407-101535-Location-Wise-Product-Shipping-QC\\incorrect_03-S03-country-level-zone",
+      "failures": [
+        "Expected at least one shipping method, but none found."
+      ]
+    },
+    {
+      "id": "S04-continent-level-zone",
+      "success": false,
+      "folder": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\shipping-qc-automation\\reports\\20260407-101535-Location-Wise-Product-Shipping-QC\\incorrect_04-S04-continent-level-zone",
+      "failures": [
+        "Expected at least one shipping method, but none found."
+      ]
+    },
+    {
+      "id": "S05-europe-zone",
+      "success": false,
+      "folder": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\shipping-qc-automation\\reports\\20260407-101535-Location-Wise-Product-Shipping-QC\\incorrect_05-S05-europe-zone",
+      "failures": [
+        "Expected at least one shipping method, but none found."
+      ]
+    },
+    {
+      "id": "S06-postcode-boundary",
+      "success": false,
+      "folder": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\shipping-qc-automation\\reports\\20260407-101535-Location-Wise-Product-Shipping-QC\\incorrect_06-S06-postcode-boundary",
+      "failures": [
+        "Expected at least one shipping method, but none found."
+      ]
+    },
+    {
+      "id": "S07-postcode-boundary-high",
+      "success": false,
+      "folder": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\shipping-qc-automation\\reports\\20260407-101535-Location-Wise-Product-Shipping-QC\\incorrect_07-S07-postcode-boundary-high",
+      "failures": [
+        "Expected at least one shipping method, but none found."
+      ]
+    },
+    {
+      "id": "S08-no-zone-match",
+      "success": true,
+      "folder": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\shipping-qc-automation\\reports\\20260407-101535-Location-Wise-Product-Shipping-QC\\08-S08-no-zone-match",
+      "failures": []
+    },
+    {
+      "id": "S09-location-zone-method-linked",
+      "success": false,
+      "folder": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\shipping-qc-automation\\reports\\20260407-101535-Location-Wise-Product-Shipping-QC\\incorrect_09-S09-location-zone-method-linked",
+      "failures": [
+        "Expected at least one shipping method, but none found."
+      ]
+    },
+    {
+      "id": "S10-location-zone-only",
+      "success": false,
+      "folder": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\shipping-qc-automation\\reports\\20260407-101535-Location-Wise-Product-Shipping-QC\\incorrect_10-S10-location-zone-only",
+      "failures": [
+        "Expected at least one shipping method, but none found."
+      ]
+    },
+    {
+      "id": "S11-location-no-mapping",
+      "success": false,
+      "folder": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\shipping-qc-automation\\reports\\20260407-101535-Location-Wise-Product-Shipping-QC\\incorrect_11-S11-location-no-mapping",
+      "failures": [
+        "Expected at least one shipping method, but none found."
+      ]
+    },
+    {
+      "id": "S12-location-mismatch",
+      "success": true,
+      "folder": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\shipping-qc-automation\\reports\\20260407-101535-Location-Wise-Product-Shipping-QC\\12-S12-location-mismatch",
+      "failures": []
+    },
+    {
+      "id": "S13-address-change-refresh",
+      "success": false,
+      "folder": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\shipping-qc-automation\\reports\\20260407-101535-Location-Wise-Product-Shipping-QC\\incorrect_13-S13-address-change-refresh",
+      "failures": [
+        "Shipping methods did not change after address update."
+      ]
+    },
+    {
+      "id": "S14-missing-city",
+      "success": false,
+      "folder": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\shipping-qc-automation\\reports\\20260407-101535-Location-Wise-Product-Shipping-QC\\incorrect_14-S14-missing-city",
+      "failures": [
+        "Expected at least one shipping method, but none found."
+      ]
+    },
+    {
+      "id": "S15-missing-postcode",
+      "success": false,
+      "folder": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\shipping-qc-automation\\reports\\20260407-101535-Location-Wise-Product-Shipping-QC\\incorrect_15-S15-missing-postcode",
+      "failures": [
+        "Expected at least one shipping method, but none found."
+      ]
+    },
+    {
+      "id": "S16-invalid-postcode",
+      "success": false,
+      "folder": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\shipping-qc-automation\\reports\\20260407-101535-Location-Wise-Product-Shipping-QC\\incorrect_16-S16-invalid-postcode",
+      "failures": [
+        "Expected at least one shipping method, but none found."
+      ]
+    },
+    {
+      "id": "S17-guest-default",
+      "success": false,
+      "folder": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\shipping-qc-automation\\reports\\20260407-101535-Location-Wise-Product-Shipping-QC\\incorrect_17-S17-guest-default",
+      "failures": [
+        "Expected at least one shipping method, but none found."
+      ]
+    },
+    {
+      "id": "S18-location-switch",
+      "success": false,
+      "folder": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\shipping-qc-automation\\reports\\20260407-101535-Location-Wise-Product-Shipping-QC\\incorrect_18-S18-location-switch",
+      "failures": [
+        "Shipping methods did not change after location update."
+      ]
+    },
+    {
+      "id": "S19-per-location-off-baseline",
+      "success": false,
+      "folder": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\shipping-qc-automation\\reports\\20260407-101535-Location-Wise-Product-Shipping-QC\\incorrect_19-S19-per-location-off-baseline",
+      "failures": [
+        "Expected at least one shipping method, but none found."
+      ]
+    },
+    {
+      "id": "S20-per-location-on-override",
+      "success": false,
+      "folder": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\shipping-qc-automation\\reports\\20260407-101535-Location-Wise-Product-Shipping-QC\\incorrect_20-S20-per-location-on-override",
+      "failures": [
+        "Expected at least one shipping method, but none found."
+      ]
+    },
+    {
+      "id": "S21-virtual-plus-physical",
+      "success": false,
+      "folder": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\shipping-qc-automation\\reports\\20260407-101535-Location-Wise-Product-Shipping-QC\\incorrect_21-S21-virtual-plus-physical",
+      "failures": [
+        "Expected at least one shipping method, but none found."
+      ]
+    },
+    {
+      "id": "S22-session-refresh",
+      "success": false,
+      "folder": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\shipping-qc-automation\\reports\\20260407-101535-Location-Wise-Product-Shipping-QC\\incorrect_22-S22-session-refresh",
+      "failures": [
+        "Expected at least one shipping method, but none found."
+      ]
+    },
+    {
+      "id": "S23-special-char-city",
+      "success": false,
+      "folder": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\shipping-qc-automation\\reports\\20260407-101535-Location-Wise-Product-Shipping-QC\\incorrect_23-S23-special-char-city",
+      "failures": [
+        "Expected at least one shipping method, but none found."
+      ]
+    },
+    {
+      "id": "S24-long-address",
+      "success": false,
+      "folder": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\shipping-qc-automation\\reports\\20260407-101535-Location-Wise-Product-Shipping-QC\\incorrect_24-S24-long-address",
+      "failures": [
+        "Expected at least one shipping method, but none found."
+      ]
+    },
+    {
+      "id": "S25-method-disabled-regression",
+      "success": false,
+      "folder": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\shipping-qc-automation\\reports\\20260407-101535-Location-Wise-Product-Shipping-QC\\incorrect_25-S25-method-disabled-regression",
+      "failures": [
+        "Expected at least one shipping method, but none found."
+      ]
+    },
+    {
+      "id": "S26-zone-deleted-mapping",
+      "success": true,
+      "folder": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\shipping-qc-automation\\reports\\20260407-101535-Location-Wise-Product-Shipping-QC\\26-S26-zone-deleted-mapping",
+      "failures": []
+    },
+    {
+      "id": "S27-location-deactivated",
+      "success": true,
+      "folder": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\shipping-qc-automation\\reports\\20260407-101535-Location-Wise-Product-Shipping-QC\\27-S27-location-deactivated",
+      "failures": []
+    },
+    {
+      "id": "S28-overlap-priority-check",
+      "success": false,
+      "folder": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\shipping-qc-automation\\reports\\20260407-101535-Location-Wise-Product-Shipping-QC\\incorrect_28-S28-overlap-priority-check",
+      "failures": [
+        "Expected at least one shipping method, but none found.",
+        "Expected one of methods to appear: flat rate, local pickup"
+      ]
+    },
+    {
+      "id": "S29-reload-after-address-change",
+      "success": false,
+      "folder": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\shipping-qc-automation\\reports\\20260407-101535-Location-Wise-Product-Shipping-QC\\incorrect_29-S29-reload-after-address-change",
+      "failures": [
+        "Expected at least one shipping method, but none found.",
+        "Shipping methods did not change after address update."
+      ]
+    },
+    {
+      "id": "S30-final-smoke",
+      "success": false,
+      "folder": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\shipping-qc-automation\\reports\\20260407-101535-Location-Wise-Product-Shipping-QC\\incorrect_30-S30-final-smoke",
+      "failures": [
+        "Expected at least one shipping method, but none found."
+      ]
+    }
+  ]
+}

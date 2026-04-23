@@ -1,0 +1,56 @@
+{
+  "ok": false,
+  "failures": [
+    "locator.click: Timeout 120000ms exceeded.\nCall log:\n  - waiting for locator('#submit.button-primary, #edittag #submit').first()\n"
+  ],
+  "zoneMap": {
+    "Dubai": {
+      "zoneId": 1,
+      "editHref": "admin.php?page=wc-settings&tab=shipping&zone_id=1",
+      "from": "existing"
+    },
+    "Canada": {
+      "zoneId": 3,
+      "editHref": "admin.php?page=wc-settings&tab=shipping&zone_id=3",
+      "from": "existing"
+    },
+    "Chiang Mai": {
+      "zoneId": 4,
+      "editHref": "admin.php?page=wc-settings&tab=shipping&zone_id=4",
+      "from": "existing"
+    },
+    "thailand except two locations": {
+      "zoneId": 5,
+      "editHref": "admin.php?page=wc-settings&tab=shipping&zone_id=5",
+      "from": "existing"
+    },
+    "Bangladesh": {
+      "zoneId": 6,
+      "editHref": "admin.php?page=wc-settings&tab=shipping&zone_id=6",
+      "from": "existing"
+    },
+    "Europe": {
+      "zoneId": 8,
+      "editHref": "admin.php?page=wc-settings&tab=shipping&zone_id=8",
+      "from": "existing"
+    },
+    "Kandirpar cumilla": {
+      "zoneId": 9,
+      "editHref": "admin.php?page=wc-settings&tab=shipping&zone_id=9",
+      "from": "existing"
+    },
+    "Continent wise shipping": {
+      "zoneId": 15,
+      "editHref": "admin.php?page=wc-settings&tab=shipping&zone_id=15",
+      "from": "existing"
+    },
+    "QC Asia Auto": {
+      "zoneId": 16,
+      "from": "existing"
+    },
+    "QC Europe Auto": {
+      "zoneId": 17,
+      "from": "created"
+    }
+  }
+}

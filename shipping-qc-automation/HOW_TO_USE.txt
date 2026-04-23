@@ -1,0 +1,170 @@
+SHIPPING QC AUTOMATION - USER GUIDE
+===================================
+
+Location:
+C:\Users\GM Team\OneDrive\Desktop\QC Automation\shipping-qc-automation
+
+Goal:
+This automation opens visual Chrome via Playwright, logs in to WordPress admin if needed,
+PERFORMS SHIPPING SETUP (zones/methods/location assignment/settings), then runs shipping behavior
+scenarios from SHOP -> CHECKOUT, captures screenshots, and marks failed scenarios by prefixing
+folder name with "incorrect_".
+
+
+1) ONE-TIME SETUP
+-----------------
+1. Open terminal in:
+   C:\Users\GM Team\OneDrive\Desktop\QC Automation\shipping-qc-automation
+
+2. Install dependencies:
+   npm install
+
+3. Install Playwright browser:
+   npx playwright install chromium
+
+
+2) RUN AUTOMATION
+-----------------
+Run with visual browser (headed):
+   npm run qc
+
+Force headed:
+   npm run qc:headed
+
+Run headless (background):
+   npm run qc:headless
+
+Run only one specific scenario:
+   node src/run-shipping-qc.js --headed --scenario-id S01-city-priority-zone
+
+Run first N scenarios only:
+   node src/run-shipping-qc.js --headless --limit 5
+
+Run scenarios only (skip admin setup):
+   node src/run-shipping-qc.js --headed --skip-setup
+
+After run completes, report folders are generated inside:
+   .\reports\<timestamp>-Location-Wise-Product-Shipping-QC\
+
+
+3) HOW RESULT FOLDERS WORK
+--------------------------
+Run also creates setup evidence folder:
+   00-setup
+
+Each scenario has its own folder, for example:
+   01-S01-city-priority-zone
+
+If validation fails, folder is automatically renamed to:
+   incorrect_01-S01-city-priority-zone
+
+Inside each scenario folder:
+ - 05-shop-before-add.png
+ - 06-shop-after-add.png
+ - 07-checkout-opened.png
+ - 08-checkout-after-address.png
+ - 09/10/11... (extra screenshots depending on scenario steps)
+ - 12-checkout-final.png
+ - checkout-final.html
+ - result.json
+ - result.txt
+
+
+4) IMPORTANT FILES TO EDIT
+--------------------------
+A) Site settings:
+   .\config\site.config.json
+   (Reusable template: .\config\site.config.template.json)
+
+   Update these fields for any new site:
+   - site.baseUrl
+   - site.adminUrl
+   - site.checkoutUrl
+   - site.cartUrl
+   - site.shopUrl
+   - site.locationSettingsUrl
+   - site.addToCartUrlTemplate
+   - auth.username / auth.password
+   - setup.shippingZones
+   - setup.locationAssignments
+   - defaults.storeLocationCookie
+   - selectors.* (if theme/plugin checkout fields differ)
+   - adminChecks.screenshots URLs (for config evidence pages)
+
+B) Scenario matrix:
+   .\config\shipping-scenarios.json
+
+   For each scenario you can set:
+   - address data
+   - location selection rule
+   - expected validation rules
+   - optional address change or location change
+
+
+5) WHAT SETUP AUTOMATION DOES
+-----------------------------
+Before scenarios, automation does:
+1. Login to wp-admin if needed.
+2. Turn on:
+   - mulopimfwc_display_options[enable_location_shipping] = on
+   - mulopimfwc_display_options[shipping_calculation_method] = per_location
+3. Create shipping zones from setup.shippingZones if missing.
+4. Add shipping method on each configured zone.
+5. Assign shipping zone/method to configured locations.
+
+All these steps show detailed timestamped logs in terminal.
+
+
+6) EXPECTATION RULES (VALIDATION)
+---------------------------------
+In each scenario -> expected:
+
+ - "atLeastOneMethod": true/false
+ - "mustIncludeAnyOf": ["flat rate", "free shipping", ...]
+ - "mustExcludeAll": ["wrong method name", ...]
+ - "methodsShouldChangeAfterAddressUpdate": true
+ - "methodsShouldChangeAfterLocationUpdate": true
+ - "methodsShouldStayStableAfterReload": true
+ - "allowAsPassIfNoMethodMessageContainsAny": ["no shipping", ...]
+
+If any rule fails => scenario folder gets "incorrect_" prefix.
+
+
+7) HOW TO RUN QC ON ANY WEBSITE EASILY
+--------------------------------------
+1. Copy this full folder (shipping-qc-automation) to any PC/site project.
+2. Edit site.config.json with target URLs, login, and selectors.
+3. Edit shipping-scenarios.json with that site's shipping cases.
+4. Run:
+   npm install
+   npx playwright install chromium
+   npm run qc
+5. Review only "incorrect_*" folders first (highest priority failures).
+
+
+8) TROUBLESHOOTING
+------------------
+1. Login failed:
+   - verify username/password in site.config.json
+   - open wp-admin manually and confirm credentials
+
+2. No shipping methods detected:
+   - update selectors.shippingMethods in site.config.json
+   - check checkout HTML for method container structure
+
+3. Location dropdown not selected:
+   - update selectors.locationSelectCandidates
+   - adjust scenario location rule (labelContains/value)
+
+4. Product not in cart:
+   - update defaults.addToCartProductId in site.config.json
+   - or set cart.productId in each scenario
+
+
+9) RECOMMENDED QA PROCESS
+-------------------------
+1. First run: keep broad validations (atLeastOneMethod true/false).
+2. After shipping methods are finalized, add strict expected method labels.
+3. Re-run and use incorrect_ folders as bug list.
+4. Keep screenshots as audit evidence for each release.
+

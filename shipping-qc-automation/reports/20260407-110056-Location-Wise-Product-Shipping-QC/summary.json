@@ -1,0 +1,24 @@
+{
+  "generatedAt": "2026-04-07T05:04:31.328Z",
+  "runDir": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\shipping-qc-automation\\reports\\20260407-110056-Location-Wise-Product-Shipping-QC",
+  "setup": {
+    "ok": false,
+    "failures": [
+      "Too many arguments. If you need to pass more than 1 argument to the function wrap them in an object."
+    ],
+    "zoneMap": {}
+  },
+  "total": 1,
+  "passed": 0,
+  "failed": 1,
+  "scenarios": [
+    {
+      "id": "S01-city-priority-zone",
+      "success": false,
+      "folder": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\shipping-qc-automation\\reports\\20260407-110056-Location-Wise-Product-Shipping-QC\\incorrect_01-S01-city-priority-zone",
+      "failures": [
+        "Runtime error: locator.click: Timeout 120000ms exceeded.\nCall log:\n  - waiting for locator('a.add_to_cart_button').first()\n    - locator resolved to <a rel=\"nofollow\" data-quantity=\"1\" data-product_sku=\"\" data-product_id=\"517\" href=\"/shop/?add-to-cart=517\" aria-label=\"Add to cart: “Apple Laptop”\" class=\"ast-on-card-button ast-select-options-trigger product_type_simple add_to_cart_button ajax_add_to_cart\">…</a>\n  - attempting click action\n    2 × waiting for element to be visible, enabled and stable\n      - element is not visible\n    - retrying click action\n    - waiting 20ms\n    2 × waiting for element to be visible, enabled and stable\n      - element is not visible\n    - retrying click action\n      - waiting 100ms\n    231 × waiting for element to be visible, enabled and stable\n        - element is not visible\n      - retrying click action\n        - waiting 500ms\n"
+      ]
+    }
+  ]
+}

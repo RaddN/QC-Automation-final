@@ -1,0 +1,12 @@
+{
+  "name": "dapf-filter-qc",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Reusable QC automation for Dynamic AJAX Product Filters for WooCommerce storefronts.",
+  "scripts": {
+    "qc": "node src/run-qc.js"
+  },
+  "dependencies": {
+    "playwright": "^1.54.2"
+  }
+}

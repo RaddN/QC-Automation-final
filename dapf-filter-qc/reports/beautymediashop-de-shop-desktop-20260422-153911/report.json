@@ -1,0 +1,1983 @@
+{
+  "siteLabel": "beautymediashop-de-shop",
+  "runMode": "url-auto",
+  "deviceMode": "desktop",
+  "baseUrl": "https://beautymediashop.de/shop/",
+  "configPath": null,
+  "outputDir": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\dapf-filter-qc\\reports\\beautymediashop-de-shop-desktop-20260422-153911",
+  "reportJsonPath": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\dapf-filter-qc\\reports\\beautymediashop-de-shop-desktop-20260422-153911\\report.json",
+  "reportMarkdownPath": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\dapf-filter-qc\\reports\\beautymediashop-de-shop-desktop-20260422-153911\\report.md",
+  "generatedConfigPath": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\dapf-filter-qc\\reports\\beautymediashop-de-shop-desktop-20260422-153911\\generated-config.json",
+  "startedAt": "2026-04-22T09:39:39.492Z",
+  "finishedAt": "2026-04-22T09:50:08.847Z",
+  "baselineSummary": {
+    "resultCount": null,
+    "emptyMessage": null,
+    "titles": [
+      "Abonnement Vertrag für kosmetische Behandlungen",
+      "Allgemeine Geschäftsbedingungen",
+      "Anzahlungsvereinbarung",
+      "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+      "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+    ]
+  },
+  "totalActionTests": 5,
+  "totalFilterTests": 18,
+  "passedActionTests": 3,
+  "passedFilterTests": 0,
+  "failedCount": 20,
+  "skippedActionTests": 3,
+  "actionTests": [
+    {
+      "id": "action-overlay-toggle",
+      "title": "Overlay toggle",
+      "skipped": true,
+      "passed": true,
+      "issues": [],
+      "reason": "Overlay button was not found for this viewport."
+    },
+    {
+      "id": "action-shortcode-toggle",
+      "title": "Shortcode collapsible toggle",
+      "skipped": true,
+      "passed": true,
+      "issues": [],
+      "reason": "Shortcode collapsible wrapper was not found."
+    },
+    {
+      "id": "action-collapse-toggle",
+      "title": "Collapse toggle on plugincy_rating",
+      "beforeDisplay": "block",
+      "afterCollapseDisplay": "block",
+      "afterExpandDisplay": "block",
+      "messages": [],
+      "issues": [
+        "Collapse toggle did not consistently hide and restore items."
+      ],
+      "passed": false
+    },
+    {
+      "id": "action-option-search",
+      "title": "Internal option search",
+      "skipped": true,
+      "passed": true,
+      "issues": [],
+      "reason": "Field (auto not found) was not found."
+    },
+    {
+      "id": "action-reset-filters",
+      "title": "Reset Filters on plugincy_rating",
+      "applyMechanism": "auto-change",
+      "resetMechanism": "not-found",
+      "baselineUrl": "https://beautymediashop.de/shop/",
+      "filteredUrl": "https://beautymediashop.de/shop/",
+      "resetUrl": "https://beautymediashop.de/shop/",
+      "stateBeforeReset": [
+        "5"
+      ],
+      "stateAfterReset": [
+        "5"
+      ],
+      "resetSummary": {
+        "resultCount": null,
+        "emptyMessage": "Es wurden keine Produkte gefunden, die Ihrer Auswahl entsprechen.",
+        "titles": []
+      },
+      "messages": [
+        {
+          "type": "requestfailed",
+          "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776850814321&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AEEAAAQ&ae=a&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=5&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=2&tag_exp=0~115938465~115938468~117266400~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=form_start&ep.form_id=product-filter&ep.form_name=&ep.form_destination=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&epn.form_length=1866&ep.first_field_id=&ep.first_field_name=rating%5B%5D&ep.first_field_type=checkbox&epn.first_field_position=2&_et=9491&tfd=15450 :: net::ERR_ABORTED"
+        }
+      ],
+      "issues": [
+        "Precondition failed because the filter did not create a filtered URL before reset.",
+        "Reset Filters did not clear the selected option state.",
+        "Reset action was not found in the current filter UI.",
+        "Browser console/request errors were emitted during reset."
+      ],
+      "passed": false
+    }
+  ],
+  "filterTests": [
+    {
+      "id": "search_text",
+      "title": "Filter",
+      "kind": "text",
+      "expected": {
+        "plugincy_search": "Vorabinformationen Mesotherapie"
+      },
+      "baselineUrl": "https://beautymediashop.de/shop/",
+      "baselineSummary": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ]
+      },
+      "applyMechanism": "auto-change",
+      "applyUrl": "https://beautymediashop.de/shop/",
+      "reloadUrl": "https://beautymediashop.de/shop/",
+      "urlChanged": false,
+      "reloadUrlStable": true,
+      "stateAfterApply": {
+        "plugincy_search": "Vorabinformationen Mesotherapie"
+      },
+      "stateAfterReload": {
+        "plugincy_search": ""
+      },
+      "applyStateOk": true,
+      "reloadStateOk": false,
+      "summaryAfterApply": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ]
+      },
+      "summaryAfterReload": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ]
+      },
+      "issues": [
+        "Filtered URL did not change after the filter interaction.",
+        "Selected state was not preserved after page reload.",
+        "Browser console/request errors were emitted during this flow."
+      ],
+      "messages": [
+        {
+          "type": "requestfailed",
+          "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776850843951&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AEEAAAQ&ae=a&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=1&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=2&tag_exp=0~115938465~115938468~117266401~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=form_start&ep.form_id=product-filter&ep.form_name=&ep.form_destination=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&epn.form_length=1866&ep.first_field_id=plugincy-search-field&ep.first_field_name=plugincy_search&ep.first_field_type=search&epn.first_field_position=1&_et=9480&tfd=15457 :: net::ERR_ABORTED"
+        },
+        {
+          "type": "requestfailed",
+          "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776850843951&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=1&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=3&tag_exp=0~115938465~115938468~117266401~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=user_engagement&_et=10233&tfd=20692 :: net::ERR_ABORTED"
+        },
+        {
+          "type": "requestfailed",
+          "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195z89238224015za20gzb9238224015zd9238224015&_p=1776850864042&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=16&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=1&tag_exp=0~115938465~115938469~117266400~117384406~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=page_view&tfd=5707 :: net::ERR_ABORTED"
+        }
+      ],
+      "screenshot": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\dapf-filter-qc\\reports\\beautymediashop-de-shop-desktop-20260422-153911\\fail-search-text-apply-reload.png",
+      "passed": false
+    },
+    {
+      "id": "plugincy_rating",
+      "title": "Rating Reset",
+      "kind": "checkboxes",
+      "expected": [
+        "5"
+      ],
+      "baselineUrl": "https://beautymediashop.de/shop/",
+      "baselineSummary": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ]
+      },
+      "applyMechanism": "auto-change",
+      "applyUrl": "https://beautymediashop.de/shop/",
+      "reloadUrl": "https://beautymediashop.de/shop/",
+      "urlChanged": false,
+      "reloadUrlStable": true,
+      "stateAfterApply": [
+        "5"
+      ],
+      "stateAfterReload": [],
+      "applyStateOk": true,
+      "reloadStateOk": false,
+      "summaryAfterApply": {
+        "resultCount": null,
+        "emptyMessage": "Es wurden keine Produkte gefunden, die Ihrer Auswahl entsprechen.",
+        "titles": []
+      },
+      "summaryAfterReload": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ]
+      },
+      "issues": [
+        "Filtered URL did not change after the filter interaction.",
+        "Selected state was not preserved after page reload.",
+        "Browser console/request errors were emitted during this flow."
+      ],
+      "messages": [
+        {
+          "type": "requestfailed",
+          "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776850877012&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AEEAAAQ&ae=a&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=10&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=2&tag_exp=0~115938465~115938469~117266400~117512543~118463261&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=form_start&ep.form_id=product-filter&ep.form_name=&ep.form_destination=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&epn.form_length=1866&ep.first_field_id=&ep.first_field_name=rating%5B%5D&ep.first_field_type=checkbox&epn.first_field_position=2&_et=9504&tfd=17610 :: net::ERR_ABORTED"
+        },
+        {
+          "type": "requestfailed",
+          "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776850877012&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=10&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=3&tag_exp=0~115938465~115938469~117266400~117512543~118463261&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=user_engagement&_et=11621&tfd=24233 :: net::ERR_ABORTED"
+        },
+        {
+          "type": "requestfailed",
+          "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195z89238224015za20gzb9238224015zd9238224015&_p=1776850898531&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=19&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=1&tag_exp=0~115938465~115938469~117266400~117384406~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=page_view&tfd=7016 :: net::ERR_ABORTED"
+        }
+      ],
+      "screenshot": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\dapf-filter-qc\\reports\\beautymediashop-de-shop-desktop-20260422-153911\\fail-plugincy-rating-apply-reload.png",
+      "passed": false
+    },
+    {
+      "id": "price-range",
+      "title": "Preisspanne",
+      "kind": "inputs",
+      "expected": {
+        "mn_price": "419",
+        "mx_price": "2680"
+      },
+      "baselineUrl": "https://beautymediashop.de/shop/",
+      "baselineSummary": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ]
+      },
+      "applyMechanism": "auto-change",
+      "applyUrl": "https://beautymediashop.de/shop/",
+      "reloadUrl": "https://beautymediashop.de/shop/",
+      "urlChanged": false,
+      "reloadUrlStable": true,
+      "stateAfterApply": {
+        "mn_price": "419",
+        "mx_price": "2680"
+      },
+      "stateAfterReload": {
+        "mn_price": "0",
+        "mx_price": "99"
+      },
+      "applyStateOk": true,
+      "reloadStateOk": false,
+      "summaryAfterApply": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ]
+      },
+      "summaryAfterReload": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ]
+      },
+      "issues": [
+        "Filtered URL did not change after the filter interaction.",
+        "Selected state was not preserved after page reload.",
+        "Browser console/request errors were emitted during this flow."
+      ],
+      "messages": [
+        {
+          "type": "requestfailed",
+          "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776850910595&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AEEAAAQ&ae=a&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=13&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=2&tag_exp=0~115616985~115938465~115938469~117266400~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=form_start&gap.plf=4.5.3&ep.form_id=product-filter&ep.form_name=&ep.form_destination=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&epn.form_length=1866&ep.first_field_id=min-price&ep.first_field_name=mn_price&ep.first_field_type=number&epn.first_field_position=7&_et=9474&tfd=16667 :: net::ERR_ABORTED"
+        },
+        {
+          "type": "requestfailed",
+          "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776850910595&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=13&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=3&tag_exp=0~115616985~115938465~115938469~117266400~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=user_engagement&gap.plf=4.5.3&_et=10408&tfd=22063 :: net::ERR_ABORTED"
+        },
+        {
+          "type": "requestfailed",
+          "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195z89238224015za20gzb9238224015zd9238224015&_p=1776850930892&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=5&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=1&tag_exp=0~115616985~115938466~115938469~117266400~117512543~118463800&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=page_view&gap.plf=4.5.3&tfd=5695 :: net::ERR_ABORTED"
+        }
+      ],
+      "screenshot": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\dapf-filter-qc\\reports\\beautymediashop-de-shop-desktop-20260422-153911\\fail-price-range-apply-reload.png",
+      "passed": false
+    },
+    {
+      "id": "category-with-child",
+      "title": "Übungsblätter",
+      "kind": "checkboxes",
+      "expected": [
+        "uebungsblaetter"
+      ],
+      "baselineUrl": "https://beautymediashop.de/shop/",
+      "baselineSummary": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ]
+      },
+      "applyMechanism": "auto-change",
+      "applyUrl": "https://beautymediashop.de/shop/",
+      "reloadUrl": "https://beautymediashop.de/shop/",
+      "urlChanged": false,
+      "reloadUrlStable": true,
+      "stateAfterApply": [],
+      "stateAfterReload": [],
+      "applyStateOk": false,
+      "reloadStateOk": false,
+      "summaryAfterApply": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ]
+      },
+      "summaryAfterReload": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ]
+      },
+      "issues": [
+        "Filtered URL did not change after the filter interaction.",
+        "Selected state was not preserved immediately after apply.",
+        "Selected state was not preserved after page reload.",
+        "Browser console/request errors were emitted during this flow."
+      ],
+      "messages": [
+        {
+          "type": "requestfailed",
+          "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776850941745&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=8&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=2&tag_exp=0~115616985~115938465~115938468~117266400~117512543~118463262&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=user_engagement&gap.plf=4.5.3&_et=20187&tfd=21188 :: net::ERR_ABORTED"
+        },
+        {
+          "type": "requestfailed",
+          "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195z89238224015za20gzb9238224015zd9238224015&_p=1776850962326&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=12&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=1&tag_exp=0~115938465~115938469~117266400~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=page_view&tfd=5714 :: net::ERR_ABORTED"
+        }
+      ],
+      "screenshot": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\dapf-filter-qc\\reports\\beautymediashop-de-shop-desktop-20260422-153911\\fail-category-with-child-apply-reload.png",
+      "passed": false
+    },
+    {
+      "id": "fb_product_group_id",
+      "title": "Fb Product Group Id",
+      "kind": "checkboxes",
+      "expected": [
+        "10031355086958278",
+        "10049395145178186"
+      ],
+      "baselineUrl": "https://beautymediashop.de/shop/",
+      "baselineSummary": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ]
+      },
+      "applyMechanism": "auto-change",
+      "applyUrl": "https://beautymediashop.de/shop/",
+      "reloadUrl": "https://beautymediashop.de/shop/",
+      "urlChanged": false,
+      "reloadUrlStable": true,
+      "stateAfterApply": [
+        "10031355086958278",
+        "10049395145178186"
+      ],
+      "stateAfterReload": [],
+      "applyStateOk": true,
+      "reloadStateOk": false,
+      "summaryAfterApply": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Kundenkartei für die Fußreflexzonenmassage",
+          "Nebenwirkung medizinische Fußpflege"
+        ]
+      },
+      "summaryAfterReload": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ]
+      },
+      "issues": [
+        "Filtered URL did not change after the filter interaction.",
+        "Selected state was not preserved after page reload.",
+        "Browser console/request errors were emitted during this flow."
+      ],
+      "messages": [
+        {
+          "type": "requestfailed",
+          "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776850973186&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AEEAAAQ&ae=a&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=11&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=2&tag_exp=0~115938466~115938469~117266401~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=form_start&ep.form_id=product-filter&ep.form_name=&ep.form_destination=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&epn.form_length=1866&ep.first_field_id=&ep.first_field_name=custom_meta%5Bfb_product_group_id%5D%5B%5D&ep.first_field_type=checkbox&epn.first_field_position=653&_et=9492&tfd=15444 :: net::ERR_ABORTED"
+        },
+        {
+          "type": "requestfailed",
+          "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776850973186&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=11&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=3&tag_exp=0~115938466~115938469~117266401~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=user_engagement&_et=10498&tfd=20945 :: net::ERR_ABORTED"
+        },
+        {
+          "type": "requestfailed",
+          "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195z89238224015za20gzb9238224015zd9238224015&_p=1776850993545&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=0&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=1&tag_exp=0~115938465~115938469~117266401~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=page_view&tfd=5686 :: net::ERR_ABORTED"
+        }
+      ],
+      "screenshot": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\dapf-filter-qc\\reports\\beautymediashop-de-shop-desktop-20260422-153911\\fail-fb-product-group-id-apply-reload.png",
+      "passed": false
+    },
+    {
+      "id": "fb_product_item_id",
+      "title": "Fb Product Item Id",
+      "kind": "checkboxes",
+      "expected": [
+        "10031355593624894",
+        "10049432308473524"
+      ],
+      "baselineUrl": "https://beautymediashop.de/shop/",
+      "baselineSummary": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ]
+      },
+      "applyMechanism": "auto-change",
+      "applyUrl": "https://beautymediashop.de/shop/",
+      "reloadUrl": "https://beautymediashop.de/shop/",
+      "urlChanged": false,
+      "reloadUrlStable": true,
+      "stateAfterApply": [
+        "10031355593624894",
+        "10049432308473524"
+      ],
+      "stateAfterReload": [],
+      "applyStateOk": true,
+      "reloadStateOk": false,
+      "summaryAfterApply": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Kundenkartei für die Fußreflexzonenmassage",
+          "Kundenkartei für Ultraschallbehandlungen"
+        ]
+      },
+      "summaryAfterReload": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ]
+      },
+      "issues": [
+        "Filtered URL did not change after the filter interaction.",
+        "Selected state was not preserved after page reload.",
+        "Browser console/request errors were emitted during this flow."
+      ],
+      "messages": [
+        {
+          "type": "requestfailed",
+          "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776851004436&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AEEAAAQ&ae=a&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=3&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=2&tag_exp=0~115938465~115938468~117266401~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=form_start&ep.form_id=product-filter&ep.form_name=&ep.form_destination=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&epn.form_length=1866&ep.first_field_id=&ep.first_field_name=custom_meta%5Bfb_product_item_id%5D%5B%5D&ep.first_field_type=checkbox&epn.first_field_position=801&_et=9511&tfd=15549 :: net::ERR_ABORTED"
+        },
+        {
+          "type": "requestfailed",
+          "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776851004436&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=3&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=3&tag_exp=0~115938465~115938468~117266401~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=user_engagement&_et=10504&tfd=21044 :: net::ERR_ABORTED"
+        },
+        {
+          "type": "requestfailed",
+          "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195z89238224015za20gzb9238224015zd9238224015&_p=1776851024885&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=18&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=1&tag_exp=0~115938466~115938469~117266400~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=page_view&tfd=5692 :: net::ERR_ABORTED"
+        }
+      ],
+      "screenshot": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\dapf-filter-qc\\reports\\beautymediashop-de-shop-desktop-20260422-153911\\fail-fb-product-item-id-apply-reload.png",
+      "passed": false
+    },
+    {
+      "id": "fb_product_video",
+      "title": "Fb Product Video",
+      "kind": "checkboxes",
+      "expected": [
+        "a0"
+      ],
+      "baselineUrl": "https://beautymediashop.de/shop/",
+      "baselineSummary": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ]
+      },
+      "applyMechanism": "auto-change",
+      "applyUrl": "https://beautymediashop.de/shop/",
+      "reloadUrl": "https://beautymediashop.de/shop/",
+      "urlChanged": false,
+      "reloadUrlStable": true,
+      "stateAfterApply": [
+        "a0"
+      ],
+      "stateAfterReload": [],
+      "applyStateOk": true,
+      "reloadStateOk": false,
+      "summaryAfterApply": {
+        "resultCount": null,
+        "emptyMessage": "Es wurden keine Produkte gefunden, die Ihrer Auswahl entsprechen.",
+        "titles": []
+      },
+      "summaryAfterReload": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ]
+      },
+      "issues": [
+        "Filtered URL did not change after the filter interaction.",
+        "Selected state was not preserved after page reload.",
+        "Browser console/request errors were emitted during this flow."
+      ],
+      "messages": [
+        {
+          "type": "requestfailed",
+          "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776851035782&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AEEAAAQ&ae=a&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=15&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=2&tag_exp=0~115938465~115938469~117266400~117512543~117884344~118128922&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=form_start&ep.form_id=product-filter&ep.form_name=&ep.form_destination=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&epn.form_length=1866&ep.first_field_id=&ep.first_field_name=custom_meta%5Bfb_product_video%5D%5B%5D&ep.first_field_type=checkbox&epn.first_field_position=1166&_et=9493&tfd=15474 :: net::ERR_ABORTED"
+        },
+        {
+          "type": "requestfailed",
+          "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776851035782&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=15&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=3&tag_exp=0~115938465~115938469~117266400~117512543~117884344~118128922&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=user_engagement&_et=10297&tfd=20773 :: net::ERR_ABORTED"
+        },
+        {
+          "type": "requestfailed",
+          "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195z89238224015za20gzb9238224015zd9238224015&_p=1776851055946&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=13&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=1&tag_exp=0~115938466~115938469~117266401~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=page_view&tfd=5723 :: net::ERR_ABORTED"
+        }
+      ],
+      "screenshot": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\dapf-filter-qc\\reports\\beautymediashop-de-shop-desktop-20260422-153911\\fail-fb-product-video-apply-reload.png",
+      "passed": false
+    },
+    {
+      "id": "fb_visibility",
+      "title": "Fb Visibility",
+      "kind": "checkboxes",
+      "expected": [
+        "no"
+      ],
+      "baselineUrl": "https://beautymediashop.de/shop/",
+      "baselineSummary": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ]
+      },
+      "applyMechanism": "auto-change",
+      "applyUrl": "https://beautymediashop.de/shop/",
+      "reloadUrl": "https://beautymediashop.de/shop/",
+      "urlChanged": false,
+      "reloadUrlStable": true,
+      "stateAfterApply": [
+        "no"
+      ],
+      "stateAfterReload": [],
+      "applyStateOk": true,
+      "reloadStateOk": false,
+      "summaryAfterApply": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ]
+      },
+      "summaryAfterReload": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ]
+      },
+      "issues": [
+        "Filtered URL did not change after the filter interaction.",
+        "Selected state was not preserved after page reload.",
+        "Browser console/request errors were emitted during this flow."
+      ],
+      "messages": [
+        {
+          "type": "requestfailed",
+          "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776851066854&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AEEAAAQ&ae=a&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=5&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=2&tag_exp=0~115616985~115938466~115938468~117266401~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=form_start&gap.plf=4.5.3&ep.form_id=product-filter&ep.form_name=&ep.form_destination=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&epn.form_length=1866&ep.first_field_id=&ep.first_field_name=custom_meta%5Bfb_visibility%5D%5B%5D&ep.first_field_type=checkbox&epn.first_field_position=1167&_et=9498&tfd=15479 :: net::ERR_ABORTED"
+        },
+        {
+          "type": "requestfailed",
+          "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776851066854&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=5&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=3&tag_exp=0~115616985~115938466~115938468~117266401~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=user_engagement&gap.plf=4.5.3&_et=10296&tfd=20771 :: net::ERR_ABORTED"
+        },
+        {
+          "type": "requestfailed",
+          "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195z89238224015za20gzb9238224015zd9238224015&_p=1776851087023&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=14&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=1&tag_exp=0~115938465~115938468~117266401~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=page_view&tfd=5700 :: net::ERR_ABORTED"
+        }
+      ],
+      "screenshot": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\dapf-filter-qc\\reports\\beautymediashop-de-shop-desktop-20260422-153911\\fail-fb-visibility-apply-reload.png",
+      "passed": false
+    },
+    {
+      "id": "import_started_at",
+      "title": "Import Started At",
+      "kind": "checkboxes",
+      "expected": [
+        "1715604732",
+        "1715610389"
+      ],
+      "baselineUrl": "https://beautymediashop.de/shop/",
+      "baselineSummary": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ]
+      },
+      "applyMechanism": "auto-change",
+      "applyUrl": "https://beautymediashop.de/shop/",
+      "reloadUrl": "https://beautymediashop.de/shop/",
+      "urlChanged": false,
+      "reloadUrlStable": true,
+      "stateAfterApply": [
+        "1715604732",
+        "1715610389"
+      ],
+      "stateAfterReload": [],
+      "applyStateOk": true,
+      "reloadStateOk": false,
+      "summaryAfterApply": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ]
+      },
+      "summaryAfterReload": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ]
+      },
+      "issues": [
+        "Filtered URL did not change after the filter interaction.",
+        "Selected state was not preserved after page reload.",
+        "Browser console/request errors were emitted during this flow."
+      ],
+      "messages": [
+        {
+          "type": "requestfailed",
+          "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776851097971&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AEEAAAQ&ae=a&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=7&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=2&tag_exp=0~115938466~115938469~117266401~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=form_start&ep.form_id=product-filter&ep.form_name=&ep.form_destination=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&epn.form_length=1866&ep.first_field_id=&ep.first_field_name=custom_meta%5Bimport_started_at%5D%5B%5D&ep.first_field_type=checkbox&epn.first_field_position=1168&_et=9493&tfd=15533 :: net::ERR_ABORTED"
+        },
+        {
+          "type": "requestfailed",
+          "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776851097971&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=7&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=3&tag_exp=0~115938466~115938469~117266401~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=user_engagement&_et=10543&tfd=21078 :: net::ERR_ABORTED"
+        },
+        {
+          "type": "requestfailed",
+          "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195z89238224015za20gzb9238224015zd9238224015&_p=1776851118393&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=16&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=1&tag_exp=0~115938466~115938468~117266400~117384406~117512543~118463262&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=page_view&tfd=5706 :: net::ERR_ABORTED"
+        }
+      ],
+      "screenshot": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\dapf-filter-qc\\reports\\beautymediashop-de-shop-desktop-20260422-153911\\fail-import-started-at-apply-reload.png",
+      "passed": false
+    },
+    {
+      "id": "import_uid",
+      "title": "Import Uid",
+      "kind": "checkboxes",
+      "expected": [
+        "6633bd73d82b4",
+        "6642064447baa"
+      ],
+      "baselineUrl": "https://beautymediashop.de/shop/",
+      "baselineSummary": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ]
+      },
+      "applyMechanism": "auto-change",
+      "applyUrl": "https://beautymediashop.de/shop/",
+      "reloadUrl": "https://beautymediashop.de/shop/",
+      "urlChanged": false,
+      "reloadUrlStable": true,
+      "stateAfterApply": [
+        "6633bd73d82b4",
+        "6642064447baa"
+      ],
+      "stateAfterReload": [],
+      "applyStateOk": true,
+      "reloadStateOk": false,
+      "summaryAfterApply": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ]
+      },
+      "summaryAfterReload": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ]
+      },
+      "issues": [
+        "Filtered URL did not change after the filter interaction.",
+        "Selected state was not preserved after page reload.",
+        "Browser console/request errors were emitted during this flow."
+      ],
+      "messages": [
+        {
+          "type": "requestfailed",
+          "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776851129289&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AEEAAAQ&ae=a&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=18&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=2&tag_exp=0~115616985~115938466~115938469~117266401~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=form_start&gap.plf=4.5.3&ep.form_id=product-filter&ep.form_name=&ep.form_destination=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&epn.form_length=1866&ep.first_field_id=&ep.first_field_name=custom_meta%5Bimport_uid%5D%5B%5D&ep.first_field_type=checkbox&epn.first_field_position=1171&_et=9498&tfd=15526 :: net::ERR_ABORTED"
+        },
+        {
+          "type": "requestfailed",
+          "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776851129289&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=18&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=3&tag_exp=0~115616985~115938466~115938469~117266401~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=user_engagement&gap.plf=4.5.3&_et=10509&tfd=21035 :: net::ERR_ABORTED"
+        },
+        {
+          "type": "requestfailed",
+          "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195z89238224015za20gzb9238224015zd9238224015&_p=1776851149734&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=17&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=1&tag_exp=0~115938466~115938468~117266400~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=page_view&tfd=5678 :: net::ERR_ABORTED"
+        }
+      ],
+      "screenshot": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\dapf-filter-qc\\reports\\beautymediashop-de-shop-desktop-20260422-153911\\fail-import-uid-apply-reload.png",
+      "passed": false
+    },
+    {
+      "id": "name_it",
+      "title": "Name It",
+      "kind": "checkboxes",
+      "expected": [
+        "accordo-acconto",
+        "accordo-cliente-per-autorizzazione-foto-sconto"
+      ],
+      "baselineUrl": "https://beautymediashop.de/shop/",
+      "baselineSummary": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ]
+      },
+      "applyMechanism": "auto-change",
+      "applyUrl": "https://beautymediashop.de/shop/",
+      "reloadUrl": "https://beautymediashop.de/shop/",
+      "urlChanged": false,
+      "reloadUrlStable": true,
+      "stateAfterApply": [
+        "accordo-acconto",
+        "accordo-cliente-per-autorizzazione-foto-sconto"
+      ],
+      "stateAfterReload": [],
+      "applyStateOk": true,
+      "reloadStateOk": false,
+      "summaryAfterApply": {
+        "resultCount": null,
+        "emptyMessage": "Es wurden keine Produkte gefunden, die Ihrer Auswahl entsprechen.",
+        "titles": []
+      },
+      "summaryAfterReload": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ]
+      },
+      "issues": [
+        "Filtered URL did not change after the filter interaction.",
+        "Selected state was not preserved after page reload.",
+        "Browser console/request errors were emitted during this flow."
+      ],
+      "messages": [
+        {
+          "type": "requestfailed",
+          "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776851160573&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AEEAAAQ&ae=a&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=3&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=2&tag_exp=0~115616986~115938466~115938469~117266401~117384406~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=form_start&ep.form_id=product-filter&ep.form_name=&ep.form_destination=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&epn.form_length=1866&ep.first_field_id=&ep.first_field_name=custom_meta%5Bname_it%5D%5B%5D&ep.first_field_type=checkbox&epn.first_field_position=1173&_et=9501&tfd=15467 :: net::ERR_ABORTED"
+        },
+        {
+          "type": "requestfailed",
+          "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776851160573&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=3&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=3&tag_exp=0~115616986~115938466~115938469~117266401~117384406~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=user_engagement&_et=10513&tfd=20982 :: net::ERR_ABORTED"
+        },
+        {
+          "type": "requestfailed",
+          "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195z89238224015za20gzb9238224015zd9238224015&_p=1776851180976&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=9&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=1&tag_exp=0~115616985~115938466~115938468~117266401~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=page_view&gap.plf=4.5.3&tfd=5717 :: net::ERR_ABORTED"
+        }
+      ],
+      "screenshot": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\dapf-filter-qc\\reports\\beautymediashop-de-shop-desktop-20260422-153911\\fail-name-it-apply-reload.png",
+      "passed": false
+    },
+    {
+      "id": "total_sales",
+      "title": "Total Sales",
+      "kind": "checkboxes",
+      "expected": [
+        "0",
+        "1"
+      ],
+      "baselineUrl": "https://beautymediashop.de/shop/",
+      "baselineSummary": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ]
+      },
+      "applyMechanism": "auto-change",
+      "applyUrl": "https://beautymediashop.de/shop/",
+      "reloadUrl": "https://beautymediashop.de/shop/",
+      "urlChanged": false,
+      "reloadUrlStable": true,
+      "stateAfterApply": [
+        "0",
+        "1"
+      ],
+      "stateAfterReload": [],
+      "applyStateOk": true,
+      "reloadStateOk": false,
+      "summaryAfterApply": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Beschwerde / Verbesserung / Lob – Formular für Kundenmeinung",
+          "Bundle Professional Studiounterlagen",
+          "Bundle Ultra Studiounterlagen",
+          "Checkliste für die Körperanalyse",
+          "Einverständnis Ayurveda Massage"
+        ]
+      },
+      "summaryAfterReload": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ]
+      },
+      "issues": [
+        "Filtered URL did not change after the filter interaction.",
+        "Selected state was not preserved after page reload.",
+        "Browser console/request errors were emitted during this flow."
+      ],
+      "messages": [
+        {
+          "type": "requestfailed",
+          "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776851191859&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AEEAAAQ&ae=a&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=11&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=2&tag_exp=0~115938465~115938469~117266400~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=form_start&ep.form_id=product-filter&ep.form_name=&ep.form_destination=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&epn.form_length=1866&ep.first_field_id=&ep.first_field_name=custom_meta%5Btotal_sales%5D%5B%5D&ep.first_field_type=checkbox&epn.first_field_position=1811&_et=9498&tfd=15501 :: net::ERR_ABORTED"
+        },
+        {
+          "type": "requestfailed",
+          "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776851191859&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=11&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=3&tag_exp=0~115938465~115938469~117266400~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=user_engagement&_et=10507&tfd=21002 :: net::ERR_ABORTED"
+        },
+        {
+          "type": "requestfailed",
+          "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195z89238224015za20gzb9238224015zd9238224015&_p=1776851212260&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=16&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=1&tag_exp=0~115616985~115938466~115938468~117266400~117512543~117884344~118463261&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=page_view&gap.plf=4.5.3&tfd=5702 :: net::ERR_ABORTED"
+        }
+      ],
+      "screenshot": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\dapf-filter-qc\\reports\\beautymediashop-de-shop-desktop-20260422-153911\\fail-total-sales-apply-reload.png",
+      "passed": false
+    },
+    {
+      "id": "wholesale_customer_have_wholesale_price",
+      "title": "Wholesale Customer Have Wholesale Price",
+      "kind": "checkboxes",
+      "expected": [
+        "no"
+      ],
+      "baselineUrl": "https://beautymediashop.de/shop/",
+      "baselineSummary": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ]
+      },
+      "applyMechanism": "auto-change",
+      "applyUrl": "https://beautymediashop.de/shop/",
+      "reloadUrl": "https://beautymediashop.de/shop/",
+      "urlChanged": false,
+      "reloadUrlStable": true,
+      "stateAfterApply": [
+        "no"
+      ],
+      "stateAfterReload": [],
+      "applyStateOk": true,
+      "reloadStateOk": false,
+      "summaryAfterApply": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Einverständnis für das Areola Tattoo",
+          "Einverständnis für die Mesotherapie",
+          "Nebenwirkung der Keratin Haarglättung",
+          "Nebenwirkungen der Kryolipolyse",
+          "Paket – Airbrush Brows Behandlung"
+        ]
+      },
+      "summaryAfterReload": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ]
+      },
+      "issues": [
+        "Filtered URL did not change after the filter interaction.",
+        "Selected state was not preserved after page reload.",
+        "Browser console/request errors were emitted during this flow."
+      ],
+      "messages": [
+        {
+          "type": "requestfailed",
+          "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776851223160&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AEEAAAQ&ae=a&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=11&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=2&tag_exp=0~115938465~115938469~117266400~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=form_start&ep.form_id=product-filter&ep.form_name=&ep.form_destination=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&epn.form_length=1866&ep.first_field_id=&ep.first_field_name=custom_meta%5Bwholesale_customer_have_wholesale_price%5D%5B%5D&ep.first_field_type=checkbox&epn.first_field_position=1833&_et=9487&tfd=15513 :: net::ERR_ABORTED"
+        },
+        {
+          "type": "requestfailed",
+          "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776851223160&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=11&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=3&tag_exp=0~115938465~115938469~117266400~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=user_engagement&_et=10286&tfd=20791 :: net::ERR_ABORTED"
+        },
+        {
+          "type": "requestfailed",
+          "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195z89238224015za20gzb9238224015zd9238224015&_p=1776851243349&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=10&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=1&tag_exp=0~115938466~115938468~117266401~117512543~118128923&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=page_view&tfd=5690 :: net::ERR_ABORTED"
+        }
+      ],
+      "screenshot": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\dapf-filter-qc\\reports\\beautymediashop-de-shop-desktop-20260422-153911\\fail-wholesale-customer-have-wholesale-price-apply-reload.png",
+      "passed": false
+    },
+    {
+      "id": "tag",
+      "title": "Tags",
+      "kind": "checkboxes",
+      "expected": [
+        "abonnement-vertrag"
+      ],
+      "baselineUrl": "https://beautymediashop.de/shop/",
+      "baselineSummary": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ]
+      },
+      "applyMechanism": "auto-change",
+      "applyUrl": "https://beautymediashop.de/shop/",
+      "reloadUrl": "https://beautymediashop.de/shop/",
+      "urlChanged": false,
+      "reloadUrlStable": true,
+      "stateAfterApply": [
+        "abonnement-vertrag"
+      ],
+      "stateAfterReload": [],
+      "applyStateOk": true,
+      "reloadStateOk": false,
+      "summaryAfterApply": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen"
+        ]
+      },
+      "summaryAfterReload": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ]
+      },
+      "issues": [
+        "Filtered URL did not change after the filter interaction.",
+        "Selected state was not preserved after page reload.",
+        "Browser console/request errors were emitted during this flow."
+      ],
+      "messages": [
+        {
+          "type": "requestfailed",
+          "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776851254250&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AEEAAAQ&ae=a&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=3&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=2&tag_exp=0~115616985~115938466~115938469~117266401~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=form_start&gap.plf=4.5.3&ep.form_id=product-filter&ep.form_name=&ep.form_destination=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&epn.form_length=1866&ep.first_field_id=&ep.first_field_name=tags%5B%5D&ep.first_field_type=checkbox&epn.first_field_position=1834&_et=9483&tfd=15454 :: net::ERR_ABORTED"
+        },
+        {
+          "type": "requestfailed",
+          "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776851254250&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=3&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=3&tag_exp=0~115616985~115938466~115938469~117266401~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=user_engagement&gap.plf=4.5.3&_et=10278&tfd=20734 :: net::ERR_ABORTED"
+        },
+        {
+          "type": "requestfailed",
+          "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195z89238224015za20gzb9238224015zd9238224015&_p=1776851274391&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=5&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=1&tag_exp=0~115616986~115938466~115938468~117266401~117384406~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=page_view&tfd=5685 :: net::ERR_ABORTED"
+        }
+      ],
+      "screenshot": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\dapf-filter-qc\\reports\\beautymediashop-de-shop-desktop-20260422-153911\\fail-tag-apply-reload.png",
+      "passed": false
+    },
+    {
+      "id": "authors",
+      "title": "Authors",
+      "kind": "checkboxes",
+      "expected": [
+        "beautymedia"
+      ],
+      "baselineUrl": "https://beautymediashop.de/shop/",
+      "baselineSummary": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ]
+      },
+      "applyMechanism": "auto-change",
+      "applyUrl": "https://beautymediashop.de/shop/",
+      "reloadUrl": "https://beautymediashop.de/shop/",
+      "urlChanged": false,
+      "reloadUrlStable": true,
+      "stateAfterApply": [
+        "beautymedia"
+      ],
+      "stateAfterReload": [],
+      "applyStateOk": true,
+      "reloadStateOk": false,
+      "summaryAfterApply": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ]
+      },
+      "summaryAfterReload": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ]
+      },
+      "issues": [
+        "Filtered URL did not change after the filter interaction.",
+        "Selected state was not preserved after page reload.",
+        "Browser console/request errors were emitted during this flow."
+      ],
+      "messages": [
+        {
+          "type": "requestfailed",
+          "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776851285271&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AEEAAAQ&ae=a&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=2&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=2&tag_exp=0~115616986~115938466~115938469~117266400~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=form_start&ep.form_id=product-filter&ep.form_name=&ep.form_destination=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&epn.form_length=1866&ep.first_field_id=&ep.first_field_name=rpluthor%5B%5D&ep.first_field_type=checkbox&epn.first_field_position=1859&_et=9490&tfd=15447 :: net::ERR_ABORTED"
+        },
+        {
+          "type": "requestfailed",
+          "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776851285271&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=2&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=3&tag_exp=0~115616986~115938466~115938469~117266400~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=user_engagement&_et=10336&tfd=20782 :: net::ERR_ABORTED"
+        }
+      ],
+      "screenshot": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\dapf-filter-qc\\reports\\beautymediashop-de-shop-desktop-20260422-153911\\fail-authors-apply-reload.png",
+      "passed": false
+    },
+    {
+      "id": "status",
+      "title": "Stock Status",
+      "kind": "checkboxes",
+      "expected": [
+        "instock"
+      ],
+      "baselineUrl": "https://beautymediashop.de/shop/",
+      "baselineSummary": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ]
+      },
+      "applyMechanism": "auto-change",
+      "applyUrl": "https://beautymediashop.de/shop/",
+      "reloadUrl": "https://beautymediashop.de/shop/",
+      "urlChanged": false,
+      "reloadUrlStable": true,
+      "stateAfterApply": [
+        "instock"
+      ],
+      "stateAfterReload": [],
+      "applyStateOk": true,
+      "reloadStateOk": false,
+      "summaryAfterApply": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ]
+      },
+      "summaryAfterReload": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ]
+      },
+      "issues": [
+        "Filtered URL did not change after the filter interaction.",
+        "Selected state was not preserved after page reload.",
+        "Browser console/request errors were emitted during this flow."
+      ],
+      "messages": [
+        {
+          "type": "requestfailed",
+          "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195z89238224015za20gzb9238224015zd9238224015&_p=1776851316343&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=3&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=1&tag_exp=0~115616985~115938465~115938468~117266400~117512543~118463261&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=page_view&gap.plf=4.5.3&tfd=5991 :: net::ERR_ABORTED"
+        },
+        {
+          "type": "requestfailed",
+          "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776851316343&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AEEAAAQ&ae=a&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=3&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=2&tag_exp=0~115616985~115938465~115938468~117266400~117512543~118463261&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=form_start&gap.plf=4.5.3&ep.form_id=product-filter&ep.form_name=&ep.form_destination=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&epn.form_length=1866&ep.first_field_id=&ep.first_field_name=rplutock_status%5B%5D&ep.first_field_type=checkbox&epn.first_field_position=1860&_et=9501&tfd=15501 :: net::ERR_ABORTED"
+        },
+        {
+          "type": "requestfailed",
+          "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776851316343&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=3&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=3&tag_exp=0~115616985~115938465~115938468~117266400~117512543~118463261&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=user_engagement&gap.plf=4.5.3&_et=10284&tfd=20773 :: net::ERR_ABORTED"
+        }
+      ],
+      "screenshot": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\dapf-filter-qc\\reports\\beautymediashop-de-shop-desktop-20260422-153911\\fail-status-apply-reload.png",
+      "passed": false
+    },
+    {
+      "id": "sale_status",
+      "title": "Sale Status",
+      "kind": "checkboxes",
+      "expected": [
+        "onsale"
+      ],
+      "baselineUrl": "https://beautymediashop.de/shop/",
+      "baselineSummary": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ]
+      },
+      "applyMechanism": "auto-change",
+      "applyUrl": "https://beautymediashop.de/shop/",
+      "reloadUrl": "https://beautymediashop.de/shop/",
+      "urlChanged": false,
+      "reloadUrlStable": true,
+      "stateAfterApply": [
+        "onsale"
+      ],
+      "stateAfterReload": [],
+      "applyStateOk": true,
+      "reloadStateOk": false,
+      "summaryAfterApply": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Schulungsvideo Maderotherapie"
+        ]
+      },
+      "summaryAfterReload": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ]
+      },
+      "issues": [
+        "Filtered URL did not change after the filter interaction.",
+        "Selected state was not preserved after page reload.",
+        "Browser console/request errors were emitted during this flow."
+      ],
+      "messages": [
+        {
+          "type": "requestfailed",
+          "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776851347386&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AEEAAAQ&ae=a&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=10&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=2&tag_exp=0~115938465~115938469~117266400~117384405~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=form_start&ep.form_id=product-filter&ep.form_name=&ep.form_destination=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&epn.form_length=1866&ep.first_field_id=&ep.first_field_name=rpn_sale%5B%5D&ep.first_field_type=checkbox&epn.first_field_position=1861&_et=9507&tfd=15458 :: net::ERR_ABORTED"
+        },
+        {
+          "type": "requestfailed",
+          "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776851347386&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=10&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=3&tag_exp=0~115938465~115938469~117266400~117384405~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=user_engagement&_et=10286&tfd=20747 :: net::ERR_ABORTED"
+        },
+        {
+          "type": "requestfailed",
+          "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195z89238224015za20gzb9238224015zd9238224015&_p=1776851367545&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=2&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=1&tag_exp=0~115938466~115938468~117266401~117512543~117884344&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=page_view&tfd=5693 :: net::ERR_ABORTED"
+        }
+      ],
+      "screenshot": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\dapf-filter-qc\\reports\\beautymediashop-de-shop-desktop-20260422-153911\\fail-sale-status-apply-reload.png",
+      "passed": false
+    },
+    {
+      "id": "featured_status",
+      "title": "Featured Products",
+      "kind": "checkboxes",
+      "expected": [
+        "notfeatured"
+      ],
+      "baselineUrl": "https://beautymediashop.de/shop/",
+      "baselineSummary": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ]
+      },
+      "applyMechanism": "auto-change",
+      "applyUrl": "https://beautymediashop.de/shop/",
+      "reloadUrl": "https://beautymediashop.de/shop/",
+      "urlChanged": false,
+      "reloadUrlStable": true,
+      "stateAfterApply": [
+        "notfeatured"
+      ],
+      "stateAfterReload": [],
+      "applyStateOk": true,
+      "reloadStateOk": false,
+      "summaryAfterApply": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ]
+      },
+      "summaryAfterReload": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ]
+      },
+      "issues": [
+        "Filtered URL did not change after the filter interaction.",
+        "Selected state was not preserved after page reload.",
+        "Browser console/request errors were emitted during this flow."
+      ],
+      "messages": [
+        {
+          "type": "requestfailed",
+          "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776851378446&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AEEAAAQ&ae=a&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=8&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=2&tag_exp=0~115938465~115938468~117266400~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=form_start&ep.form_id=product-filter&ep.form_name=&ep.form_destination=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&epn.form_length=1866&ep.first_field_id=&ep.first_field_name=rpn_featured%5B%5D&ep.first_field_type=checkbox&epn.first_field_position=1863&_et=9491&tfd=15469 :: net::ERR_ABORTED"
+        },
+        {
+          "type": "requestfailed",
+          "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776851378446&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=8&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=3&tag_exp=0~115938465~115938468~117266400~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=user_engagement&_et=10283&tfd=20740 :: net::ERR_ABORTED"
+        },
+        {
+          "type": "requestfailed",
+          "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195z89238224015za20gzb9238224015zd9238224015&_p=1776851398595&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=0&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=1&tag_exp=0~115938466~115938469~117266401~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=page_view&tfd=5698 :: net::ERR_ABORTED"
+        }
+      ],
+      "screenshot": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\dapf-filter-qc\\reports\\beautymediashop-de-shop-desktop-20260422-153911\\fail-featured-status-apply-reload.png",
+      "passed": false
+    }
+  ],
+  "uniqueMessages": [
+    {
+      "type": "console:error",
+      "text": "Failed to load resource: net::ERR_CONNECTION_TIMED_OUT"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195z89238224015za20gzb9238224015zd9238224015&_p=1776850782233&gcd=13l3l3l3l1l1&npa=0&dma=0&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=16&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=1&tag_exp=0~115938465~115938468~117266401~117512543~117884344~118463261&sid=1776850783&sct=1&seg=0&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=page_view&_fv=1&_nsi=1&_ss=1&tfd=1121 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776850782233&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=16&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=2&tag_exp=0~115938465~115938468~117266401~117512543~117884344~118463261&sid=1776850783&sct=1&seg=0&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=user_engagement&_et=9496&tfd=10620 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195z89238224015za20gzb9238224015zd9238224015&_p=1776850792630&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=18&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=1&tag_exp=0~115616985~115938466~115938468~117266401~117512543~118463262&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=page_view&gap.plf=4.5.3&tfd=5963 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776850792630&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=18&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=2&tag_exp=0~115616985~115938466~115938468~117266401~117512543~118463262&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=user_engagement&gap.plf=4.5.3&_et=10071&tfd=11034 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195z89238224015za20gzb9238224015zd9238224015&_p=1776850803082&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=3&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=1&tag_exp=0~115938465~115938469~117266401~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=page_view&tfd=5956 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776850803082&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=3&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=2&tag_exp=0~115938465~115938469~117266401~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=user_engagement&_et=10881&tfd=11838 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195z89238224015za20gzb9238224015zd9238224015&_p=1776850814321&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=5&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=1&tag_exp=0~115938465~115938468~117266400~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=page_view&tfd=5951 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776850814321&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AEEAAAQ&ae=a&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=5&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=2&tag_exp=0~115938465~115938468~117266400~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=form_start&ep.form_id=product-filter&ep.form_name=&ep.form_destination=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&epn.form_length=1866&ep.first_field_id=&ep.first_field_name=rating%5B%5D&ep.first_field_type=checkbox&epn.first_field_position=2&_et=9491&tfd=15450 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776850814321&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=5&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=3&tag_exp=0~115938465~115938468~117266400~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=user_engagement&_et=19775&tfd=30222 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195z89238224015za20gzb9238224015zd9238224015&_p=1776850843951&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=1&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=1&tag_exp=0~115938465~115938468~117266401~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=page_view&tfd=5979 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776850843951&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AEEAAAQ&ae=a&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=1&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=2&tag_exp=0~115938465~115938468~117266401~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=form_start&ep.form_id=product-filter&ep.form_name=&ep.form_destination=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&epn.form_length=1866&ep.first_field_id=plugincy-search-field&ep.first_field_name=plugincy_search&ep.first_field_type=search&epn.first_field_position=1&_et=9480&tfd=15457 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776850843951&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=1&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=3&tag_exp=0~115938465~115938468~117266401~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=user_engagement&_et=10233&tfd=20692 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195z89238224015za20gzb9238224015zd9238224015&_p=1776850864042&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=16&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=1&tag_exp=0~115938465~115938469~117266400~117384406~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=page_view&tfd=5707 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776850864042&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=16&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=2&tag_exp=0~115938465~115938469~117266400~117384406~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=user_engagement&_et=12861&tfd=13570 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195z89238224015za20gzb9238224015zd9238224015&_p=1776850877012&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=10&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=1&tag_exp=0~115938465~115938469~117266400~117512543~118463261&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=page_view&tfd=8104 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776850877012&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AEEAAAQ&ae=a&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=10&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=2&tag_exp=0~115938465~115938469~117266400~117512543~118463261&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=form_start&ep.form_id=product-filter&ep.form_name=&ep.form_destination=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&epn.form_length=1866&ep.first_field_id=&ep.first_field_name=rating%5B%5D&ep.first_field_type=checkbox&epn.first_field_position=2&_et=9504&tfd=17610 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776850877012&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=10&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=3&tag_exp=0~115938465~115938469~117266400~117512543~118463261&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=user_engagement&_et=11621&tfd=24233 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195z89238224015za20gzb9238224015zd9238224015&_p=1776850898531&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=19&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=1&tag_exp=0~115938465~115938469~117266400~117384406~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=page_view&tfd=7016 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776850898531&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=19&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=2&tag_exp=0~115938465~115938469~117266400~117384406~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=user_engagement&_et=11959&tfd=13977 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195z89238224015za20gzb9238224015zd9238224015&_p=1776850910595&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=13&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=1&tag_exp=0~115616985~115938465~115938469~117266400~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=page_view&gap.plf=4.5.3&tfd=7183 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776850910595&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AEEAAAQ&ae=a&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=13&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=2&tag_exp=0~115616985~115938465~115938469~117266400~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=form_start&gap.plf=4.5.3&ep.form_id=product-filter&ep.form_name=&ep.form_destination=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&epn.form_length=1866&ep.first_field_id=min-price&ep.first_field_name=mn_price&ep.first_field_type=number&epn.first_field_position=7&_et=9474&tfd=16667 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776850910595&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=13&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=3&tag_exp=0~115616985~115938465~115938469~117266400~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=user_engagement&gap.plf=4.5.3&_et=10408&tfd=22063 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195z89238224015za20gzb9238224015zd9238224015&_p=1776850930892&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=5&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=1&tag_exp=0~115616985~115938466~115938469~117266400~117512543~118463800&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=page_view&gap.plf=4.5.3&tfd=5695 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776850930892&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=5&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=2&tag_exp=0~115616985~115938466~115938469~117266400~117512543~118463800&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=user_engagement&gap.plf=4.5.3&_et=10752&tfd=11446 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195z89238224015za20gzb9238224015zd9238224015&_p=1776850941745&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=8&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=1&tag_exp=0~115616985~115938465~115938468~117266400~117512543~118463262&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=page_view&gap.plf=4.5.3&tfd=6009 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776850941745&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=8&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=2&tag_exp=0~115616985~115938465~115938468~117266400~117512543~118463262&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=user_engagement&gap.plf=4.5.3&_et=20187&tfd=21188 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195z89238224015za20gzb9238224015zd9238224015&_p=1776850962326&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=12&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=1&tag_exp=0~115938465~115938469~117266400~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=page_view&tfd=5714 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776850962326&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=12&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=2&tag_exp=0~115938465~115938469~117266400~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=user_engagement&_et=10759&tfd=11471 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195z89238224015za20gzb9238224015zd9238224015&_p=1776850973186&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=11&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=1&tag_exp=0~115938466~115938469~117266401~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=page_view&tfd=5949 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776850973186&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AEEAAAQ&ae=a&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=11&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=2&tag_exp=0~115938466~115938469~117266401~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=form_start&ep.form_id=product-filter&ep.form_name=&ep.form_destination=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&epn.form_length=1866&ep.first_field_id=&ep.first_field_name=custom_meta%5Bfb_product_group_id%5D%5B%5D&ep.first_field_type=checkbox&epn.first_field_position=653&_et=9492&tfd=15444 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776850973186&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=11&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=3&tag_exp=0~115938466~115938469~117266401~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=user_engagement&_et=10498&tfd=20945 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195z89238224015za20gzb9238224015zd9238224015&_p=1776850993545&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=0&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=1&tag_exp=0~115938465~115938469~117266401~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=page_view&tfd=5686 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776850993545&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=0&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=2&tag_exp=0~115938465~115938469~117266401~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=user_engagement&_et=10795&tfd=11484 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195z89238224015za20gzb9238224015zd9238224015&_p=1776851004436&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=3&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=1&tag_exp=0~115938465~115938468~117266401~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=page_view&tfd=6025 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776851004436&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AEEAAAQ&ae=a&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=3&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=2&tag_exp=0~115938465~115938468~117266401~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=form_start&ep.form_id=product-filter&ep.form_name=&ep.form_destination=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&epn.form_length=1866&ep.first_field_id=&ep.first_field_name=custom_meta%5Bfb_product_item_id%5D%5B%5D&ep.first_field_type=checkbox&epn.first_field_position=801&_et=9511&tfd=15549 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776851004436&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=3&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=3&tag_exp=0~115938465~115938468~117266401~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=user_engagement&_et=10504&tfd=21044 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195z89238224015za20gzb9238224015zd9238224015&_p=1776851024885&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=18&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=1&tag_exp=0~115938466~115938469~117266400~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=page_view&tfd=5692 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776851024885&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=18&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=2&tag_exp=0~115938466~115938469~117266400~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=user_engagement&_et=10802&tfd=11496 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195z89238224015za20gzb9238224015zd9238224015&_p=1776851035782&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=15&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=1&tag_exp=0~115938465~115938469~117266400~117512543~117884344~118128922&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=page_view&tfd=5985 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776851035782&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AEEAAAQ&ae=a&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=15&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=2&tag_exp=0~115938465~115938469~117266400~117512543~117884344~118128922&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=form_start&ep.form_id=product-filter&ep.form_name=&ep.form_destination=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&epn.form_length=1866&ep.first_field_id=&ep.first_field_name=custom_meta%5Bfb_product_video%5D%5B%5D&ep.first_field_type=checkbox&epn.first_field_position=1166&_et=9493&tfd=15474 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776851035782&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=15&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=3&tag_exp=0~115938465~115938469~117266400~117512543~117884344~118128922&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=user_engagement&_et=10297&tfd=20773 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195z89238224015za20gzb9238224015zd9238224015&_p=1776851055946&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=13&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=1&tag_exp=0~115938466~115938469~117266401~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=page_view&tfd=5723 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776851055946&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=13&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=2&tag_exp=0~115938466~115938469~117266401~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=user_engagement&_et=10801&tfd=11522 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195z89238224015za20gzb9238224015zd9238224015&_p=1776851066854&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=5&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=1&tag_exp=0~115616985~115938466~115938468~117266401~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=page_view&gap.plf=4.5.3&tfd=5978 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776851066854&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AEEAAAQ&ae=a&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=5&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=2&tag_exp=0~115616985~115938466~115938468~117266401~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=form_start&gap.plf=4.5.3&ep.form_id=product-filter&ep.form_name=&ep.form_destination=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&epn.form_length=1866&ep.first_field_id=&ep.first_field_name=custom_meta%5Bfb_visibility%5D%5B%5D&ep.first_field_type=checkbox&epn.first_field_position=1167&_et=9498&tfd=15479 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776851066854&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=5&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=3&tag_exp=0~115616985~115938466~115938468~117266401~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=user_engagement&gap.plf=4.5.3&_et=10296&tfd=20771 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195z89238224015za20gzb9238224015zd9238224015&_p=1776851087023&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=14&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=1&tag_exp=0~115938465~115938468~117266401~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=page_view&tfd=5700 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776851087023&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=14&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=2&tag_exp=0~115938465~115938468~117266401~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=user_engagement&_et=10853&tfd=11543 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195z89238224015za20gzb9238224015zd9238224015&_p=1776851097971&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=7&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=1&tag_exp=0~115938466~115938469~117266401~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=page_view&tfd=6036 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776851097971&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AEEAAAQ&ae=a&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=7&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=2&tag_exp=0~115938466~115938469~117266401~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=form_start&ep.form_id=product-filter&ep.form_name=&ep.form_destination=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&epn.form_length=1866&ep.first_field_id=&ep.first_field_name=custom_meta%5Bimport_started_at%5D%5B%5D&ep.first_field_type=checkbox&epn.first_field_position=1168&_et=9493&tfd=15533 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776851097971&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=7&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=3&tag_exp=0~115938466~115938469~117266401~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=user_engagement&_et=10543&tfd=21078 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195z89238224015za20gzb9238224015zd9238224015&_p=1776851118393&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=16&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=1&tag_exp=0~115938466~115938468~117266400~117384406~117512543~118463262&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=page_view&tfd=5706 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776851118393&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=16&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=2&tag_exp=0~115938466~115938468~117266400~117384406~117512543~118463262&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=user_engagement&_et=10801&tfd=11505 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195z89238224015za20gzb9238224015zd9238224015&_p=1776851129289&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=18&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=1&tag_exp=0~115616985~115938466~115938469~117266401~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=page_view&gap.plf=4.5.3&tfd=6029 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776851129289&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AEEAAAQ&ae=a&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=18&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=2&tag_exp=0~115616985~115938466~115938469~117266401~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=form_start&gap.plf=4.5.3&ep.form_id=product-filter&ep.form_name=&ep.form_destination=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&epn.form_length=1866&ep.first_field_id=&ep.first_field_name=custom_meta%5Bimport_uid%5D%5B%5D&ep.first_field_type=checkbox&epn.first_field_position=1171&_et=9498&tfd=15526 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776851129289&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=18&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=3&tag_exp=0~115616985~115938466~115938469~117266401~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=user_engagement&gap.plf=4.5.3&_et=10509&tfd=21035 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195z89238224015za20gzb9238224015zd9238224015&_p=1776851149734&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=17&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=1&tag_exp=0~115938466~115938468~117266400~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=page_view&tfd=5678 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776851149734&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=17&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=2&tag_exp=0~115938466~115938468~117266400~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=user_engagement&_et=10744&tfd=11423 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195z89238224015za20gzb9238224015zd9238224015&_p=1776851160573&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=3&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=1&tag_exp=0~115616986~115938466~115938469~117266401~117384406~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=page_view&tfd=5967 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776851160573&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AEEAAAQ&ae=a&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=3&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=2&tag_exp=0~115616986~115938466~115938469~117266401~117384406~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=form_start&ep.form_id=product-filter&ep.form_name=&ep.form_destination=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&epn.form_length=1866&ep.first_field_id=&ep.first_field_name=custom_meta%5Bname_it%5D%5B%5D&ep.first_field_type=checkbox&epn.first_field_position=1173&_et=9501&tfd=15467 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776851160573&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=3&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=3&tag_exp=0~115616986~115938466~115938469~117266401~117384406~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=user_engagement&_et=10513&tfd=20982 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195z89238224015za20gzb9238224015zd9238224015&_p=1776851180976&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=9&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=1&tag_exp=0~115616985~115938466~115938468~117266401~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=page_view&gap.plf=4.5.3&tfd=5717 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776851180976&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=9&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=2&tag_exp=0~115616985~115938466~115938468~117266401~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=user_engagement&gap.plf=4.5.3&_et=10782&tfd=11498 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195z89238224015za20gzb9238224015zd9238224015&_p=1776851191859&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=11&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=1&tag_exp=0~115938465~115938469~117266400~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=page_view&tfd=5992 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776851191859&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AEEAAAQ&ae=a&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=11&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=2&tag_exp=0~115938465~115938469~117266400~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=form_start&ep.form_id=product-filter&ep.form_name=&ep.form_destination=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&epn.form_length=1866&ep.first_field_id=&ep.first_field_name=custom_meta%5Btotal_sales%5D%5B%5D&ep.first_field_type=checkbox&epn.first_field_position=1811&_et=9498&tfd=15501 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776851191859&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=11&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=3&tag_exp=0~115938465~115938469~117266400~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=user_engagement&_et=10507&tfd=21002 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195z89238224015za20gzb9238224015zd9238224015&_p=1776851212260&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=16&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=1&tag_exp=0~115616985~115938466~115938468~117266400~117512543~117884344~118463261&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=page_view&gap.plf=4.5.3&tfd=5702 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776851212260&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=16&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=2&tag_exp=0~115616985~115938466~115938468~117266400~117512543~117884344~118463261&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=user_engagement&gap.plf=4.5.3&_et=10789&tfd=11490 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195z89238224015za20gzb9238224015zd9238224015&_p=1776851223160&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=11&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=1&tag_exp=0~115938465~115938469~117266400~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=page_view&tfd=6019 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776851223160&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AEEAAAQ&ae=a&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=11&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=2&tag_exp=0~115938465~115938469~117266400~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=form_start&ep.form_id=product-filter&ep.form_name=&ep.form_destination=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&epn.form_length=1866&ep.first_field_id=&ep.first_field_name=custom_meta%5Bwholesale_customer_have_wholesale_price%5D%5B%5D&ep.first_field_type=checkbox&epn.first_field_position=1833&_et=9487&tfd=15513 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776851223160&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=11&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=3&tag_exp=0~115938465~115938469~117266400~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=user_engagement&_et=10286&tfd=20791 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195z89238224015za20gzb9238224015zd9238224015&_p=1776851243349&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=10&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=1&tag_exp=0~115938466~115938468~117266401~117512543~118128923&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=page_view&tfd=5690 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776851243349&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=10&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=2&tag_exp=0~115938466~115938468~117266401~117512543~118128923&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=user_engagement&_et=10805&tfd=11496 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195z89238224015za20gzb9238224015zd9238224015&_p=1776851254250&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=3&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=1&tag_exp=0~115616985~115938466~115938469~117266401~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=page_view&gap.plf=4.5.3&tfd=5971 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776851254250&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AEEAAAQ&ae=a&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=3&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=2&tag_exp=0~115616985~115938466~115938469~117266401~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=form_start&gap.plf=4.5.3&ep.form_id=product-filter&ep.form_name=&ep.form_destination=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&epn.form_length=1866&ep.first_field_id=&ep.first_field_name=tags%5B%5D&ep.first_field_type=checkbox&epn.first_field_position=1834&_et=9483&tfd=15454 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776851254250&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=3&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=3&tag_exp=0~115616985~115938466~115938469~117266401~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=user_engagement&gap.plf=4.5.3&_et=10278&tfd=20734 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195z89238224015za20gzb9238224015zd9238224015&_p=1776851274391&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=5&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=1&tag_exp=0~115616986~115938466~115938468~117266401~117384406~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=page_view&tfd=5685 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776851274391&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=5&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=2&tag_exp=0~115616986~115938466~115938468~117266401~117384406~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=user_engagement&_et=10784&tfd=11471 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195z89238224015za20gzb9238224015zd9238224015&_p=1776851285271&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=2&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=1&tag_exp=0~115616986~115938466~115938469~117266400~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=page_view&tfd=5954 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776851285271&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AEEAAAQ&ae=a&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=2&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=2&tag_exp=0~115616986~115938466~115938469~117266400~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=form_start&ep.form_id=product-filter&ep.form_name=&ep.form_destination=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&epn.form_length=1866&ep.first_field_id=&ep.first_field_name=rpluthor%5B%5D&ep.first_field_type=checkbox&epn.first_field_position=1859&_et=9490&tfd=15447 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776851285271&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=2&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=3&tag_exp=0~115616986~115938466~115938469~117266400~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=user_engagement&_et=10336&tfd=20782 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195z89238224015za20gzb9238224015zd9238224015&_p=1776851305473&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=13&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=1&tag_exp=0~115938466~115938468~117266400~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=page_view&tfd=5696 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776851305473&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=13&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=2&tag_exp=0~115938466~115938468~117266400~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=user_engagement&_et=10774&tfd=11461 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195z89238224015za20gzb9238224015zd9238224015&_p=1776851316343&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=3&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=1&tag_exp=0~115616985~115938465~115938468~117266400~117512543~118463261&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=page_view&gap.plf=4.5.3&tfd=5991 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776851316343&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AEEAAAQ&ae=a&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=3&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=2&tag_exp=0~115616985~115938465~115938468~117266400~117512543~118463261&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=form_start&gap.plf=4.5.3&ep.form_id=product-filter&ep.form_name=&ep.form_destination=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&epn.form_length=1866&ep.first_field_id=&ep.first_field_name=rplutock_status%5B%5D&ep.first_field_type=checkbox&epn.first_field_position=1860&_et=9501&tfd=15501 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776851316343&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=3&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=3&tag_exp=0~115616985~115938465~115938468~117266400~117512543~118463261&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=user_engagement&gap.plf=4.5.3&_et=10284&tfd=20773 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776851336523&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=6&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=2&tag_exp=0~115616985~115938465~115938469~117266401~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=user_engagement&gap.plf=4.5.3&_et=10765&tfd=11461 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195z89238224015za20gzb9238224015zd9238224015&_p=1776851336523&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=6&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=1&tag_exp=0~115616985~115938465~115938469~117266401~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=page_view&gap.plf=4.5.3&tfd=5698 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195z89238224015za20gzb9238224015zd9238224015&_p=1776851347386&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=10&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=1&tag_exp=0~115938465~115938469~117266400~117384405~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=page_view&tfd=5954 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776851347386&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AEEAAAQ&ae=a&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=10&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=2&tag_exp=0~115938465~115938469~117266400~117384405~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=form_start&ep.form_id=product-filter&ep.form_name=&ep.form_destination=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&epn.form_length=1866&ep.first_field_id=&ep.first_field_name=rpn_sale%5B%5D&ep.first_field_type=checkbox&epn.first_field_position=1861&_et=9507&tfd=15458 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776851347386&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=10&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=3&tag_exp=0~115938465~115938469~117266400~117384405~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=user_engagement&_et=10286&tfd=20747 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195z89238224015za20gzb9238224015zd9238224015&_p=1776851367545&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=2&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=1&tag_exp=0~115938466~115938468~117266401~117512543~117884344&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=page_view&tfd=5693 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776851367545&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=2&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=2&tag_exp=0~115938466~115938468~117266401~117512543~117884344&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=user_engagement&_et=10801&tfd=11495 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195z89238224015za20gzb9238224015zd9238224015&_p=1776851378446&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=8&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=1&tag_exp=0~115938465~115938468~117266400~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=page_view&tfd=5966 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776851378446&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AEEAAAQ&ae=a&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=8&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=2&tag_exp=0~115938465~115938468~117266400~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=form_start&ep.form_id=product-filter&ep.form_name=&ep.form_destination=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&epn.form_length=1866&ep.first_field_id=&ep.first_field_name=rpn_featured%5B%5D&ep.first_field_type=checkbox&epn.first_field_position=1863&_et=9491&tfd=15469 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195za20gzb9238224015zd9238224015&_p=1776851378446&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=8&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=3&tag_exp=0~115938465~115938468~117266400~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=user_engagement&_et=10283&tfd=20740 :: net::ERR_ABORTED"
+    },
+    {
+      "type": "requestfailed",
+      "text": "POST https://www.google-analytics.com/g/collect?v=2&tid=G-ZKV4JELG5D&gtm=45je64h1v9186241195z89238224015za20gzb9238224015zd9238224015&_p=1776851398595&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&are=1&cid=1545488322.1776850783&frm=0&pscdl=noapi&rcb=0&sr=1440x1400&uaa=x86&uab=64&uafvl=Google%2520Chrome%3B147.0.7727.102%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.102&uam=&uamb=0&uap=Windows&uapv=10.0.0&uaw=0&ul=en-gb&_s=1&tag_exp=0~115938466~115938469~117266401~117512543&sid=1776850783&sct=1&seg=1&dl=https%3A%2F%2Fbeautymediashop.de%2Fshop%2F&dt=Entdecken%20Sie%20unsere%20anpassbaren%20Unterlagen%20f%C3%BCr%20Ihren%20Salon&en=page_view&tfd=5698 :: net::ERR_ABORTED"
+    }
+  ],
+  "pluginDebug": {
+    "available": true,
+    "applyMode": "auto",
+    "useOverlay": true,
+    "mobileBreakpoint": 1024,
+    "mobileStyle": "style_4",
+    "selectors": {
+      "product": "ul.products",
+      "pagination": ".woocommerce-pagination ul.page-numbers",
+      "sorting": "form.woocommerce-ordering select",
+      "resultCount": ".woocommerce-result-count"
+    },
+    "style": {
+      "showApplyButton": null,
+      "showResetButton": null,
+      "showApplyResetOn": null,
+      "applyBehavior": null
+    },
+    "manage": {
+      "useUrlFilter": "ajax",
+      "showLoader": "on"
+    }
+  },
+  "autoDiscovery": {
+    "used": true,
+    "source": "dom+woo-store-api",
+    "storeApiEndpoint": "https://beautymediashop.de/wp-json/wc/store/v1/products?per_page=50",
+    "storeApiOk": true,
+    "storeApiError": null,
+    "discoveredProductCount": 50
+  },
+  "effectiveConfig": {
+    "siteLabel": "beautymediashop-de-shop",
+    "baseUrl": "https://beautymediashop.de/shop/",
+    "deviceMode": "desktop",
+    "selectors": {
+      "form": "#product-filter",
+      "applyButtonName": "Apply Filters",
+      "resetButtonName": "Reset Filters",
+      "resultCount": ".woocommerce-result-count",
+      "emptyMessage": ".woocommerce-info, .woocommerce-no-products-found",
+      "productTitles": "ul.products li.product .woocommerce-loop-product__title, ul.products li.product h2, ul.products .product h2, ul.products h2"
+    },
+    "testData": {
+      "searchText": "Vorabinformationen Mesotherapie",
+      "priceRange": {
+        "min": "419",
+        "max": "2680"
+      },
+      "sku": "VEB-2-2-2-1-1-1",
+      "discount": "",
+      "dimensions": {
+        "min_height": "",
+        "max_height": "",
+        "min_length": "",
+        "max_length": ""
+      }
+    },
+    "fieldOverrides": {
+      "plugincy_rating": {
+        "kind": "checkboxes",
+        "values": [
+          "5"
+        ]
+      },
+      "category-with-child": {
+        "kind": "checkboxes",
+        "values": [
+          "uebungsblaetter"
+        ]
+      },
+      "fb_product_group_id": {
+        "kind": "checkboxes",
+        "values": [
+          "10031355086958278",
+          "10049395145178186"
+        ]
+      },
+      "fb_product_item_id": {
+        "kind": "checkboxes",
+        "values": [
+          "10031355593624894",
+          "10049432308473524"
+        ]
+      },
+      "fb_product_video": {
+        "kind": "checkboxes",
+        "values": [
+          "a0"
+        ]
+      },
+      "fb_visibility": {
+        "kind": "checkboxes",
+        "values": [
+          "no"
+        ]
+      },
+      "import_started_at": {
+        "kind": "checkboxes",
+        "values": [
+          "1715604732",
+          "1715610389"
+        ]
+      },
+      "import_uid": {
+        "kind": "checkboxes",
+        "values": [
+          "6633bd73d82b4",
+          "6642064447baa"
+        ]
+      },
+      "name_it": {
+        "kind": "checkboxes",
+        "values": [
+          "accordo-acconto",
+          "accordo-cliente-per-autorizzazione-foto-sconto"
+        ]
+      },
+      "total_sales": {
+        "kind": "checkboxes",
+        "values": [
+          "0",
+          "1"
+        ]
+      },
+      "wholesale_customer_have_wholesale_price": {
+        "kind": "checkboxes",
+        "values": [
+          "no"
+        ]
+      },
+      "tag": {
+        "kind": "checkboxes",
+        "values": [
+          "abonnement-vertrag"
+        ]
+      },
+      "authors": {
+        "kind": "checkboxes",
+        "values": [
+          "beautymedia"
+        ]
+      },
+      "status": {
+        "kind": "checkboxes",
+        "values": [
+          "instock"
+        ]
+      },
+      "sale_status": {
+        "kind": "checkboxes",
+        "values": [
+          "onsale"
+        ]
+      },
+      "featured_status": {
+        "kind": "checkboxes",
+        "values": [
+          "notfeatured"
+        ]
+      }
+    },
+    "actionTargets": {
+      "collapseFieldsetId": "plugincy_rating",
+      "optionSearchFieldsetId": "",
+      "optionSearchPlaceholder": "",
+      "optionSearchText": "",
+      "resetFieldsetId": "plugincy_rating",
+      "resetValue": "5"
+    },
+    "skipFieldsets": []
+  },
+  "summary": {
+    "failedActionTests": 2,
+    "failedFilterTests": 18
+  }
+}

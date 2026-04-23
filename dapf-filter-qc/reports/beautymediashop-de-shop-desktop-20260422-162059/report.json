@@ -1,0 +1,1556 @@
+{
+  "siteLabel": "beautymediashop-de-shop",
+  "runMode": "url-auto",
+  "deviceMode": "desktop",
+  "baseUrl": "https://beautymediashop.de/shop/",
+  "configPath": null,
+  "outputDir": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\dapf-filter-qc\\reports\\beautymediashop-de-shop-desktop-20260422-162059",
+  "reportJsonPath": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\dapf-filter-qc\\reports\\beautymediashop-de-shop-desktop-20260422-162059\\report.json",
+  "reportMarkdownPath": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\dapf-filter-qc\\reports\\beautymediashop-de-shop-desktop-20260422-162059\\report.md",
+  "generatedConfigPath": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\dapf-filter-qc\\reports\\beautymediashop-de-shop-desktop-20260422-162059\\generated-config.json",
+  "startedAt": "2026-04-22T10:21:27.508Z",
+  "finishedAt": "2026-04-22T10:32:04.472Z",
+  "baselineSummary": {
+    "resultCount": null,
+    "emptyMessage": null,
+    "titles": [
+      "Abonnement Vertrag für kosmetische Behandlungen",
+      "Allgemeine Geschäftsbedingungen",
+      "Anzahlungsvereinbarung",
+      "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+      "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+    ],
+    "productCount": 30
+  },
+  "totalActionTests": 5,
+  "totalFilterTests": 18,
+  "passedActionTests": 4,
+  "passedFilterTests": 16,
+  "failedCount": 3,
+  "skippedActionTests": 4,
+  "actionTests": [
+    {
+      "id": "action-overlay-toggle",
+      "title": "Overlay toggle",
+      "skipped": true,
+      "passed": true,
+      "issues": [],
+      "reason": "Overlay button was not found for this viewport."
+    },
+    {
+      "id": "action-shortcode-toggle",
+      "title": "Shortcode collapsible toggle",
+      "skipped": true,
+      "passed": true,
+      "issues": [],
+      "reason": "Shortcode collapsible wrapper was not found."
+    },
+    {
+      "id": "action-collapse-toggle",
+      "title": "Collapse toggle on plugincy_rating",
+      "beforeState": {
+        "collapsed": true,
+        "visible": false,
+        "displays": [
+          "none"
+        ],
+        "hiddenClassCount": 1
+      },
+      "afterCollapseState": {
+        "collapsed": true,
+        "visible": false,
+        "displays": [
+          "block"
+        ],
+        "hiddenClassCount": 0
+      },
+      "afterExpandState": {
+        "collapsed": true,
+        "visible": false,
+        "displays": [
+          "none"
+        ],
+        "hiddenClassCount": 1
+      },
+      "messages": [],
+      "issues": [
+        "Collapse toggle did not consistently hide and restore items."
+      ],
+      "passed": false
+    },
+    {
+      "id": "action-option-search",
+      "title": "Internal option search",
+      "skipped": true,
+      "passed": true,
+      "issues": [],
+      "reason": "Field (auto not found) was not found."
+    },
+    {
+      "id": "action-reset-filters",
+      "title": "Reset Filters",
+      "skipped": true,
+      "passed": true,
+      "issues": [],
+      "reason": "Reset action is not enabled in the current filter UI."
+    }
+  ],
+  "filterTests": [
+    {
+      "id": "search_text",
+      "title": "Filter",
+      "kind": "text",
+      "expected": {
+        "plugincy_search": "Vorabinformationen Mesotherapie"
+      },
+      "baselineUrl": "https://beautymediashop.de/shop/",
+      "baselineSummary": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "applyMechanism": "search-submit",
+      "urlMode": "ajax",
+      "applyUrl": "https://beautymediashop.de/shop/",
+      "reloadUrl": "https://beautymediashop.de/shop/",
+      "urlChanged": false,
+      "reloadUrlStable": true,
+      "summaryChangedAfterApply": true,
+      "applyNetworkActivity": [
+        {
+          "kind": "response",
+          "method": "GET",
+          "resourceType": "xhr",
+          "status": 200,
+          "url": "https://beautymediashop.de/shop/?gm-product-filter-nonce=2d84889e69&_wp_http_referer=%2Fshop%2F&plugincy_search=Vorabinformationen+Mesotherapie&cat_operator=OR&gm_pf_fragment=1",
+          "timestamp": 1776853365207
+        }
+      ],
+      "observedApplyEffect": true,
+      "expectsUrlChange": false,
+      "expectsReloadPersistence": false,
+      "baselineState": {
+        "plugincy_search": ""
+      },
+      "stateAfterApply": {
+        "plugincy_search": "Vorabinformationen Mesotherapie"
+      },
+      "stateAfterReload": {
+        "plugincy_search": ""
+      },
+      "applyStateOk": true,
+      "reloadStateOk": false,
+      "summaryAfterApply": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Vorabinformationen Mesotherapie"
+        ],
+        "productCount": 1
+      },
+      "summaryAfterReload": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "issues": [],
+      "messages": [],
+      "screenshot": null,
+      "passed": true
+    },
+    {
+      "id": "plugincy_rating",
+      "title": "Rating Reset",
+      "kind": "checkboxes",
+      "expected": [
+        "1"
+      ],
+      "baselineUrl": "https://beautymediashop.de/shop/",
+      "baselineSummary": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "applyMechanism": "auto-change",
+      "urlMode": "ajax",
+      "applyUrl": "https://beautymediashop.de/shop/",
+      "reloadUrl": "https://beautymediashop.de/shop/",
+      "urlChanged": false,
+      "reloadUrlStable": true,
+      "summaryChangedAfterApply": true,
+      "applyNetworkActivity": [
+        {
+          "kind": "response",
+          "method": "GET",
+          "resourceType": "xhr",
+          "status": 200,
+          "url": "https://beautymediashop.de/shop/?gm-product-filter-nonce=2d84889e69&_wp_http_referer=%2Fshop%2F&plugincy_search=&rating=1&cat_operator=OR&gm_pf_fragment=1",
+          "timestamp": 1776853396794
+        }
+      ],
+      "observedApplyEffect": true,
+      "expectsUrlChange": false,
+      "expectsReloadPersistence": false,
+      "baselineState": [],
+      "stateAfterApply": [
+        "1"
+      ],
+      "stateAfterReload": [],
+      "applyStateOk": true,
+      "reloadStateOk": false,
+      "summaryAfterApply": {
+        "resultCount": null,
+        "emptyMessage": "Es wurden keine Produkte gefunden, die Ihrer Auswahl entsprechen.",
+        "titles": [],
+        "productCount": 0
+      },
+      "summaryAfterReload": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "issues": [],
+      "messages": [],
+      "screenshot": null,
+      "passed": true
+    },
+    {
+      "id": "price-range",
+      "title": "Preisspanne",
+      "passed": false,
+      "issues": [
+        "locator.fill: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#product-filter .plugincy-filter-group#price-range [name=\"mn_price\"]').first()\u001b[22m\n\u001b[2m    - locator resolved to <input min=\"0\" max=\"99\" value=\"0\" type=\"number\" id=\"min-price\" name=\"mn_price\" class=\"input-min\"/>\u001b[22m\n\u001b[2m    - fill(\"419\")\u001b[22m\n\u001b[2m  - attempting fill action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and editable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying fill action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and editable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying fill action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    59 × waiting for element to be visible, enabled and editable\u001b[22m\n\u001b[2m       - element is not visible\u001b[22m\n\u001b[2m     - retrying fill action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n"
+      ],
+      "messages": [],
+      "screenshot": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\dapf-filter-qc\\reports\\beautymediashop-de-shop-desktop-20260422-162059\\fail-price-range-filter.png"
+    },
+    {
+      "id": "category-with-child",
+      "title": "Übungsblätter",
+      "kind": "checkboxes",
+      "expected": [
+        "permanent-make-up-uebungsblaetter"
+      ],
+      "baselineUrl": "https://beautymediashop.de/shop/",
+      "baselineSummary": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "applyMechanism": "auto-change",
+      "urlMode": "ajax",
+      "applyUrl": "https://beautymediashop.de/shop/",
+      "reloadUrl": "https://beautymediashop.de/shop/",
+      "urlChanged": false,
+      "reloadUrlStable": true,
+      "summaryChangedAfterApply": false,
+      "applyNetworkActivity": [],
+      "observedApplyEffect": false,
+      "expectsUrlChange": false,
+      "expectsReloadPersistence": false,
+      "baselineState": [],
+      "stateAfterApply": [],
+      "stateAfterReload": [],
+      "applyStateOk": false,
+      "reloadStateOk": false,
+      "summaryAfterApply": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "summaryAfterReload": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "issues": [
+        "Filter interaction did not produce an observable same-origin network, DOM, or URL change.",
+        "Selected state was not preserved immediately after apply."
+      ],
+      "messages": [],
+      "screenshot": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\dapf-filter-qc\\reports\\beautymediashop-de-shop-desktop-20260422-162059\\fail-category-with-child-apply-reload.png",
+      "passed": false
+    },
+    {
+      "id": "fb_product_group_id",
+      "title": "Fb Product Group Id",
+      "kind": "checkboxes",
+      "expected": [
+        "10031355086958278",
+        "10049395145178186"
+      ],
+      "baselineUrl": "https://beautymediashop.de/shop/",
+      "baselineSummary": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "applyMechanism": "auto-change",
+      "urlMode": "ajax",
+      "applyUrl": "https://beautymediashop.de/shop/",
+      "reloadUrl": "https://beautymediashop.de/shop/",
+      "urlChanged": false,
+      "reloadUrlStable": true,
+      "summaryChangedAfterApply": true,
+      "applyNetworkActivity": [
+        {
+          "kind": "response",
+          "method": "GET",
+          "resourceType": "xhr",
+          "status": 200,
+          "url": "https://beautymediashop.de/shop/?gm-product-filter-nonce=2d84889e69&_wp_http_referer=%2Fshop%2F&plugincy_search=&rplugcusf_fb_product_group_id=10031355086958278,10049395145178186&cat_operator=OR&gm_pf_fragment=1",
+          "timestamp": 1776853499582
+        }
+      ],
+      "observedApplyEffect": true,
+      "expectsUrlChange": false,
+      "expectsReloadPersistence": false,
+      "baselineState": [],
+      "stateAfterApply": [
+        "10031355086958278",
+        "10049395145178186"
+      ],
+      "stateAfterReload": [],
+      "applyStateOk": true,
+      "reloadStateOk": false,
+      "summaryAfterApply": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Kundenkartei für die Fußreflexzonenmassage",
+          "Nebenwirkung medizinische Fußpflege"
+        ],
+        "productCount": 2
+      },
+      "summaryAfterReload": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "issues": [],
+      "messages": [],
+      "screenshot": null,
+      "passed": true
+    },
+    {
+      "id": "fb_product_item_id",
+      "title": "Fb Product Item Id",
+      "kind": "checkboxes",
+      "expected": [
+        "10031355593624894",
+        "10049432308473524"
+      ],
+      "baselineUrl": "https://beautymediashop.de/shop/",
+      "baselineSummary": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "applyMechanism": "auto-change",
+      "urlMode": "ajax",
+      "applyUrl": "https://beautymediashop.de/shop/",
+      "reloadUrl": "https://beautymediashop.de/shop/",
+      "urlChanged": false,
+      "reloadUrlStable": true,
+      "summaryChangedAfterApply": true,
+      "applyNetworkActivity": [
+        {
+          "kind": "response",
+          "method": "GET",
+          "resourceType": "xhr",
+          "status": 200,
+          "url": "https://beautymediashop.de/shop/?gm-product-filter-nonce=2d84889e69&_wp_http_referer=%2Fshop%2F&plugincy_search=&rplugcusf_fb_product_item_id=10031355593624894,10049432308473524&cat_operator=OR&gm_pf_fragment=1",
+          "timestamp": 1776853531660
+        }
+      ],
+      "observedApplyEffect": true,
+      "expectsUrlChange": false,
+      "expectsReloadPersistence": false,
+      "baselineState": [],
+      "stateAfterApply": [
+        "10031355593624894",
+        "10049432308473524"
+      ],
+      "stateAfterReload": [],
+      "applyStateOk": true,
+      "reloadStateOk": false,
+      "summaryAfterApply": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Kundenkartei für die Fußreflexzonenmassage",
+          "Kundenkartei für Ultraschallbehandlungen"
+        ],
+        "productCount": 2
+      },
+      "summaryAfterReload": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "issues": [],
+      "messages": [],
+      "screenshot": null,
+      "passed": true
+    },
+    {
+      "id": "fb_product_video",
+      "title": "Fb Product Video",
+      "kind": "checkboxes",
+      "expected": [
+        "a0"
+      ],
+      "baselineUrl": "https://beautymediashop.de/shop/",
+      "baselineSummary": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "applyMechanism": "auto-change",
+      "urlMode": "ajax",
+      "applyUrl": "https://beautymediashop.de/shop/",
+      "reloadUrl": "https://beautymediashop.de/shop/",
+      "urlChanged": false,
+      "reloadUrlStable": true,
+      "summaryChangedAfterApply": true,
+      "applyNetworkActivity": [
+        {
+          "kind": "response",
+          "method": "GET",
+          "resourceType": "xhr",
+          "status": 200,
+          "url": "https://beautymediashop.de/shop/?gm-product-filter-nonce=2d84889e69&_wp_http_referer=%2Fshop%2F&plugincy_search=&rplugcusf_fb_product_video=a0&cat_operator=OR&gm_pf_fragment=1",
+          "timestamp": 1776853562019
+        }
+      ],
+      "observedApplyEffect": true,
+      "expectsUrlChange": false,
+      "expectsReloadPersistence": false,
+      "baselineState": [],
+      "stateAfterApply": [
+        "a0"
+      ],
+      "stateAfterReload": [],
+      "applyStateOk": true,
+      "reloadStateOk": false,
+      "summaryAfterApply": {
+        "resultCount": null,
+        "emptyMessage": "Es wurden keine Produkte gefunden, die Ihrer Auswahl entsprechen.",
+        "titles": [],
+        "productCount": 0
+      },
+      "summaryAfterReload": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "issues": [],
+      "messages": [],
+      "screenshot": null,
+      "passed": true
+    },
+    {
+      "id": "fb_visibility",
+      "title": "Fb Visibility",
+      "kind": "checkboxes",
+      "expected": [
+        "no"
+      ],
+      "baselineUrl": "https://beautymediashop.de/shop/",
+      "baselineSummary": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "applyMechanism": "auto-change",
+      "urlMode": "ajax",
+      "applyUrl": "https://beautymediashop.de/shop/",
+      "reloadUrl": "https://beautymediashop.de/shop/",
+      "urlChanged": false,
+      "reloadUrlStable": true,
+      "summaryChangedAfterApply": false,
+      "applyNetworkActivity": [
+        {
+          "kind": "response",
+          "method": "GET",
+          "resourceType": "xhr",
+          "status": 200,
+          "url": "https://beautymediashop.de/shop/?gm-product-filter-nonce=2d84889e69&_wp_http_referer=%2Fshop%2F&plugincy_search=&rplugcusf_fb_visibility=no&cat_operator=OR&gm_pf_fragment=1",
+          "timestamp": 1776853593659
+        }
+      ],
+      "observedApplyEffect": true,
+      "expectsUrlChange": false,
+      "expectsReloadPersistence": false,
+      "baselineState": [],
+      "stateAfterApply": [
+        "no"
+      ],
+      "stateAfterReload": [],
+      "applyStateOk": true,
+      "reloadStateOk": false,
+      "summaryAfterApply": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "summaryAfterReload": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "issues": [],
+      "messages": [],
+      "screenshot": null,
+      "passed": true
+    },
+    {
+      "id": "import_started_at",
+      "title": "Import Started At",
+      "kind": "checkboxes",
+      "expected": [
+        "1715604732",
+        "1715610389"
+      ],
+      "baselineUrl": "https://beautymediashop.de/shop/",
+      "baselineSummary": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "applyMechanism": "auto-change",
+      "urlMode": "ajax",
+      "applyUrl": "https://beautymediashop.de/shop/",
+      "reloadUrl": "https://beautymediashop.de/shop/",
+      "urlChanged": false,
+      "reloadUrlStable": true,
+      "summaryChangedAfterApply": false,
+      "applyNetworkActivity": [
+        {
+          "kind": "response",
+          "method": "GET",
+          "resourceType": "xhr",
+          "status": 200,
+          "url": "https://beautymediashop.de/shop/?gm-product-filter-nonce=2d84889e69&_wp_http_referer=%2Fshop%2F&plugincy_search=&rplugcusf_import_started_at=1715604732,1715610389&cat_operator=OR&gm_pf_fragment=1",
+          "timestamp": 1776853624829
+        }
+      ],
+      "observedApplyEffect": true,
+      "expectsUrlChange": false,
+      "expectsReloadPersistence": false,
+      "baselineState": [],
+      "stateAfterApply": [
+        "1715604732",
+        "1715610389"
+      ],
+      "stateAfterReload": [],
+      "applyStateOk": true,
+      "reloadStateOk": false,
+      "summaryAfterApply": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "summaryAfterReload": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "issues": [],
+      "messages": [],
+      "screenshot": null,
+      "passed": true
+    },
+    {
+      "id": "import_uid",
+      "title": "Import Uid",
+      "kind": "checkboxes",
+      "expected": [
+        "6633bd73d82b4",
+        "6642064447baa"
+      ],
+      "baselineUrl": "https://beautymediashop.de/shop/",
+      "baselineSummary": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "applyMechanism": "auto-change",
+      "urlMode": "ajax",
+      "applyUrl": "https://beautymediashop.de/shop/",
+      "reloadUrl": "https://beautymediashop.de/shop/",
+      "urlChanged": false,
+      "reloadUrlStable": true,
+      "summaryChangedAfterApply": false,
+      "applyNetworkActivity": [
+        {
+          "kind": "response",
+          "method": "GET",
+          "resourceType": "xhr",
+          "status": 200,
+          "url": "https://beautymediashop.de/shop/?gm-product-filter-nonce=2d84889e69&_wp_http_referer=%2Fshop%2F&plugincy_search=&rplugcusf_import_uid=6633bd73d82b4,6642064447baa&cat_operator=OR&gm_pf_fragment=1",
+          "timestamp": 1776853656085
+        }
+      ],
+      "observedApplyEffect": true,
+      "expectsUrlChange": false,
+      "expectsReloadPersistence": false,
+      "baselineState": [],
+      "stateAfterApply": [
+        "6633bd73d82b4",
+        "6642064447baa"
+      ],
+      "stateAfterReload": [],
+      "applyStateOk": true,
+      "reloadStateOk": false,
+      "summaryAfterApply": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "summaryAfterReload": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "issues": [],
+      "messages": [],
+      "screenshot": null,
+      "passed": true
+    },
+    {
+      "id": "name_it",
+      "title": "Name It",
+      "kind": "checkboxes",
+      "expected": [
+        "accordo-acconto",
+        "accordo-cliente-per-autorizzazione-foto-sconto"
+      ],
+      "baselineUrl": "https://beautymediashop.de/shop/",
+      "baselineSummary": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "applyMechanism": "auto-change",
+      "urlMode": "ajax",
+      "applyUrl": "https://beautymediashop.de/shop/",
+      "reloadUrl": "https://beautymediashop.de/shop/",
+      "urlChanged": false,
+      "reloadUrlStable": true,
+      "summaryChangedAfterApply": true,
+      "applyNetworkActivity": [
+        {
+          "kind": "response",
+          "method": "GET",
+          "resourceType": "xhr",
+          "status": 200,
+          "url": "https://beautymediashop.de/shop/?gm-product-filter-nonce=2d84889e69&_wp_http_referer=%2Fshop%2F&plugincy_search=&rplugcusf_name_it=accordo-acconto,accordo-cliente-per-autorizzazione-foto-sconto&cat_operator=OR&gm_pf_fragment=1",
+          "timestamp": 1776853687417
+        }
+      ],
+      "observedApplyEffect": true,
+      "expectsUrlChange": false,
+      "expectsReloadPersistence": false,
+      "baselineState": [],
+      "stateAfterApply": [
+        "accordo-acconto",
+        "accordo-cliente-per-autorizzazione-foto-sconto"
+      ],
+      "stateAfterReload": [],
+      "applyStateOk": true,
+      "reloadStateOk": false,
+      "summaryAfterApply": {
+        "resultCount": null,
+        "emptyMessage": "Es wurden keine Produkte gefunden, die Ihrer Auswahl entsprechen.",
+        "titles": [],
+        "productCount": 0
+      },
+      "summaryAfterReload": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "issues": [],
+      "messages": [],
+      "screenshot": null,
+      "passed": true
+    },
+    {
+      "id": "total_sales",
+      "title": "Total Sales",
+      "kind": "checkboxes",
+      "expected": [
+        "0",
+        "1"
+      ],
+      "baselineUrl": "https://beautymediashop.de/shop/",
+      "baselineSummary": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "applyMechanism": "auto-change",
+      "urlMode": "ajax",
+      "applyUrl": "https://beautymediashop.de/shop/",
+      "reloadUrl": "https://beautymediashop.de/shop/",
+      "urlChanged": false,
+      "reloadUrlStable": true,
+      "summaryChangedAfterApply": true,
+      "applyNetworkActivity": [
+        {
+          "kind": "response",
+          "method": "GET",
+          "resourceType": "xhr",
+          "status": 200,
+          "url": "https://beautymediashop.de/shop/?gm-product-filter-nonce=2d84889e69&_wp_http_referer=%2Fshop%2F&plugincy_search=&rplugcusf_total_sales=0,1&cat_operator=OR&gm_pf_fragment=1",
+          "timestamp": 1776853719390
+        }
+      ],
+      "observedApplyEffect": true,
+      "expectsUrlChange": false,
+      "expectsReloadPersistence": false,
+      "baselineState": [],
+      "stateAfterApply": [
+        "0",
+        "1"
+      ],
+      "stateAfterReload": [],
+      "applyStateOk": true,
+      "reloadStateOk": false,
+      "summaryAfterApply": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Beschwerde / Verbesserung / Lob – Formular für Kundenmeinung",
+          "Bundle Professional Studiounterlagen",
+          "Bundle Ultra Studiounterlagen",
+          "Checkliste für die Körperanalyse",
+          "Einverständnis Ayurveda Massage"
+        ],
+        "productCount": 30
+      },
+      "summaryAfterReload": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "issues": [],
+      "messages": [],
+      "screenshot": null,
+      "passed": true
+    },
+    {
+      "id": "wholesale_customer_have_wholesale_price",
+      "title": "Wholesale Customer Have Wholesale Price",
+      "kind": "checkboxes",
+      "expected": [
+        "no"
+      ],
+      "baselineUrl": "https://beautymediashop.de/shop/",
+      "baselineSummary": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "applyMechanism": "auto-change",
+      "urlMode": "ajax",
+      "applyUrl": "https://beautymediashop.de/shop/",
+      "reloadUrl": "https://beautymediashop.de/shop/",
+      "urlChanged": false,
+      "reloadUrlStable": true,
+      "summaryChangedAfterApply": true,
+      "applyNetworkActivity": [
+        {
+          "kind": "response",
+          "method": "GET",
+          "resourceType": "xhr",
+          "status": 200,
+          "url": "https://beautymediashop.de/shop/?gm-product-filter-nonce=2d84889e69&_wp_http_referer=%2Fshop%2F&plugincy_search=&rplugcusf_wholesale_customer_have_wholesale_price=no&cat_operator=OR&gm_pf_fragment=1",
+          "timestamp": 1776853749852
+        }
+      ],
+      "observedApplyEffect": true,
+      "expectsUrlChange": false,
+      "expectsReloadPersistence": false,
+      "baselineState": [],
+      "stateAfterApply": [
+        "no"
+      ],
+      "stateAfterReload": [],
+      "applyStateOk": true,
+      "reloadStateOk": false,
+      "summaryAfterApply": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Einverständnis für das Areola Tattoo",
+          "Einverständnis für die Mesotherapie",
+          "Nebenwirkung der Keratin Haarglättung",
+          "Nebenwirkungen der Kryolipolyse",
+          "Paket – Airbrush Brows Behandlung"
+        ],
+        "productCount": 17
+      },
+      "summaryAfterReload": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "issues": [],
+      "messages": [],
+      "screenshot": null,
+      "passed": true
+    },
+    {
+      "id": "tag",
+      "title": "Tags",
+      "kind": "checkboxes",
+      "expected": [
+        "abonnement-vertrag"
+      ],
+      "baselineUrl": "https://beautymediashop.de/shop/",
+      "baselineSummary": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "applyMechanism": "auto-change",
+      "urlMode": "ajax",
+      "applyUrl": "https://beautymediashop.de/shop/",
+      "reloadUrl": "https://beautymediashop.de/shop/",
+      "urlChanged": false,
+      "reloadUrlStable": true,
+      "summaryChangedAfterApply": true,
+      "applyNetworkActivity": [
+        {
+          "kind": "response",
+          "method": "GET",
+          "resourceType": "xhr",
+          "status": 200,
+          "url": "https://beautymediashop.de/shop/?gm-product-filter-nonce=2d84889e69&_wp_http_referer=%2Fshop%2F&plugincy_search=&tags=abonnement-vertrag&cat_operator=OR&gm_pf_fragment=1",
+          "timestamp": 1776853780903
+        }
+      ],
+      "observedApplyEffect": true,
+      "expectsUrlChange": false,
+      "expectsReloadPersistence": false,
+      "baselineState": [],
+      "stateAfterApply": [
+        "abonnement-vertrag"
+      ],
+      "stateAfterReload": [],
+      "applyStateOk": true,
+      "reloadStateOk": false,
+      "summaryAfterApply": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen"
+        ],
+        "productCount": 1
+      },
+      "summaryAfterReload": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "issues": [],
+      "messages": [],
+      "screenshot": null,
+      "passed": true
+    },
+    {
+      "id": "authors",
+      "title": "Authors",
+      "kind": "checkboxes",
+      "expected": [
+        "beautymedia"
+      ],
+      "baselineUrl": "https://beautymediashop.de/shop/",
+      "baselineSummary": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "applyMechanism": "auto-change",
+      "urlMode": "ajax",
+      "applyUrl": "https://beautymediashop.de/shop/",
+      "reloadUrl": "https://beautymediashop.de/shop/",
+      "urlChanged": false,
+      "reloadUrlStable": true,
+      "summaryChangedAfterApply": false,
+      "applyNetworkActivity": [
+        {
+          "kind": "response",
+          "method": "GET",
+          "resourceType": "xhr",
+          "status": 200,
+          "url": "https://beautymediashop.de/shop/?gm-product-filter-nonce=2d84889e69&_wp_http_referer=%2Fshop%2F&plugincy_search=&rpluthor=beautymedia&cat_operator=OR&gm_pf_fragment=1",
+          "timestamp": 1776853812476
+        }
+      ],
+      "observedApplyEffect": true,
+      "expectsUrlChange": false,
+      "expectsReloadPersistence": false,
+      "baselineState": [],
+      "stateAfterApply": [
+        "beautymedia"
+      ],
+      "stateAfterReload": [],
+      "applyStateOk": true,
+      "reloadStateOk": false,
+      "summaryAfterApply": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "summaryAfterReload": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "issues": [],
+      "messages": [],
+      "screenshot": null,
+      "passed": true
+    },
+    {
+      "id": "status",
+      "title": "Stock Status",
+      "kind": "checkboxes",
+      "expected": [
+        "instock"
+      ],
+      "baselineUrl": "https://beautymediashop.de/shop/",
+      "baselineSummary": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "applyMechanism": "auto-change",
+      "urlMode": "ajax",
+      "applyUrl": "https://beautymediashop.de/shop/",
+      "reloadUrl": "https://beautymediashop.de/shop/",
+      "urlChanged": false,
+      "reloadUrlStable": true,
+      "summaryChangedAfterApply": false,
+      "applyNetworkActivity": [
+        {
+          "kind": "response",
+          "method": "GET",
+          "resourceType": "xhr",
+          "status": 200,
+          "url": "https://beautymediashop.de/shop/?gm-product-filter-nonce=2d84889e69&_wp_http_referer=%2Fshop%2F&plugincy_search=&rplutock_status=instock&cat_operator=OR&gm_pf_fragment=1",
+          "timestamp": 1776853844641
+        }
+      ],
+      "observedApplyEffect": true,
+      "expectsUrlChange": false,
+      "expectsReloadPersistence": false,
+      "baselineState": [],
+      "stateAfterApply": [
+        "instock"
+      ],
+      "stateAfterReload": [],
+      "applyStateOk": true,
+      "reloadStateOk": false,
+      "summaryAfterApply": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "summaryAfterReload": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "issues": [],
+      "messages": [],
+      "screenshot": null,
+      "passed": true
+    },
+    {
+      "id": "sale_status",
+      "title": "Sale Status",
+      "kind": "checkboxes",
+      "expected": [
+        "notonsale"
+      ],
+      "baselineUrl": "https://beautymediashop.de/shop/",
+      "baselineSummary": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "applyMechanism": "auto-change",
+      "urlMode": "ajax",
+      "applyUrl": "https://beautymediashop.de/shop/",
+      "reloadUrl": "https://beautymediashop.de/shop/",
+      "urlChanged": false,
+      "reloadUrlStable": true,
+      "summaryChangedAfterApply": false,
+      "applyNetworkActivity": [
+        {
+          "kind": "response",
+          "method": "GET",
+          "resourceType": "xhr",
+          "status": 200,
+          "url": "https://beautymediashop.de/shop/?gm-product-filter-nonce=2d84889e69&_wp_http_referer=%2Fshop%2F&plugincy_search=&rpn_sale=notonsale&cat_operator=OR&gm_pf_fragment=1",
+          "timestamp": 1776853875344
+        }
+      ],
+      "observedApplyEffect": true,
+      "expectsUrlChange": false,
+      "expectsReloadPersistence": false,
+      "baselineState": [],
+      "stateAfterApply": [
+        "notonsale"
+      ],
+      "stateAfterReload": [],
+      "applyStateOk": true,
+      "reloadStateOk": false,
+      "summaryAfterApply": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "summaryAfterReload": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "issues": [],
+      "messages": [],
+      "screenshot": null,
+      "passed": true
+    },
+    {
+      "id": "featured_status",
+      "title": "Featured Products",
+      "kind": "checkboxes",
+      "expected": [
+        "notfeatured"
+      ],
+      "baselineUrl": "https://beautymediashop.de/shop/",
+      "baselineSummary": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "applyMechanism": "auto-change",
+      "urlMode": "ajax",
+      "applyUrl": "https://beautymediashop.de/shop/",
+      "reloadUrl": "https://beautymediashop.de/shop/",
+      "urlChanged": false,
+      "reloadUrlStable": true,
+      "summaryChangedAfterApply": false,
+      "applyNetworkActivity": [
+        {
+          "kind": "response",
+          "method": "GET",
+          "resourceType": "xhr",
+          "status": 200,
+          "url": "https://beautymediashop.de/shop/?gm-product-filter-nonce=2d84889e69&_wp_http_referer=%2Fshop%2F&plugincy_search=&rpn_featured=notfeatured&cat_operator=OR&gm_pf_fragment=1",
+          "timestamp": 1776853908079
+        }
+      ],
+      "observedApplyEffect": true,
+      "expectsUrlChange": false,
+      "expectsReloadPersistence": false,
+      "baselineState": [],
+      "stateAfterApply": [
+        "notfeatured"
+      ],
+      "stateAfterReload": [],
+      "applyStateOk": true,
+      "reloadStateOk": false,
+      "summaryAfterApply": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "summaryAfterReload": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [
+          "Abonnement Vertrag für kosmetische Behandlungen",
+          "Allgemeine Geschäftsbedingungen",
+          "Anzahlungsvereinbarung",
+          "Arbeitsvertrag für geringfügige Beschäftigung (Minijob)",
+          "Ärztebescheinigung für Kosmetik Behandlung als Absicherung"
+        ],
+        "productCount": 30
+      },
+      "issues": [],
+      "messages": [],
+      "screenshot": null,
+      "passed": true
+    }
+  ],
+  "uniqueMessages": [],
+  "pluginDebug": {
+    "available": true,
+    "applyMode": "auto",
+    "urlMode": "ajax",
+    "useOverlay": true,
+    "mobileBreakpoint": 1024,
+    "mobileStyle": "style_4",
+    "selectors": {
+      "product": "ul.products",
+      "pagination": ".woocommerce-pagination ul.page-numbers",
+      "sorting": "form.woocommerce-ordering select",
+      "resultCount": ".woocommerce-result-count"
+    },
+    "style": {
+      "showApplyButton": null,
+      "showResetButton": null,
+      "showApplyResetOn": null,
+      "applyBehavior": null
+    },
+    "manage": {
+      "useUrlFilter": "ajax",
+      "showLoader": "on"
+    }
+  },
+  "autoDiscovery": {
+    "used": true,
+    "source": "dom+woo-store-api",
+    "storeApiEndpoint": "https://beautymediashop.de/wp-json/wc/store/v1/products?per_page=50",
+    "storeApiOk": true,
+    "storeApiError": null,
+    "discoveredProductCount": 50
+  },
+  "effectiveConfig": {
+    "siteLabel": "beautymediashop-de-shop",
+    "baseUrl": "https://beautymediashop.de/shop/",
+    "deviceMode": "desktop",
+    "selectors": {
+      "form": "#product-filter",
+      "applyButtonName": "Apply Filters",
+      "resetButtonName": "Reset Filters",
+      "resultCount": ".woocommerce-result-count",
+      "emptyMessage": ".woocommerce-info, .woocommerce-no-products-found",
+      "productTitles": "ul.products li.product .woocommerce-loop-product__title, ul.products li.product h2, ul.products .product h2, ul.products h2"
+    },
+    "testData": {
+      "searchText": "Vorabinformationen Mesotherapie",
+      "priceRange": {
+        "min": "419",
+        "max": "2680"
+      },
+      "sku": "VEB-2-2-2-1-1-1",
+      "discount": "",
+      "dimensions": {
+        "min_height": "",
+        "max_height": "",
+        "min_length": "",
+        "max_length": ""
+      }
+    },
+    "fieldOverrides": {
+      "plugincy_rating": {
+        "kind": "checkboxes",
+        "values": [
+          "1"
+        ]
+      },
+      "category-with-child": {
+        "kind": "checkboxes",
+        "values": [
+          "permanent-make-up-uebungsblaetter"
+        ]
+      },
+      "fb_product_group_id": {
+        "kind": "checkboxes",
+        "values": [
+          "10031355086958278",
+          "10049395145178186"
+        ]
+      },
+      "fb_product_item_id": {
+        "kind": "checkboxes",
+        "values": [
+          "10031355593624894",
+          "10049432308473524"
+        ]
+      },
+      "fb_product_video": {
+        "kind": "checkboxes",
+        "values": [
+          "a0"
+        ]
+      },
+      "fb_visibility": {
+        "kind": "checkboxes",
+        "values": [
+          "no"
+        ]
+      },
+      "import_started_at": {
+        "kind": "checkboxes",
+        "values": [
+          "1715604732",
+          "1715610389"
+        ]
+      },
+      "import_uid": {
+        "kind": "checkboxes",
+        "values": [
+          "6633bd73d82b4",
+          "6642064447baa"
+        ]
+      },
+      "name_it": {
+        "kind": "checkboxes",
+        "values": [
+          "accordo-acconto",
+          "accordo-cliente-per-autorizzazione-foto-sconto"
+        ]
+      },
+      "total_sales": {
+        "kind": "checkboxes",
+        "values": [
+          "0",
+          "1"
+        ]
+      },
+      "wholesale_customer_have_wholesale_price": {
+        "kind": "checkboxes",
+        "values": [
+          "no"
+        ]
+      },
+      "tag": {
+        "kind": "checkboxes",
+        "values": [
+          "abonnement-vertrag"
+        ]
+      },
+      "authors": {
+        "kind": "checkboxes",
+        "values": [
+          "beautymedia"
+        ]
+      },
+      "status": {
+        "kind": "checkboxes",
+        "values": [
+          "instock"
+        ]
+      },
+      "sale_status": {
+        "kind": "checkboxes",
+        "values": [
+          "notonsale"
+        ]
+      },
+      "featured_status": {
+        "kind": "checkboxes",
+        "values": [
+          "notfeatured"
+        ]
+      }
+    },
+    "actionTargets": {
+      "collapseFieldsetId": "plugincy_rating",
+      "optionSearchFieldsetId": "",
+      "optionSearchPlaceholder": "",
+      "optionSearchText": "",
+      "resetFieldsetId": "plugincy_rating",
+      "resetValue": "1"
+    },
+    "skipFieldsets": []
+  },
+  "summary": {
+    "failedActionTests": 1,
+    "failedFilterTests": 2
+  }
+}

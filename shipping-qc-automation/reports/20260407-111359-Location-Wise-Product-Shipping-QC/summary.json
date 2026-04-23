@@ -1,0 +1,71 @@
+{
+  "generatedAt": "2026-04-07T05:29:45.175Z",
+  "runDir": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\shipping-qc-automation\\reports\\20260407-111359-Location-Wise-Product-Shipping-QC",
+  "setup": {
+    "ok": true,
+    "failures": [],
+    "zoneMap": {
+      "Dubai": {
+        "zoneId": 1,
+        "editHref": "admin.php?page=wc-settings&tab=shipping&zone_id=1",
+        "from": "existing"
+      },
+      "Canada": {
+        "zoneId": 3,
+        "editHref": "admin.php?page=wc-settings&tab=shipping&zone_id=3",
+        "from": "existing"
+      },
+      "Chiang Mai": {
+        "zoneId": 4,
+        "editHref": "admin.php?page=wc-settings&tab=shipping&zone_id=4",
+        "from": "existing"
+      },
+      "thailand except two locations": {
+        "zoneId": 5,
+        "editHref": "admin.php?page=wc-settings&tab=shipping&zone_id=5",
+        "from": "existing"
+      },
+      "Bangladesh": {
+        "zoneId": 6,
+        "editHref": "admin.php?page=wc-settings&tab=shipping&zone_id=6",
+        "from": "existing"
+      },
+      "Europe": {
+        "zoneId": 8,
+        "editHref": "admin.php?page=wc-settings&tab=shipping&zone_id=8",
+        "from": "existing"
+      },
+      "Kandirpar cumilla": {
+        "zoneId": 9,
+        "editHref": "admin.php?page=wc-settings&tab=shipping&zone_id=9",
+        "from": "existing"
+      },
+      "Continent wise shipping": {
+        "zoneId": 15,
+        "editHref": "admin.php?page=wc-settings&tab=shipping&zone_id=15",
+        "from": "existing"
+      },
+      "QC Asia Auto": {
+        "zoneId": 16,
+        "from": "existing"
+      },
+      "QC Europe Auto": {
+        "zoneId": 17,
+        "from": "existing"
+      }
+    }
+  },
+  "total": 1,
+  "passed": 0,
+  "failed": 1,
+  "scenarios": [
+    {
+      "id": "S01-city-priority-zone",
+      "success": false,
+      "folder": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\shipping-qc-automation\\reports\\20260407-111359-Location-Wise-Product-Shipping-QC\\incorrect_01-S01-city-priority-zone",
+      "failures": [
+        "Expected at least one shipping method, but none found."
+      ]
+    }
+  ]
+}

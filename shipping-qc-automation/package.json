@@ -1,0 +1,15 @@
+{
+  "name": "shipping-qc-automation",
+  "version": "1.0.0",
+  "description": "Reusable Playwright-based QC automation for WooCommerce shipping and location-wise shipping behavior.",
+  "main": "src/run-shipping-qc.js",
+  "type": "commonjs",
+  "scripts": {
+    "qc": "node src/run-shipping-qc.js",
+    "qc:headed": "node src/run-shipping-qc.js --headed",
+    "qc:headless": "node src/run-shipping-qc.js --headless"
+  },
+  "dependencies": {
+    "playwright": "latest"
+  }
+}

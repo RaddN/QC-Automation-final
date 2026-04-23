@@ -1,0 +1,109 @@
+{
+  "generatedAt": "2026-04-22T11:40:36.249Z",
+  "baseUrl": "http://free-filter-plugin.local/products/",
+  "runMode": "url-auto",
+  "deviceMode": "desktop",
+  "siteLabel": "free-filter-plugin-local-products",
+  "testData": {
+    "searchText": "Months product",
+    "priceRange": {
+      "min": "169900",
+      "max": "500000"
+    },
+    "sku": "21sgsgh",
+    "discount": "33",
+    "dimensions": {
+      "min_height": "",
+      "max_height": "",
+      "min_length": "",
+      "max_length": ""
+    }
+  },
+  "fieldOverrides": {
+    "001-plugincy-rating-rating-reset": {
+      "kind": "checkboxes",
+      "values": [
+        "1"
+      ]
+    },
+    "003-product-category-category-reset": {
+      "kind": "radios",
+      "values": [
+        "test-parent-with-zero-product"
+      ]
+    },
+    "004-months-months": {
+      "kind": "checkboxes",
+      "values": [
+        "apr-2026",
+        "feb-2026"
+      ]
+    },
+    "005-material-material": {
+      "kind": "checkboxes",
+      "values": [
+        "cord-fabric",
+        "cotton"
+      ]
+    },
+    "006-size-size": {
+      "kind": "checkboxes",
+      "values": [
+        "l",
+        "m"
+      ]
+    },
+    "007-mens-trend-men-s-trend": {
+      "kind": "checkboxes",
+      "values": [
+        "nautical",
+        "office"
+      ]
+    },
+    "008-test10-test10": {
+      "kind": "checkboxes",
+      "values": [
+        "test"
+      ]
+    },
+    "009-tag-tag": {
+      "kind": "radios",
+      "values": [
+        "10-attachments"
+      ]
+    },
+    "010-brands-brands": {
+      "kind": "radios",
+      "values": [
+        "lenevo"
+      ]
+    },
+    "013-sale-status-sale-status": {
+      "kind": "checkboxes",
+      "values": [
+        "notonsale"
+      ]
+    }
+  },
+  "actionTargets": {
+    "collapseFieldset": "001-plugincy-rating-rating-reset",
+    "collapseFieldsetId": "plugincy_rating",
+    "optionSearchFieldset": "003-product-category-category-reset",
+    "optionSearchFieldsetId": "product-category",
+    "optionSearchPlaceholder": "Search Category Terms",
+    "optionSearchText": "test parent",
+    "resetFieldset": "001-plugincy-rating-rating-reset",
+    "resetFieldsetId": "plugincy_rating",
+    "resetValue": "1"
+  },
+  "autoDiscovery": {
+    "used": true,
+    "source": "dom+woo-store-api",
+    "storeApiEndpoint": "http://free-filter-plugin.local/wp-json/wc/store/v1/products?per_page=50",
+    "storeApiOk": true,
+    "storeApiError": null,
+    "discoveredProductCount": 50,
+    "sampledFieldsetCount": 18,
+    "maxDuplicateFieldsetsPerId": 3
+  }
+}

@@ -1,0 +1,1588 @@
+{
+  "siteLabel": "free-filter-plugin-local-products",
+  "runMode": "url-auto",
+  "deviceMode": "desktop",
+  "baseUrl": "http://free-filter-plugin.local/products/",
+  "configPath": null,
+  "outputDir": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\dapf-filter-qc\\reports\\free-filter-plugin-local-products-desktop-20260422-162059",
+  "reportJsonPath": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\dapf-filter-qc\\reports\\free-filter-plugin-local-products-desktop-20260422-162059\\report.json",
+  "reportMarkdownPath": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\dapf-filter-qc\\reports\\free-filter-plugin-local-products-desktop-20260422-162059\\report.md",
+  "generatedConfigPath": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\dapf-filter-qc\\reports\\free-filter-plugin-local-products-desktop-20260422-162059\\generated-config.json",
+  "startedAt": "2026-04-22T10:21:25.747Z",
+  "finishedAt": "2026-04-22T10:29:46.395Z",
+  "baselineSummary": {
+    "resultCount": "Showing 1–10 of 450 results",
+    "emptyMessage": null,
+    "titles": [
+      "1 Touch Prime Blood Glucose Test Monitor",
+      "100% Pure Acacia Honey with Natural Honeycomb Langnese  – 500g: Nature’s Golden Delight",
+      "302A Fingertip Pulse Oximeter: Oxygen Saturation Monitor for Reliable Health Tracking",
+      "5-in-1 Intelligent Smart Health Monitoring Device: Blood Pressure, Oxygen, Temperature",
+      "Accu Test Elite- Blood Glucose Monitoring System"
+    ],
+    "productCount": 10
+  },
+  "totalActionTests": 5,
+  "totalFilterTests": 17,
+  "passedActionTests": 5,
+  "passedFilterTests": 14,
+  "failedCount": 3,
+  "skippedActionTests": 2,
+  "actionTests": [
+    {
+      "id": "action-overlay-toggle",
+      "title": "Overlay toggle",
+      "skipped": true,
+      "passed": true,
+      "issues": [],
+      "reason": "Overlay button was not found for this viewport."
+    },
+    {
+      "id": "action-shortcode-toggle",
+      "title": "Shortcode collapsible toggle",
+      "skipped": true,
+      "passed": true,
+      "issues": [],
+      "reason": "Shortcode collapsible wrapper was not found."
+    },
+    {
+      "id": "action-collapse-toggle",
+      "title": "Collapse toggle on plugincy_rating",
+      "beforeState": {
+        "collapsed": false,
+        "visible": true,
+        "displays": [
+          "block"
+        ],
+        "hiddenClassCount": 0
+      },
+      "afterCollapseState": {
+        "collapsed": true,
+        "visible": false,
+        "displays": [
+          "flex"
+        ],
+        "hiddenClassCount": 0
+      },
+      "afterExpandState": {
+        "collapsed": false,
+        "visible": true,
+        "displays": [
+          "block"
+        ],
+        "hiddenClassCount": 0
+      },
+      "messages": [],
+      "issues": [],
+      "passed": true
+    },
+    {
+      "id": "action-option-search",
+      "title": "Internal option search on product-category",
+      "beforeSample": [
+        "test parent with zero product (1)",
+        "Beauty Care (73)",
+        "Baby Care (30)",
+        "Uncategorized (20)",
+        "Fitness Products (14)",
+        "Health Care (292)",
+        "Hospital (7)",
+        "Laboratory (1)",
+        "Laptop (10)",
+        "Linux (1)",
+        "MacBook (1)",
+        "Medical (14)",
+        "Phone (1)",
+        "Tablet (1)",
+        "test parent (16)",
+        "বেকারি ও কনফেকশনারীি (1)"
+      ],
+      "afterSample": [
+        "test parent with zero product (1)",
+        "test parent (16)"
+      ],
+      "messages": [],
+      "issues": [],
+      "passed": true
+    },
+    {
+      "id": "action-reset-filters",
+      "title": "Reset Filters on plugincy_rating",
+      "applyMechanism": "auto-change",
+      "resetMechanism": "group-reset",
+      "urlMode": "query_string",
+      "baselineUrl": "http://free-filter-plugin.local/products/",
+      "baselineSummary": {
+        "resultCount": "Showing 1–10 of 450 results",
+        "emptyMessage": null,
+        "titles": [
+          "1 Touch Prime Blood Glucose Test Monitor",
+          "100% Pure Acacia Honey with Natural Honeycomb Langnese  – 500g: Nature’s Golden Delight",
+          "302A Fingertip Pulse Oximeter: Oxygen Saturation Monitor for Reliable Health Tracking",
+          "5-in-1 Intelligent Smart Health Monitoring Device: Blood Pressure, Oxygen, Temperature",
+          "Accu Test Elite- Blood Glucose Monitoring System"
+        ],
+        "productCount": 10
+      },
+      "filteredUrl": "http://free-filter-plugin.local/products/?filters=1&rating=1",
+      "resetUrl": "http://free-filter-plugin.local/products/",
+      "baselineState": [],
+      "stateBeforeReset": [
+        "1"
+      ],
+      "stateAfterReset": [],
+      "filteredSummary": {
+        "resultCount": "Showing all 3 results",
+        "emptyMessage": null,
+        "titles": [
+          "Laptop HP Probook 455 G7 Silver",
+          "Laptop Lenovo V15-ADA",
+          "Shirt ae ae2546"
+        ],
+        "productCount": 3
+      },
+      "resetSummary": {
+        "resultCount": "Showing 1–10 of 450 results",
+        "emptyMessage": null,
+        "titles": [
+          "1 Touch Prime Blood Glucose Test Monitor",
+          "100% Pure Acacia Honey with Natural Honeycomb Langnese  – 500g: Nature’s Golden Delight",
+          "302A Fingertip Pulse Oximeter: Oxygen Saturation Monitor for Reliable Health Tracking",
+          "5-in-1 Intelligent Smart Health Monitoring Device: Blood Pressure, Oxygen, Temperature",
+          "Accu Test Elite- Blood Glucose Monitoring System"
+        ],
+        "productCount": 10
+      },
+      "messages": [],
+      "issues": [],
+      "passed": true
+    }
+  ],
+  "filterTests": [
+    {
+      "id": "search_text",
+      "title": "Search Product",
+      "kind": "text",
+      "expected": {
+        "plugincy_search": "Months product"
+      },
+      "baselineUrl": "http://free-filter-plugin.local/products/",
+      "baselineSummary": {
+        "resultCount": "Showing 1–10 of 450 results",
+        "emptyMessage": null,
+        "titles": [
+          "1 Touch Prime Blood Glucose Test Monitor",
+          "100% Pure Acacia Honey with Natural Honeycomb Langnese  – 500g: Nature’s Golden Delight",
+          "302A Fingertip Pulse Oximeter: Oxygen Saturation Monitor for Reliable Health Tracking",
+          "5-in-1 Intelligent Smart Health Monitoring Device: Blood Pressure, Oxygen, Temperature",
+          "Accu Test Elite- Blood Glucose Monitoring System"
+        ],
+        "productCount": 10
+      },
+      "applyMechanism": "search-submit",
+      "urlMode": "query_string",
+      "applyUrl": "http://free-filter-plugin.local/products/?filters=1&title=Months+product",
+      "reloadUrl": "http://free-filter-plugin.local/products/?filters=1&title=Months+product",
+      "urlChanged": true,
+      "reloadUrlStable": true,
+      "summaryChangedAfterApply": true,
+      "applyNetworkActivity": [
+        {
+          "kind": "response",
+          "method": "GET",
+          "resourceType": "xhr",
+          "status": 200,
+          "url": "http://free-filter-plugin.local/products/?gm-product-filter-nonce=999cb6f23a&plugincy_search=Months%20product&cat_operator=OR&gm_pf_fragment=1",
+          "timestamp": 1776853363315
+        }
+      ],
+      "observedApplyEffect": true,
+      "expectsUrlChange": true,
+      "expectsReloadPersistence": true,
+      "baselineState": {
+        "plugincy_search": ""
+      },
+      "stateAfterApply": {
+        "plugincy_search": "Months product"
+      },
+      "stateAfterReload": {
+        "plugincy_search": "Months product"
+      },
+      "applyStateOk": true,
+      "reloadStateOk": true,
+      "summaryAfterApply": {
+        "resultCount": "Showing the single result",
+        "emptyMessage": null,
+        "titles": [
+          "Months product"
+        ],
+        "productCount": 1
+      },
+      "summaryAfterReload": {
+        "resultCount": "Showing the single result",
+        "emptyMessage": null,
+        "titles": [
+          "Months product"
+        ],
+        "productCount": 1
+      },
+      "issues": [],
+      "messages": [],
+      "screenshot": null,
+      "passed": true
+    },
+    {
+      "id": "plugincy_rating",
+      "title": "Rating Reset",
+      "kind": "checkboxes",
+      "expected": [
+        "1"
+      ],
+      "baselineUrl": "http://free-filter-plugin.local/products/",
+      "baselineSummary": {
+        "resultCount": "Showing 1–10 of 450 results",
+        "emptyMessage": null,
+        "titles": [
+          "1 Touch Prime Blood Glucose Test Monitor",
+          "100% Pure Acacia Honey with Natural Honeycomb Langnese  – 500g: Nature’s Golden Delight",
+          "302A Fingertip Pulse Oximeter: Oxygen Saturation Monitor for Reliable Health Tracking",
+          "5-in-1 Intelligent Smart Health Monitoring Device: Blood Pressure, Oxygen, Temperature",
+          "Accu Test Elite- Blood Glucose Monitoring System"
+        ],
+        "productCount": 10
+      },
+      "applyMechanism": "auto-change",
+      "urlMode": "query_string",
+      "applyUrl": "http://free-filter-plugin.local/products/?filters=1&rating=1",
+      "reloadUrl": "http://free-filter-plugin.local/products/?filters=1&rating=1",
+      "urlChanged": true,
+      "reloadUrlStable": true,
+      "summaryChangedAfterApply": true,
+      "applyNetworkActivity": [
+        {
+          "kind": "response",
+          "method": "GET",
+          "resourceType": "xhr",
+          "status": 200,
+          "url": "http://free-filter-plugin.local/products/?gm-product-filter-nonce=999cb6f23a&rating=1&cat_operator=OR&gm_pf_fragment=1",
+          "timestamp": 1776853387779
+        }
+      ],
+      "observedApplyEffect": true,
+      "expectsUrlChange": true,
+      "expectsReloadPersistence": true,
+      "baselineState": [],
+      "stateAfterApply": [
+        "1"
+      ],
+      "stateAfterReload": [
+        "1"
+      ],
+      "applyStateOk": true,
+      "reloadStateOk": true,
+      "summaryAfterApply": {
+        "resultCount": "Showing all 3 results",
+        "emptyMessage": null,
+        "titles": [
+          "Laptop HP Probook 455 G7 Silver",
+          "Laptop Lenovo V15-ADA",
+          "Shirt ae ae2546"
+        ],
+        "productCount": 3
+      },
+      "summaryAfterReload": {
+        "resultCount": "Showing all 3 results",
+        "emptyMessage": null,
+        "titles": [
+          "Laptop HP Probook 455 G7 Silver",
+          "Laptop Lenovo V15-ADA",
+          "Shirt ae ae2546"
+        ],
+        "productCount": 3
+      },
+      "issues": [],
+      "messages": [],
+      "screenshot": null,
+      "passed": true
+    },
+    {
+      "id": "price-range",
+      "title": "Price Range",
+      "kind": "inputs",
+      "expected": {
+        "mn_price": "169900",
+        "mx_price": "945000"
+      },
+      "baselineUrl": "http://free-filter-plugin.local/products/",
+      "baselineSummary": {
+        "resultCount": "Showing 1–10 of 450 results",
+        "emptyMessage": null,
+        "titles": [
+          "1 Touch Prime Blood Glucose Test Monitor",
+          "100% Pure Acacia Honey with Natural Honeycomb Langnese  – 500g: Nature’s Golden Delight",
+          "302A Fingertip Pulse Oximeter: Oxygen Saturation Monitor for Reliable Health Tracking",
+          "5-in-1 Intelligent Smart Health Monitoring Device: Blood Pressure, Oxygen, Temperature",
+          "Accu Test Elite- Blood Glucose Monitoring System"
+        ],
+        "productCount": 10
+      },
+      "applyMechanism": "input-blur",
+      "urlMode": "query_string",
+      "applyUrl": "http://free-filter-plugin.local/products/?filters=1&price=169900-500000",
+      "reloadUrl": "http://free-filter-plugin.local/products/?filters=1&price=169900-500000",
+      "urlChanged": true,
+      "reloadUrlStable": true,
+      "summaryChangedAfterApply": true,
+      "applyNetworkActivity": [
+        {
+          "kind": "response",
+          "method": "GET",
+          "resourceType": "xhr",
+          "status": 200,
+          "url": "http://free-filter-plugin.local/products/?gm-product-filter-nonce=999cb6f23a&mn_price=169900&mx_price=500000&cat_operator=OR&default_min=0&default_max=500000&gm_pf_fragment=1",
+          "timestamp": 1776853412046
+        }
+      ],
+      "observedApplyEffect": true,
+      "expectsUrlChange": true,
+      "expectsReloadPersistence": true,
+      "baselineState": {
+        "mn_price": "0",
+        "mx_price": "500000"
+      },
+      "stateAfterApply": {
+        "mn_price": "169900",
+        "mx_price": "500000"
+      },
+      "stateAfterReload": {
+        "mn_price": "169900",
+        "mx_price": "500000"
+      },
+      "applyStateOk": false,
+      "reloadStateOk": false,
+      "summaryAfterApply": {
+        "resultCount": "Showing all 4 results",
+        "emptyMessage": null,
+        "titles": [
+          "BIYOVENT Intensive Care Type Mechanical Ventilator",
+          "CARDIOMAX 8 Semi-Automatic External Defibrillator – Advanced Life-Saving Technology for Quick and Effective Cardiac Intervention",
+          "DeVilbiss Oxygen Concentrator 10L Model 1025KS: High-Flow Oxygen Therapy with Essential Accessories",
+          "Professional Dental Chair: Keju-917 Standard Unit for Enhanced Practice Efficiency"
+        ],
+        "productCount": 4
+      },
+      "summaryAfterReload": {
+        "resultCount": "Showing all 4 results",
+        "emptyMessage": null,
+        "titles": [
+          "BIYOVENT Intensive Care Type Mechanical Ventilator",
+          "CARDIOMAX 8 Semi-Automatic External Defibrillator – Advanced Life-Saving Technology for Quick and Effective Cardiac Intervention",
+          "DeVilbiss Oxygen Concentrator 10L Model 1025KS: High-Flow Oxygen Therapy with Essential Accessories",
+          "Professional Dental Chair: Keju-917 Standard Unit for Enhanced Practice Efficiency"
+        ],
+        "productCount": 4
+      },
+      "issues": [
+        "Selected state was not preserved immediately after apply.",
+        "Selected state was not preserved after page reload."
+      ],
+      "messages": [],
+      "screenshot": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\dapf-filter-qc\\reports\\free-filter-plugin-local-products-desktop-20260422-162059\\fail-price-range-apply-reload.png",
+      "passed": false
+    },
+    {
+      "id": "product-category",
+      "title": "Category Reset",
+      "kind": "radios",
+      "expected": [
+        "anesthesia-machine"
+      ],
+      "baselineUrl": "http://free-filter-plugin.local/products/",
+      "baselineSummary": {
+        "resultCount": "Showing 1–10 of 450 results",
+        "emptyMessage": null,
+        "titles": [
+          "1 Touch Prime Blood Glucose Test Monitor",
+          "100% Pure Acacia Honey with Natural Honeycomb Langnese  – 500g: Nature’s Golden Delight",
+          "302A Fingertip Pulse Oximeter: Oxygen Saturation Monitor for Reliable Health Tracking",
+          "5-in-1 Intelligent Smart Health Monitoring Device: Blood Pressure, Oxygen, Temperature",
+          "Accu Test Elite- Blood Glucose Monitoring System"
+        ],
+        "productCount": 10
+      },
+      "applyMechanism": "auto-change",
+      "urlMode": "query_string",
+      "applyUrl": "http://free-filter-plugin.local/products/?filters=1&cata=anesthesia-machine",
+      "reloadUrl": "http://free-filter-plugin.local/products/?filters=1&cata=anesthesia-machine",
+      "urlChanged": true,
+      "reloadUrlStable": true,
+      "summaryChangedAfterApply": true,
+      "applyNetworkActivity": [
+        {
+          "kind": "response",
+          "method": "GET",
+          "resourceType": "xhr",
+          "status": 200,
+          "url": "http://free-filter-plugin.local/products/?gm-product-filter-nonce=999cb6f23a&product-category=anesthesia-machine&cat_operator=OR&gm_pf_fragment=1",
+          "timestamp": 1776853436734
+        }
+      ],
+      "observedApplyEffect": true,
+      "expectsUrlChange": true,
+      "expectsReloadPersistence": true,
+      "baselineState": [],
+      "stateAfterApply": [
+        "anesthesia-machine"
+      ],
+      "stateAfterReload": [
+        "anesthesia-machine"
+      ],
+      "applyStateOk": true,
+      "reloadStateOk": true,
+      "summaryAfterApply": {
+        "resultCount": "Showing the single result",
+        "emptyMessage": null,
+        "titles": [
+          "Enhance ICU Care with PVC GE Healthcare 9100C NXT Anaesthesia Workstation"
+        ],
+        "productCount": 1
+      },
+      "summaryAfterReload": {
+        "resultCount": "Showing the single result",
+        "emptyMessage": null,
+        "titles": [
+          "Enhance ICU Care with PVC GE Healthcare 9100C NXT Anaesthesia Workstation"
+        ],
+        "productCount": 1
+      },
+      "issues": [],
+      "messages": [],
+      "screenshot": null,
+      "passed": true
+    },
+    {
+      "id": "months",
+      "title": "Months",
+      "kind": "checkboxes",
+      "expected": [
+        "apr-2026",
+        "feb-2026"
+      ],
+      "baselineUrl": "http://free-filter-plugin.local/products/",
+      "baselineSummary": {
+        "resultCount": "Showing 1–10 of 450 results",
+        "emptyMessage": null,
+        "titles": [
+          "1 Touch Prime Blood Glucose Test Monitor",
+          "100% Pure Acacia Honey with Natural Honeycomb Langnese  – 500g: Nature’s Golden Delight",
+          "302A Fingertip Pulse Oximeter: Oxygen Saturation Monitor for Reliable Health Tracking",
+          "5-in-1 Intelligent Smart Health Monitoring Device: Blood Pressure, Oxygen, Temperature",
+          "Accu Test Elite- Blood Glucose Monitoring System"
+        ],
+        "productCount": 10
+      },
+      "applyMechanism": "auto-change",
+      "urlMode": "query_string",
+      "applyUrl": "http://free-filter-plugin.local/products/?filters=1&months=apr-2026,feb-2026",
+      "reloadUrl": "http://free-filter-plugin.local/products/?filters=1&months=apr-2026,feb-2026",
+      "urlChanged": true,
+      "reloadUrlStable": true,
+      "summaryChangedAfterApply": true,
+      "applyNetworkActivity": [
+        {
+          "kind": "response",
+          "method": "GET",
+          "resourceType": "xhr",
+          "status": 200,
+          "url": "http://free-filter-plugin.local/products/?gm-product-filter-nonce=999cb6f23a&rplugpa_months=apr-2026%2Cfeb-2026&cat_operator=OR&gm_pf_fragment=1",
+          "timestamp": 1776853460949
+        }
+      ],
+      "observedApplyEffect": true,
+      "expectsUrlChange": true,
+      "expectsReloadPersistence": true,
+      "baselineState": [],
+      "stateAfterApply": [
+        "apr-2026",
+        "feb-2026"
+      ],
+      "stateAfterReload": [
+        "apr-2026",
+        "feb-2026"
+      ],
+      "applyStateOk": true,
+      "reloadStateOk": true,
+      "summaryAfterApply": {
+        "resultCount": "Showing the single result",
+        "emptyMessage": null,
+        "titles": [
+          "Months product"
+        ],
+        "productCount": 1
+      },
+      "summaryAfterReload": {
+        "resultCount": "Showing the single result",
+        "emptyMessage": null,
+        "titles": [
+          "Months product"
+        ],
+        "productCount": 1
+      },
+      "issues": [],
+      "messages": [],
+      "screenshot": null,
+      "passed": true
+    },
+    {
+      "id": "material",
+      "title": "Material",
+      "kind": "checkboxes",
+      "expected": [
+        "cord-fabric",
+        "cotton"
+      ],
+      "baselineUrl": "http://free-filter-plugin.local/products/",
+      "baselineSummary": {
+        "resultCount": "Showing 1–10 of 450 results",
+        "emptyMessage": null,
+        "titles": [
+          "1 Touch Prime Blood Glucose Test Monitor",
+          "100% Pure Acacia Honey with Natural Honeycomb Langnese  – 500g: Nature’s Golden Delight",
+          "302A Fingertip Pulse Oximeter: Oxygen Saturation Monitor for Reliable Health Tracking",
+          "5-in-1 Intelligent Smart Health Monitoring Device: Blood Pressure, Oxygen, Temperature",
+          "Accu Test Elite- Blood Glucose Monitoring System"
+        ],
+        "productCount": 10
+      },
+      "applyMechanism": "auto-change",
+      "urlMode": "query_string",
+      "applyUrl": "http://free-filter-plugin.local/products/?filters=1&material=cord-fabric,cotton",
+      "reloadUrl": "http://free-filter-plugin.local/products/?filters=1&material=cord-fabric,cotton",
+      "urlChanged": true,
+      "reloadUrlStable": true,
+      "summaryChangedAfterApply": true,
+      "applyNetworkActivity": [
+        {
+          "kind": "response",
+          "method": "GET",
+          "resourceType": "xhr",
+          "status": 200,
+          "url": "http://free-filter-plugin.local/products/?gm-product-filter-nonce=999cb6f23a&rplugpa_material=cord-fabric%2Ccotton&cat_operator=OR&gm_pf_fragment=1",
+          "timestamp": 1776853485191
+        }
+      ],
+      "observedApplyEffect": true,
+      "expectsUrlChange": true,
+      "expectsReloadPersistence": true,
+      "baselineState": [],
+      "stateAfterApply": [
+        "cord-fabric",
+        "cotton"
+      ],
+      "stateAfterReload": [
+        "cord-fabric",
+        "cotton"
+      ],
+      "applyStateOk": true,
+      "reloadStateOk": true,
+      "summaryAfterApply": {
+        "resultCount": "Showing 1–10 of 11 results",
+        "emptyMessage": null,
+        "titles": [
+          "Shirt ae ae2546",
+          "Shirt ae aeafa25",
+          "Shirt ao 1545ae",
+          "Shirt ara gaer15",
+          "Shirt For Men 1a45ae"
+        ],
+        "productCount": 10
+      },
+      "summaryAfterReload": {
+        "resultCount": "Showing 1–10 of 11 results",
+        "emptyMessage": null,
+        "titles": [
+          "Shirt ae ae2546",
+          "Shirt ae aeafa25",
+          "Shirt ao 1545ae",
+          "Shirt ara gaer15",
+          "Shirt For Men 1a45ae"
+        ],
+        "productCount": 10
+      },
+      "issues": [],
+      "messages": [],
+      "screenshot": null,
+      "passed": true
+    },
+    {
+      "id": "size",
+      "title": "Size",
+      "kind": "checkboxes",
+      "expected": [
+        "l",
+        "m"
+      ],
+      "baselineUrl": "http://free-filter-plugin.local/products/",
+      "baselineSummary": {
+        "resultCount": "Showing 1–10 of 450 results",
+        "emptyMessage": null,
+        "titles": [
+          "1 Touch Prime Blood Glucose Test Monitor",
+          "100% Pure Acacia Honey with Natural Honeycomb Langnese  – 500g: Nature’s Golden Delight",
+          "302A Fingertip Pulse Oximeter: Oxygen Saturation Monitor for Reliable Health Tracking",
+          "5-in-1 Intelligent Smart Health Monitoring Device: Blood Pressure, Oxygen, Temperature",
+          "Accu Test Elite- Blood Glucose Monitoring System"
+        ],
+        "productCount": 10
+      },
+      "applyMechanism": "auto-change",
+      "urlMode": "query_string",
+      "applyUrl": "http://free-filter-plugin.local/products/?filters=1&size=l,m",
+      "reloadUrl": "http://free-filter-plugin.local/products/?filters=1&size=l,m",
+      "urlChanged": true,
+      "reloadUrlStable": true,
+      "summaryChangedAfterApply": true,
+      "applyNetworkActivity": [
+        {
+          "kind": "response",
+          "method": "GET",
+          "resourceType": "xhr",
+          "status": 200,
+          "url": "http://free-filter-plugin.local/products/?gm-product-filter-nonce=999cb6f23a&rplugpa_size=l%2Cm&cat_operator=OR&gm_pf_fragment=1",
+          "timestamp": 1776853509878
+        }
+      ],
+      "observedApplyEffect": true,
+      "expectsUrlChange": true,
+      "expectsReloadPersistence": true,
+      "baselineState": [],
+      "stateAfterApply": [
+        "l",
+        "m"
+      ],
+      "stateAfterReload": [
+        "l",
+        "m"
+      ],
+      "applyStateOk": true,
+      "reloadStateOk": true,
+      "summaryAfterApply": {
+        "resultCount": "Showing 1–10 of 15 results",
+        "emptyMessage": null,
+        "titles": [
+          "Shirt ae ae2546",
+          "Shirt ae aeafa25",
+          "Shirt ao 1545ae",
+          "Shirt ara gaer15",
+          "Shirt For Men 1a45ae"
+        ],
+        "productCount": 10
+      },
+      "summaryAfterReload": {
+        "resultCount": "Showing 1–10 of 15 results",
+        "emptyMessage": null,
+        "titles": [
+          "Shirt ae ae2546",
+          "Shirt ae aeafa25",
+          "Shirt ao 1545ae",
+          "Shirt ara gaer15",
+          "Shirt For Men 1a45ae"
+        ],
+        "productCount": 10
+      },
+      "issues": [],
+      "messages": [],
+      "screenshot": null,
+      "passed": true
+    },
+    {
+      "id": "mens-trend",
+      "title": "Men's Trend",
+      "kind": "checkboxes",
+      "expected": [
+        "nautical",
+        "office"
+      ],
+      "baselineUrl": "http://free-filter-plugin.local/products/",
+      "baselineSummary": {
+        "resultCount": "Showing 1–10 of 450 results",
+        "emptyMessage": null,
+        "titles": [
+          "1 Touch Prime Blood Glucose Test Monitor",
+          "100% Pure Acacia Honey with Natural Honeycomb Langnese  – 500g: Nature’s Golden Delight",
+          "302A Fingertip Pulse Oximeter: Oxygen Saturation Monitor for Reliable Health Tracking",
+          "5-in-1 Intelligent Smart Health Monitoring Device: Blood Pressure, Oxygen, Temperature",
+          "Accu Test Elite- Blood Glucose Monitoring System"
+        ],
+        "productCount": 10
+      },
+      "applyMechanism": "auto-change",
+      "urlMode": "query_string",
+      "applyUrl": "http://free-filter-plugin.local/products/?filters=1&mens-trend=nautical,office",
+      "reloadUrl": "http://free-filter-plugin.local/products/?filters=1&mens-trend=nautical,office",
+      "urlChanged": true,
+      "reloadUrlStable": true,
+      "summaryChangedAfterApply": true,
+      "applyNetworkActivity": [
+        {
+          "kind": "response",
+          "method": "GET",
+          "resourceType": "xhr",
+          "status": 200,
+          "url": "http://free-filter-plugin.local/products/?gm-product-filter-nonce=999cb6f23a&rplugpa_mens-trend=nautical%2Coffice&cat_operator=OR&gm_pf_fragment=1",
+          "timestamp": 1776853534169
+        }
+      ],
+      "observedApplyEffect": true,
+      "expectsUrlChange": true,
+      "expectsReloadPersistence": true,
+      "baselineState": [],
+      "stateAfterApply": [
+        "nautical",
+        "office"
+      ],
+      "stateAfterReload": [
+        "nautical",
+        "office"
+      ],
+      "applyStateOk": true,
+      "reloadStateOk": true,
+      "summaryAfterApply": {
+        "resultCount": "Showing 1–10 of 12 results",
+        "emptyMessage": null,
+        "titles": [
+          "Shirt ae ae2546",
+          "Shirt ae aeafa25",
+          "Shirt ao 1545ae",
+          "Shirt ara gaer15",
+          "Shirt For Men a2e5a1"
+        ],
+        "productCount": 10
+      },
+      "summaryAfterReload": {
+        "resultCount": "Showing 1–10 of 12 results",
+        "emptyMessage": null,
+        "titles": [
+          "Shirt ae ae2546",
+          "Shirt ae aeafa25",
+          "Shirt ao 1545ae",
+          "Shirt ara gaer15",
+          "Shirt For Men a2e5a1"
+        ],
+        "productCount": 10
+      },
+      "issues": [],
+      "messages": [],
+      "screenshot": null,
+      "passed": true
+    },
+    {
+      "id": "test10",
+      "title": "test10",
+      "kind": "checkboxes",
+      "expected": [
+        "test"
+      ],
+      "baselineUrl": "http://free-filter-plugin.local/products/",
+      "baselineSummary": {
+        "resultCount": "Showing 1–10 of 450 results",
+        "emptyMessage": null,
+        "titles": [
+          "1 Touch Prime Blood Glucose Test Monitor",
+          "100% Pure Acacia Honey with Natural Honeycomb Langnese  – 500g: Nature’s Golden Delight",
+          "302A Fingertip Pulse Oximeter: Oxygen Saturation Monitor for Reliable Health Tracking",
+          "5-in-1 Intelligent Smart Health Monitoring Device: Blood Pressure, Oxygen, Temperature",
+          "Accu Test Elite- Blood Glucose Monitoring System"
+        ],
+        "productCount": 10
+      },
+      "applyMechanism": "auto-change",
+      "urlMode": "query_string",
+      "applyUrl": "http://free-filter-plugin.local/products/?filters=1&test10=test",
+      "reloadUrl": "http://free-filter-plugin.local/products/?filters=1&test10=test",
+      "urlChanged": true,
+      "reloadUrlStable": true,
+      "summaryChangedAfterApply": true,
+      "applyNetworkActivity": [
+        {
+          "kind": "response",
+          "method": "GET",
+          "resourceType": "xhr",
+          "status": 200,
+          "url": "http://free-filter-plugin.local/products/?gm-product-filter-nonce=999cb6f23a&rplugpa_test10=test&cat_operator=OR&gm_pf_fragment=1",
+          "timestamp": 1776853557973
+        }
+      ],
+      "observedApplyEffect": true,
+      "expectsUrlChange": true,
+      "expectsReloadPersistence": true,
+      "baselineState": [],
+      "stateAfterApply": [
+        "test"
+      ],
+      "stateAfterReload": [
+        "test"
+      ],
+      "applyStateOk": true,
+      "reloadStateOk": true,
+      "summaryAfterApply": {
+        "resultCount": "Showing the single result",
+        "emptyMessage": null,
+        "titles": [
+          "Shirt For Men 1a45ae"
+        ],
+        "productCount": 1
+      },
+      "summaryAfterReload": {
+        "resultCount": "Showing the single result",
+        "emptyMessage": null,
+        "titles": [
+          "Shirt For Men 1a45ae"
+        ],
+        "productCount": 1
+      },
+      "issues": [],
+      "messages": [],
+      "screenshot": null,
+      "passed": true
+    },
+    {
+      "id": "tag",
+      "title": "tag",
+      "kind": "radios",
+      "expected": [
+        "1-touch-prime"
+      ],
+      "baselineUrl": "http://free-filter-plugin.local/products/",
+      "baselineSummary": {
+        "resultCount": "Showing 1–10 of 450 results",
+        "emptyMessage": null,
+        "titles": [
+          "1 Touch Prime Blood Glucose Test Monitor",
+          "100% Pure Acacia Honey with Natural Honeycomb Langnese  – 500g: Nature’s Golden Delight",
+          "302A Fingertip Pulse Oximeter: Oxygen Saturation Monitor for Reliable Health Tracking",
+          "5-in-1 Intelligent Smart Health Monitoring Device: Blood Pressure, Oxygen, Temperature",
+          "Accu Test Elite- Blood Glucose Monitoring System"
+        ],
+        "productCount": 10
+      },
+      "applyMechanism": "auto-change",
+      "urlMode": "query_string",
+      "applyUrl": "http://free-filter-plugin.local/products/?filters=1&tags=1-touch-prime",
+      "reloadUrl": "http://free-filter-plugin.local/products/?filters=1&tags=1-touch-prime",
+      "urlChanged": true,
+      "reloadUrlStable": true,
+      "summaryChangedAfterApply": true,
+      "applyNetworkActivity": [
+        {
+          "kind": "response",
+          "method": "GET",
+          "resourceType": "xhr",
+          "status": 200,
+          "url": "http://free-filter-plugin.local/products/?gm-product-filter-nonce=999cb6f23a&tags=1-touch-prime&cat_operator=OR&gm_pf_fragment=1",
+          "timestamp": 1776853582735
+        }
+      ],
+      "observedApplyEffect": true,
+      "expectsUrlChange": true,
+      "expectsReloadPersistence": true,
+      "baselineState": [],
+      "stateAfterApply": [
+        "1-touch-prime"
+      ],
+      "stateAfterReload": [
+        "1-touch-prime"
+      ],
+      "applyStateOk": true,
+      "reloadStateOk": true,
+      "summaryAfterApply": {
+        "resultCount": "Showing the single result",
+        "emptyMessage": null,
+        "titles": [
+          "1 Touch Prime Blood Glucose Test Monitor"
+        ],
+        "productCount": 1
+      },
+      "summaryAfterReload": {
+        "resultCount": "Showing the single result",
+        "emptyMessage": null,
+        "titles": [
+          "1 Touch Prime Blood Glucose Test Monitor"
+        ],
+        "productCount": 1
+      },
+      "issues": [],
+      "messages": [],
+      "screenshot": null,
+      "passed": true
+    },
+    {
+      "id": "brands",
+      "title": "brands",
+      "kind": "radios",
+      "expected": [
+        "lenevo"
+      ],
+      "baselineUrl": "http://free-filter-plugin.local/products/",
+      "baselineSummary": {
+        "resultCount": "Showing 1–10 of 450 results",
+        "emptyMessage": null,
+        "titles": [
+          "1 Touch Prime Blood Glucose Test Monitor",
+          "100% Pure Acacia Honey with Natural Honeycomb Langnese  – 500g: Nature’s Golden Delight",
+          "302A Fingertip Pulse Oximeter: Oxygen Saturation Monitor for Reliable Health Tracking",
+          "5-in-1 Intelligent Smart Health Monitoring Device: Blood Pressure, Oxygen, Temperature",
+          "Accu Test Elite- Blood Glucose Monitoring System"
+        ],
+        "productCount": 10
+      },
+      "applyMechanism": "auto-change",
+      "urlMode": "query_string",
+      "applyUrl": "http://free-filter-plugin.local/products/?filters=1&brand=lenevo",
+      "reloadUrl": "http://free-filter-plugin.local/products/?filters=1&brand=lenevo",
+      "urlChanged": true,
+      "reloadUrlStable": true,
+      "summaryChangedAfterApply": true,
+      "applyNetworkActivity": [
+        {
+          "kind": "response",
+          "method": "GET",
+          "resourceType": "xhr",
+          "status": 200,
+          "url": "http://free-filter-plugin.local/products/?gm-product-filter-nonce=999cb6f23a&rplurand=lenevo&cat_operator=OR&gm_pf_fragment=1",
+          "timestamp": 1776853606933
+        }
+      ],
+      "observedApplyEffect": true,
+      "expectsUrlChange": true,
+      "expectsReloadPersistence": true,
+      "baselineState": [],
+      "stateAfterApply": [
+        "lenevo"
+      ],
+      "stateAfterReload": [
+        "lenevo"
+      ],
+      "applyStateOk": true,
+      "reloadStateOk": true,
+      "summaryAfterApply": {
+        "resultCount": "Showing the single result",
+        "emptyMessage": null,
+        "titles": [
+          "Laptop Lenovo Legion 5 15ARH05"
+        ],
+        "productCount": 1
+      },
+      "summaryAfterReload": {
+        "resultCount": "Showing the single result",
+        "emptyMessage": null,
+        "titles": [
+          "Laptop Lenovo Legion 5 15ARH05"
+        ],
+        "productCount": 1
+      },
+      "issues": [],
+      "messages": [],
+      "screenshot": null,
+      "passed": true
+    },
+    {
+      "id": "authors",
+      "title": "Authors",
+      "kind": "checkboxes",
+      "expected": [
+        "admin"
+      ],
+      "baselineUrl": "http://free-filter-plugin.local/products/",
+      "baselineSummary": {
+        "resultCount": "Showing 1–10 of 450 results",
+        "emptyMessage": null,
+        "titles": [
+          "1 Touch Prime Blood Glucose Test Monitor",
+          "100% Pure Acacia Honey with Natural Honeycomb Langnese  – 500g: Nature’s Golden Delight",
+          "302A Fingertip Pulse Oximeter: Oxygen Saturation Monitor for Reliable Health Tracking",
+          "5-in-1 Intelligent Smart Health Monitoring Device: Blood Pressure, Oxygen, Temperature",
+          "Accu Test Elite- Blood Glucose Monitoring System"
+        ],
+        "productCount": 10
+      },
+      "applyMechanism": "auto-change",
+      "urlMode": "query_string",
+      "applyUrl": "http://free-filter-plugin.local/products/?filters=1&author=admin",
+      "reloadUrl": "http://free-filter-plugin.local/products/?filters=1&author=admin",
+      "urlChanged": true,
+      "reloadUrlStable": true,
+      "summaryChangedAfterApply": true,
+      "applyNetworkActivity": [
+        {
+          "kind": "response",
+          "method": "GET",
+          "resourceType": "xhr",
+          "status": 200,
+          "url": "http://free-filter-plugin.local/products/?gm-product-filter-nonce=999cb6f23a&rpluthor=admin&cat_operator=OR&gm_pf_fragment=1",
+          "timestamp": 1776853632051
+        }
+      ],
+      "observedApplyEffect": true,
+      "expectsUrlChange": true,
+      "expectsReloadPersistence": true,
+      "baselineState": [],
+      "stateAfterApply": [
+        "admin"
+      ],
+      "stateAfterReload": [
+        "admin"
+      ],
+      "applyStateOk": true,
+      "reloadStateOk": true,
+      "summaryAfterApply": {
+        "resultCount": "Showing 1–10 of 449 results",
+        "emptyMessage": null,
+        "titles": [
+          "1 Touch Prime Blood Glucose Test Monitor",
+          "100% Pure Acacia Honey with Natural Honeycomb Langnese  – 500g: Nature’s Golden Delight",
+          "302A Fingertip Pulse Oximeter: Oxygen Saturation Monitor for Reliable Health Tracking",
+          "5-in-1 Intelligent Smart Health Monitoring Device: Blood Pressure, Oxygen, Temperature",
+          "Accu Test Elite- Blood Glucose Monitoring System"
+        ],
+        "productCount": 10
+      },
+      "summaryAfterReload": {
+        "resultCount": "Showing 1–10 of 449 results",
+        "emptyMessage": null,
+        "titles": [
+          "1 Touch Prime Blood Glucose Test Monitor",
+          "100% Pure Acacia Honey with Natural Honeycomb Langnese  – 500g: Nature’s Golden Delight",
+          "302A Fingertip Pulse Oximeter: Oxygen Saturation Monitor for Reliable Health Tracking",
+          "5-in-1 Intelligent Smart Health Monitoring Device: Blood Pressure, Oxygen, Temperature",
+          "Accu Test Elite- Blood Glucose Monitoring System"
+        ],
+        "productCount": 10
+      },
+      "issues": [],
+      "messages": [],
+      "screenshot": null,
+      "passed": true
+    },
+    {
+      "id": "status",
+      "title": "Stock Status",
+      "kind": "checkboxes",
+      "expected": [
+        "instock"
+      ],
+      "baselineUrl": "http://free-filter-plugin.local/products/",
+      "baselineSummary": {
+        "resultCount": "Showing 1–10 of 450 results",
+        "emptyMessage": null,
+        "titles": [
+          "1 Touch Prime Blood Glucose Test Monitor",
+          "100% Pure Acacia Honey with Natural Honeycomb Langnese  – 500g: Nature’s Golden Delight",
+          "302A Fingertip Pulse Oximeter: Oxygen Saturation Monitor for Reliable Health Tracking",
+          "5-in-1 Intelligent Smart Health Monitoring Device: Blood Pressure, Oxygen, Temperature",
+          "Accu Test Elite- Blood Glucose Monitoring System"
+        ],
+        "productCount": 10
+      },
+      "applyMechanism": "auto-change",
+      "urlMode": "query_string",
+      "applyUrl": "http://free-filter-plugin.local/products/?filters=1&stockStatus=instock",
+      "reloadUrl": "http://free-filter-plugin.local/products/?filters=1&stockStatus=instock",
+      "urlChanged": true,
+      "reloadUrlStable": true,
+      "summaryChangedAfterApply": true,
+      "applyNetworkActivity": [
+        {
+          "kind": "response",
+          "method": "GET",
+          "resourceType": "xhr",
+          "status": 200,
+          "url": "http://free-filter-plugin.local/products/?gm-product-filter-nonce=999cb6f23a&rplutock_status=instock&cat_operator=OR&gm_pf_fragment=1",
+          "timestamp": 1776853657665
+        }
+      ],
+      "observedApplyEffect": true,
+      "expectsUrlChange": true,
+      "expectsReloadPersistence": true,
+      "baselineState": [],
+      "stateAfterApply": [
+        "instock"
+      ],
+      "stateAfterReload": [
+        "instock"
+      ],
+      "applyStateOk": true,
+      "reloadStateOk": true,
+      "summaryAfterApply": {
+        "resultCount": "Showing 1–10 of 439 results",
+        "emptyMessage": null,
+        "titles": [
+          "1 Touch Prime Blood Glucose Test Monitor",
+          "100% Pure Acacia Honey with Natural Honeycomb Langnese  – 500g: Nature’s Golden Delight",
+          "302A Fingertip Pulse Oximeter: Oxygen Saturation Monitor for Reliable Health Tracking",
+          "5-in-1 Intelligent Smart Health Monitoring Device: Blood Pressure, Oxygen, Temperature",
+          "Accu Test Elite- Blood Glucose Monitoring System"
+        ],
+        "productCount": 10
+      },
+      "summaryAfterReload": {
+        "resultCount": "Showing 1–10 of 439 results",
+        "emptyMessage": null,
+        "titles": [
+          "1 Touch Prime Blood Glucose Test Monitor",
+          "100% Pure Acacia Honey with Natural Honeycomb Langnese  – 500g: Nature’s Golden Delight",
+          "302A Fingertip Pulse Oximeter: Oxygen Saturation Monitor for Reliable Health Tracking",
+          "5-in-1 Intelligent Smart Health Monitoring Device: Blood Pressure, Oxygen, Temperature",
+          "Accu Test Elite- Blood Glucose Monitoring System"
+        ],
+        "productCount": 10
+      },
+      "issues": [],
+      "messages": [],
+      "screenshot": null,
+      "passed": true
+    },
+    {
+      "id": "sale_status",
+      "title": "Sale Status",
+      "kind": "checkboxes",
+      "expected": [
+        "notonsale"
+      ],
+      "baselineUrl": "http://free-filter-plugin.local/products/",
+      "baselineSummary": {
+        "resultCount": "Showing 1–10 of 450 results",
+        "emptyMessage": null,
+        "titles": [
+          "1 Touch Prime Blood Glucose Test Monitor",
+          "100% Pure Acacia Honey with Natural Honeycomb Langnese  – 500g: Nature’s Golden Delight",
+          "302A Fingertip Pulse Oximeter: Oxygen Saturation Monitor for Reliable Health Tracking",
+          "5-in-1 Intelligent Smart Health Monitoring Device: Blood Pressure, Oxygen, Temperature",
+          "Accu Test Elite- Blood Glucose Monitoring System"
+        ],
+        "productCount": 10
+      },
+      "applyMechanism": "auto-change",
+      "urlMode": "query_string",
+      "applyUrl": "http://free-filter-plugin.local/products/?filters=1&saleStatus=notonsale",
+      "reloadUrl": "http://free-filter-plugin.local/products/?filters=1&saleStatus=notonsale",
+      "urlChanged": true,
+      "reloadUrlStable": true,
+      "summaryChangedAfterApply": true,
+      "applyNetworkActivity": [
+        {
+          "kind": "response",
+          "method": "GET",
+          "resourceType": "xhr",
+          "status": 200,
+          "url": "http://free-filter-plugin.local/products/?gm-product-filter-nonce=999cb6f23a&rpn_sale=notonsale&cat_operator=OR&gm_pf_fragment=1",
+          "timestamp": 1776853682737
+        }
+      ],
+      "observedApplyEffect": true,
+      "expectsUrlChange": true,
+      "expectsReloadPersistence": true,
+      "baselineState": [],
+      "stateAfterApply": [
+        "notonsale"
+      ],
+      "stateAfterReload": [
+        "notonsale"
+      ],
+      "applyStateOk": true,
+      "reloadStateOk": true,
+      "summaryAfterApply": {
+        "resultCount": "Showing 1–10 of 436 results",
+        "emptyMessage": null,
+        "titles": [
+          "1 Touch Prime Blood Glucose Test Monitor",
+          "100% Pure Acacia Honey with Natural Honeycomb Langnese  – 500g: Nature’s Golden Delight",
+          "302A Fingertip Pulse Oximeter: Oxygen Saturation Monitor for Reliable Health Tracking",
+          "5-in-1 Intelligent Smart Health Monitoring Device: Blood Pressure, Oxygen, Temperature",
+          "Accu Test Elite- Blood Glucose Monitoring System"
+        ],
+        "productCount": 10
+      },
+      "summaryAfterReload": {
+        "resultCount": "Showing 1–10 of 436 results",
+        "emptyMessage": null,
+        "titles": [
+          "1 Touch Prime Blood Glucose Test Monitor",
+          "100% Pure Acacia Honey with Natural Honeycomb Langnese  – 500g: Nature’s Golden Delight",
+          "302A Fingertip Pulse Oximeter: Oxygen Saturation Monitor for Reliable Health Tracking",
+          "5-in-1 Intelligent Smart Health Monitoring Device: Blood Pressure, Oxygen, Temperature",
+          "Accu Test Elite- Blood Glucose Monitoring System"
+        ],
+        "productCount": 10
+      },
+      "issues": [],
+      "messages": [],
+      "screenshot": null,
+      "passed": true
+    },
+    {
+      "id": "sku",
+      "title": "sku",
+      "kind": "text",
+      "expected": {
+        "sku": "21sgsgh"
+      },
+      "baselineUrl": "http://free-filter-plugin.local/products/",
+      "baselineSummary": {
+        "resultCount": "Showing 1–10 of 450 results",
+        "emptyMessage": null,
+        "titles": [
+          "1 Touch Prime Blood Glucose Test Monitor",
+          "100% Pure Acacia Honey with Natural Honeycomb Langnese  – 500g: Nature’s Golden Delight",
+          "302A Fingertip Pulse Oximeter: Oxygen Saturation Monitor for Reliable Health Tracking",
+          "5-in-1 Intelligent Smart Health Monitoring Device: Blood Pressure, Oxygen, Temperature",
+          "Accu Test Elite- Blood Glucose Monitoring System"
+        ],
+        "productCount": 10
+      },
+      "applyMechanism": "auto-change",
+      "urlMode": "query_string",
+      "applyUrl": "http://free-filter-plugin.local/products/",
+      "reloadUrl": "http://free-filter-plugin.local/products/",
+      "urlChanged": false,
+      "reloadUrlStable": true,
+      "summaryChangedAfterApply": false,
+      "applyNetworkActivity": [],
+      "observedApplyEffect": false,
+      "expectsUrlChange": true,
+      "expectsReloadPersistence": true,
+      "baselineState": {
+        "sku": ""
+      },
+      "stateAfterApply": {
+        "sku": "21sgsgh"
+      },
+      "stateAfterReload": {
+        "sku": ""
+      },
+      "applyStateOk": true,
+      "reloadStateOk": false,
+      "summaryAfterApply": {
+        "resultCount": "Showing 1–10 of 450 results",
+        "emptyMessage": null,
+        "titles": [
+          "1 Touch Prime Blood Glucose Test Monitor",
+          "100% Pure Acacia Honey with Natural Honeycomb Langnese  – 500g: Nature’s Golden Delight",
+          "302A Fingertip Pulse Oximeter: Oxygen Saturation Monitor for Reliable Health Tracking",
+          "5-in-1 Intelligent Smart Health Monitoring Device: Blood Pressure, Oxygen, Temperature",
+          "Accu Test Elite- Blood Glucose Monitoring System"
+        ],
+        "productCount": 10
+      },
+      "summaryAfterReload": {
+        "resultCount": "Showing 1–10 of 450 results",
+        "emptyMessage": null,
+        "titles": [
+          "1 Touch Prime Blood Glucose Test Monitor",
+          "100% Pure Acacia Honey with Natural Honeycomb Langnese  – 500g: Nature’s Golden Delight",
+          "302A Fingertip Pulse Oximeter: Oxygen Saturation Monitor for Reliable Health Tracking",
+          "5-in-1 Intelligent Smart Health Monitoring Device: Blood Pressure, Oxygen, Temperature",
+          "Accu Test Elite- Blood Glucose Monitoring System"
+        ],
+        "productCount": 10
+      },
+      "issues": [
+        "Filter interaction did not produce an observable same-origin network, DOM, or URL change.",
+        "Filtered URL did not change in query_string mode.",
+        "Selected state was not preserved after page reload."
+      ],
+      "messages": [],
+      "screenshot": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\dapf-filter-qc\\reports\\free-filter-plugin-local-products-desktop-20260422-162059\\fail-sku-apply-reload.png",
+      "passed": false
+    },
+    {
+      "id": "discount",
+      "title": "discount",
+      "kind": "text",
+      "expected": {
+        "discount": "33"
+      },
+      "baselineUrl": "http://free-filter-plugin.local/products/",
+      "baselineSummary": {
+        "resultCount": "Showing 1–10 of 450 results",
+        "emptyMessage": null,
+        "titles": [
+          "1 Touch Prime Blood Glucose Test Monitor",
+          "100% Pure Acacia Honey with Natural Honeycomb Langnese  – 500g: Nature’s Golden Delight",
+          "302A Fingertip Pulse Oximeter: Oxygen Saturation Monitor for Reliable Health Tracking",
+          "5-in-1 Intelligent Smart Health Monitoring Device: Blood Pressure, Oxygen, Temperature",
+          "Accu Test Elite- Blood Glucose Monitoring System"
+        ],
+        "productCount": 10
+      },
+      "applyMechanism": "auto-change",
+      "urlMode": "query_string",
+      "applyUrl": "http://free-filter-plugin.local/products/",
+      "reloadUrl": "http://free-filter-plugin.local/products/",
+      "urlChanged": false,
+      "reloadUrlStable": true,
+      "summaryChangedAfterApply": false,
+      "applyNetworkActivity": [],
+      "observedApplyEffect": false,
+      "expectsUrlChange": true,
+      "expectsReloadPersistence": true,
+      "baselineState": {
+        "discount": ""
+      },
+      "stateAfterApply": {
+        "discount": "33"
+      },
+      "stateAfterReload": {
+        "discount": ""
+      },
+      "applyStateOk": true,
+      "reloadStateOk": false,
+      "summaryAfterApply": {
+        "resultCount": "Showing 1–10 of 450 results",
+        "emptyMessage": null,
+        "titles": [
+          "1 Touch Prime Blood Glucose Test Monitor",
+          "100% Pure Acacia Honey with Natural Honeycomb Langnese  – 500g: Nature’s Golden Delight",
+          "302A Fingertip Pulse Oximeter: Oxygen Saturation Monitor for Reliable Health Tracking",
+          "5-in-1 Intelligent Smart Health Monitoring Device: Blood Pressure, Oxygen, Temperature",
+          "Accu Test Elite- Blood Glucose Monitoring System"
+        ],
+        "productCount": 10
+      },
+      "summaryAfterReload": {
+        "resultCount": "Showing 1–10 of 450 results",
+        "emptyMessage": null,
+        "titles": [
+          "1 Touch Prime Blood Glucose Test Monitor",
+          "100% Pure Acacia Honey with Natural Honeycomb Langnese  – 500g: Nature’s Golden Delight",
+          "302A Fingertip Pulse Oximeter: Oxygen Saturation Monitor for Reliable Health Tracking",
+          "5-in-1 Intelligent Smart Health Monitoring Device: Blood Pressure, Oxygen, Temperature",
+          "Accu Test Elite- Blood Glucose Monitoring System"
+        ],
+        "productCount": 10
+      },
+      "issues": [
+        "Filter interaction did not produce an observable same-origin network, DOM, or URL change.",
+        "Filtered URL did not change in query_string mode.",
+        "Selected state was not preserved after page reload."
+      ],
+      "messages": [],
+      "screenshot": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\dapf-filter-qc\\reports\\free-filter-plugin-local-products-desktop-20260422-162059\\fail-discount-apply-reload.png",
+      "passed": false
+    },
+    {
+      "id": "date_filter",
+      "title": "Date Filter",
+      "kind": "single-select",
+      "expected": [
+        "today"
+      ],
+      "baselineUrl": "http://free-filter-plugin.local/products/",
+      "baselineSummary": {
+        "resultCount": "Showing 1–10 of 450 results",
+        "emptyMessage": null,
+        "titles": [
+          "1 Touch Prime Blood Glucose Test Monitor",
+          "100% Pure Acacia Honey with Natural Honeycomb Langnese  – 500g: Nature’s Golden Delight",
+          "302A Fingertip Pulse Oximeter: Oxygen Saturation Monitor for Reliable Health Tracking",
+          "5-in-1 Intelligent Smart Health Monitoring Device: Blood Pressure, Oxygen, Temperature",
+          "Accu Test Elite- Blood Glucose Monitoring System"
+        ],
+        "productCount": 10
+      },
+      "applyMechanism": "auto-change",
+      "urlMode": "query_string",
+      "applyUrl": "http://free-filter-plugin.local/products/?filters=1&date=today",
+      "reloadUrl": "http://free-filter-plugin.local/products/?filters=1&date=today",
+      "urlChanged": true,
+      "reloadUrlStable": true,
+      "summaryChangedAfterApply": true,
+      "applyNetworkActivity": [
+        {
+          "kind": "response",
+          "method": "GET",
+          "resourceType": "xhr",
+          "status": 200,
+          "url": "http://free-filter-plugin.local/products/?gm-product-filter-nonce=999cb6f23a&date_filter=today&cat_operator=OR&gm_pf_fragment=1",
+          "timestamp": 1776853775001
+        }
+      ],
+      "observedApplyEffect": true,
+      "expectsUrlChange": true,
+      "expectsReloadPersistence": true,
+      "baselineState": "",
+      "stateAfterApply": "today",
+      "stateAfterReload": "today",
+      "applyStateOk": true,
+      "reloadStateOk": true,
+      "summaryAfterApply": {
+        "resultCount": null,
+        "emptyMessage": "No products were found matching your selection.",
+        "titles": [],
+        "productCount": 0
+      },
+      "summaryAfterReload": {
+        "resultCount": null,
+        "emptyMessage": "No products were found matching your selection.",
+        "titles": [],
+        "productCount": 0
+      },
+      "issues": [],
+      "messages": [],
+      "screenshot": null,
+      "passed": true
+    }
+  ],
+  "uniqueMessages": [],
+  "pluginDebug": {
+    "available": true,
+    "applyMode": "auto",
+    "urlMode": "query_string",
+    "useOverlay": false,
+    "mobileBreakpoint": 768,
+    "mobileStyle": "style_4",
+    "selectors": {
+      "product": "ul.products",
+      "pagination": ".page-numbers",
+      "sorting": "form.woocommerce-ordering select",
+      "resultCount": ".woocommerce-result-count"
+    },
+    "style": {
+      "showApplyButton": "yes",
+      "showResetButton": "yes",
+      "showApplyResetOn": "separate",
+      "applyBehavior": "apply_and_select"
+    },
+    "manage": {
+      "useUrlFilter": "query_string",
+      "showLoader": "on"
+    }
+  },
+  "autoDiscovery": {
+    "used": true,
+    "source": "dom+woo-store-api",
+    "storeApiEndpoint": "http://free-filter-plugin.local/wp-json/wc/store/v1/products?per_page=50",
+    "storeApiOk": true,
+    "storeApiError": null,
+    "discoveredProductCount": 50
+  },
+  "effectiveConfig": {
+    "siteLabel": "free-filter-plugin-local-products",
+    "baseUrl": "http://free-filter-plugin.local/products/",
+    "deviceMode": "desktop",
+    "selectors": {
+      "form": "#product-filter",
+      "applyButtonName": "Apply Filters",
+      "resetButtonName": "Reset Filters",
+      "resultCount": ".woocommerce-result-count",
+      "emptyMessage": ".woocommerce-info, .woocommerce-no-products-found",
+      "productTitles": "ul.products li.product .woocommerce-loop-product__title, ul.products li.product h2, ul.products .product h2, ul.products h2"
+    },
+    "testData": {
+      "searchText": "Months product",
+      "priceRange": {
+        "min": "169900",
+        "max": "945000"
+      },
+      "sku": "21sgsgh",
+      "discount": "33",
+      "dimensions": {
+        "min_height": "",
+        "max_height": "",
+        "min_length": "",
+        "max_length": ""
+      }
+    },
+    "fieldOverrides": {
+      "plugincy_rating": {
+        "kind": "checkboxes",
+        "values": [
+          "1"
+        ]
+      },
+      "product-category": {
+        "kind": "radios",
+        "values": [
+          "anesthesia-machine"
+        ]
+      },
+      "months": {
+        "kind": "checkboxes",
+        "values": [
+          "apr-2026",
+          "feb-2026"
+        ]
+      },
+      "material": {
+        "kind": "checkboxes",
+        "values": [
+          "cord-fabric",
+          "cotton"
+        ]
+      },
+      "size": {
+        "kind": "checkboxes",
+        "values": [
+          "l",
+          "m"
+        ]
+      },
+      "mens-trend": {
+        "kind": "checkboxes",
+        "values": [
+          "nautical",
+          "office"
+        ]
+      },
+      "test10": {
+        "kind": "checkboxes",
+        "values": [
+          "test"
+        ]
+      },
+      "tag": {
+        "kind": "radios",
+        "values": [
+          "1-touch-prime"
+        ]
+      },
+      "brands": {
+        "kind": "radios",
+        "values": [
+          "lenevo"
+        ]
+      },
+      "authors": {
+        "kind": "checkboxes",
+        "values": [
+          "admin"
+        ]
+      },
+      "status": {
+        "kind": "checkboxes",
+        "values": [
+          "instock"
+        ]
+      },
+      "sale_status": {
+        "kind": "checkboxes",
+        "values": [
+          "notonsale"
+        ]
+      }
+    },
+    "actionTargets": {
+      "collapseFieldsetId": "plugincy_rating",
+      "optionSearchFieldsetId": "product-category",
+      "optionSearchPlaceholder": "Search Category Terms",
+      "optionSearchText": "test parent",
+      "resetFieldsetId": "plugincy_rating",
+      "resetValue": "1"
+    },
+    "skipFieldsets": []
+  },
+  "summary": {
+    "failedActionTests": 0,
+    "failedFilterTests": 3
+  }
+}

@@ -1,0 +1,6 @@
+Project: Location Wise Product Shipping QC
+Generated at: 2026-04-07T09:02:27.883Z
+Run folder: C:\Users\GM Team\OneDrive\Desktop\QC Automation\shipping-qc-automation\reports\20260407-101535-Location-Wise-Product-Shipping-QC
+Total: 30
+Passed: 4
+Failed: 26

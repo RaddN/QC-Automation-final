@@ -1,0 +1,6 @@
+[    4373ms] [LOG] JQMIGRATE: Migrate is installed, version 3.4.1 @ https://beautymediashop.de/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1:1
+[    4820ms] [LOG] Form Manage Settings :  {loader_html: <div class="basic" style="display:none;" id="loader"></div>                                , loader_css: .basic { width: 40px; height: 40px; border-radius:…basic-d3wgkg { to { transform: rotate(1turn); } }, show_categories: on, show_price_range: on, show_search: on} @ jquery-core-js-after:8
+[    4820ms] [LOG] Form Style Settings :  {sprache: Object, max_height: Object, widget_title: Object, fb_product_group_id: Object, fb_product_item_id: Object} @ jquery-core-js-after:8
+[    4821ms] [LOG] SEO setup Settings :  {use_attribute_type_in_permalinks: on, dapfforwc_permalinks_prefix_options: Object, filters_word_in_permalinks: filters, use_filters_word_in_permalinks: , use_anchor: 0} @ jquery-core-js-after:8
+[    4821ms] [LOG] Advanced Settings :  {product_selector: ul.products, pagination_selector: .woocommerce-pagination ul.page-numbers, sorting_selector: form.woocommerce-ordering select, result_count_selector: .woocommerce-result-count, advanced_pagination: off} @ jquery-core-js-after:8
+[    5537ms] [LOG] opt-in @ https://beautymediashop.de/wp-content/plugins/complianz-gdpr/cookiebanner/js/complianz.min.js?ver=1769061440:0

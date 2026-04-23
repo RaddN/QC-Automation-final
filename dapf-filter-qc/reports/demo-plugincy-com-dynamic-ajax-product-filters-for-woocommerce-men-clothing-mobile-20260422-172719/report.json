@@ -1,0 +1,373 @@
+{
+  "siteLabel": "demo-plugincy-com-dynamic-ajax-product-filters-for-woocommerce-men-clothing",
+  "runMode": "url-auto",
+  "deviceMode": "mobile",
+  "baseUrl": "https://demo.plugincy.com/dynamic-ajax-product-filters-for-woocommerce/men-clothing/",
+  "configPath": null,
+  "outputDir": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\dapf-filter-qc\\reports\\demo-plugincy-com-dynamic-ajax-product-filters-for-woocommerce-men-clothing-mobile-20260422-172719",
+  "reportJsonPath": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\dapf-filter-qc\\reports\\demo-plugincy-com-dynamic-ajax-product-filters-for-woocommerce-men-clothing-mobile-20260422-172719\\report.json",
+  "reportMarkdownPath": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\dapf-filter-qc\\reports\\demo-plugincy-com-dynamic-ajax-product-filters-for-woocommerce-men-clothing-mobile-20260422-172719\\report.md",
+  "generatedConfigPath": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\dapf-filter-qc\\reports\\demo-plugincy-com-dynamic-ajax-product-filters-for-woocommerce-men-clothing-mobile-20260422-172719\\generated-config.json",
+  "startedAt": "2026-04-22T11:28:05.451Z",
+  "finishedAt": "2026-04-22T11:29:46.048Z",
+  "baselineSummary": {
+    "resultCount": "Showing 1–12 of 15 results",
+    "emptyMessage": null,
+    "titles": [
+      "Van Heusen Slim Fit Spread Collar Pure Cotton Formal Shirt",
+      "Staple Crew Neck Tee",
+      "SHORT-SLEEVED T-SHIRT",
+      "SELLORIA Brand Soft Cotton Adjustable Unisex Cap",
+      "PREMIUM HIGH NECK T-SHIRT"
+    ],
+    "productCount": 12
+  },
+  "totalActionTests": 5,
+  "totalFilterTests": 2,
+  "passedActionTests": 4,
+  "passedFilterTests": 1,
+  "failedCount": 2,
+  "skippedActionTests": 3,
+  "actionTests": [
+    {
+      "id": "action-overlay-toggle",
+      "title": "Overlay toggle",
+      "skipped": true,
+      "passed": true,
+      "issues": [],
+      "reason": "Overlay button was not found for this viewport."
+    },
+    {
+      "id": "action-shortcode-toggle",
+      "title": "Shortcode collapsible toggle",
+      "skipped": true,
+      "passed": true,
+      "issues": [],
+      "reason": "Shortcode collapsible wrapper was not found."
+    },
+    {
+      "id": "action-collapse-toggle",
+      "title": "Collapse toggle on Rating Reset",
+      "beforeState": {
+        "collapsed": false,
+        "visible": true,
+        "displays": [
+          "block"
+        ],
+        "hiddenClassCount": 0
+      },
+      "afterCollapseState": {
+        "collapsed": true,
+        "visible": false,
+        "displays": [
+          "none"
+        ],
+        "hiddenClassCount": 1
+      },
+      "afterExpandState": {
+        "collapsed": false,
+        "visible": true,
+        "displays": [
+          "block"
+        ],
+        "hiddenClassCount": 0
+      },
+      "messages": [],
+      "issues": [],
+      "passed": true
+    },
+    {
+      "id": "action-option-search",
+      "title": "Internal option search",
+      "skipped": true,
+      "passed": true,
+      "issues": [],
+      "reason": "Field (auto not found) was not found."
+    },
+    {
+      "id": "action-reset-filters",
+      "title": "Reset Filters on Rating Reset",
+      "applyMechanism": "auto-change",
+      "resetMechanism": "group-reset",
+      "urlMode": "query_string",
+      "baselineUrl": "https://demo.plugincy.com/dynamic-ajax-product-filters-for-woocommerce/men-clothing/",
+      "baselineSummary": {
+        "resultCount": "Showing 1–12 of 15 results",
+        "emptyMessage": null,
+        "titles": [
+          "Van Heusen Slim Fit Spread Collar Pure Cotton Formal Shirt",
+          "Staple Crew Neck Tee",
+          "SHORT-SLEEVED T-SHIRT",
+          "SELLORIA Brand Soft Cotton Adjustable Unisex Cap",
+          "PREMIUM HIGH NECK T-SHIRT"
+        ],
+        "productCount": 12
+      },
+      "filteredUrl": "https://demo.plugincy.com/dynamic-ajax-product-filters-for-woocommerce/men-clothing/?filters=1&rating=1&orderby=date",
+      "resetUrl": "https://demo.plugincy.com/dynamic-ajax-product-filters-for-woocommerce/men-clothing/?filters=1&orderby=date",
+      "baselineState": [],
+      "stateBeforeReset": [
+        "1"
+      ],
+      "stateAfterReset": [],
+      "filteredSummary": {
+        "resultCount": null,
+        "emptyMessage": "No products were found matching your selection.",
+        "titles": [],
+        "productCount": 0
+      },
+      "resetSummary": {
+        "resultCount": "Showing 1–12 of 15 results",
+        "emptyMessage": null,
+        "titles": [
+          "Van Heusen Slim Fit Spread Collar Pure Cotton Formal Shirt",
+          "Staple Crew Neck Tee",
+          "SHORT-SLEEVED T-SHIRT",
+          "SELLORIA Brand Soft Cotton Adjustable Unisex Cap",
+          "PREMIUM HIGH NECK T-SHIRT"
+        ],
+        "productCount": 12
+      },
+      "messages": [],
+      "issues": [
+        "Reset Filters did not return the page to the initial products URL."
+      ],
+      "passed": false
+    }
+  ],
+  "filterTests": [
+    {
+      "id": "002-price-range-price-range",
+      "fieldId": "price-range",
+      "title": "Price Range",
+      "kind": "inputs",
+      "expected": {
+        "mn_price": "190",
+        "mx_price": "760"
+      },
+      "baselineUrl": "https://demo.plugincy.com/dynamic-ajax-product-filters-for-woocommerce/men-clothing/",
+      "baselineSummary": {
+        "resultCount": "Showing 1–12 of 15 results",
+        "emptyMessage": null,
+        "titles": [
+          "Van Heusen Slim Fit Spread Collar Pure Cotton Formal Shirt",
+          "Staple Crew Neck Tee",
+          "SHORT-SLEEVED T-SHIRT",
+          "SELLORIA Brand Soft Cotton Adjustable Unisex Cap",
+          "PREMIUM HIGH NECK T-SHIRT"
+        ],
+        "productCount": 12
+      },
+      "applyMechanism": "input-blur",
+      "urlMode": "query_string",
+      "applyUrl": "https://demo.plugincy.com/dynamic-ajax-product-filters-for-woocommerce/men-clothing/?filters=1&orderby=date",
+      "reloadUrl": "https://demo.plugincy.com/dynamic-ajax-product-filters-for-woocommerce/men-clothing/?filters=1&orderby=date",
+      "urlChanged": true,
+      "reloadUrlStable": true,
+      "summaryChangedAfterApply": true,
+      "applyNetworkActivity": [
+        {
+          "kind": "response",
+          "method": "GET",
+          "resourceType": "xhr",
+          "status": 200,
+          "url": "https://demo.plugincy.com/dynamic-ajax-product-filters-for-woocommerce/men-clothing/?gm-product-filter-nonce=798f6a3a0f&_wp_http_referer=%2Fdynamic-ajax-product-filters-for-woocommerce%2Fmen-clothing%2F&plugincy_search=&mn_price=190&mx_price=760&min_length=&max_length=&min_width=&max_width=&min_height=&max_height=&min_weight=&max_weight=&sku=&discount=&date_filter=&date_from=&date_to=&orderby=date&per_page=12&order=ASC&cat_operator=IN&tag_operator=IN&terms_operator=IN&brand_operator=IN&default_min=0&default_max=1899&gm_pf_fragment=1",
+          "timestamp": 1776857350961
+        }
+      ],
+      "observedApplyEffect": true,
+      "expectsUrlChange": true,
+      "expectsReloadPersistence": true,
+      "baselineState": {
+        "mn_price": "0",
+        "mx_price": "1899"
+      },
+      "stateAfterApply": {
+        "mn_price": "190",
+        "mx_price": "760"
+      },
+      "stateAfterReload": {
+        "mn_price": "0",
+        "mx_price": "1899"
+      },
+      "applyStateOk": true,
+      "reloadStateOk": false,
+      "summaryAfterApply": {
+        "resultCount": "Showing 1–12 of 14 resultsSorted by latest",
+        "emptyMessage": null,
+        "titles": [
+          "Van Heusen Slim Fit Spread Collar Pure Cotton Formal Shirt",
+          "SHORT-SLEEVED T-SHIRT",
+          "SELLORIA Brand Soft Cotton Adjustable Unisex Cap",
+          "PREMIUM HIGH NECK T-SHIRT",
+          "Onsoyours Men’s Jeans Slim Fit"
+        ],
+        "productCount": 12
+      },
+      "summaryAfterReload": {
+        "resultCount": "Showing 1–12 of 15 resultsSorted by latest",
+        "emptyMessage": null,
+        "titles": [
+          "Van Heusen Slim Fit Spread Collar Pure Cotton Formal Shirt",
+          "Staple Crew Neck Tee",
+          "SHORT-SLEEVED T-SHIRT",
+          "SELLORIA Brand Soft Cotton Adjustable Unisex Cap",
+          "PREMIUM HIGH NECK T-SHIRT"
+        ],
+        "productCount": 12
+      },
+      "issues": [
+        "Selected state was not preserved after page reload."
+      ],
+      "messages": [],
+      "screenshot": "C:\\Users\\GM Team\\OneDrive\\Desktop\\QC Automation\\dapf-filter-qc\\reports\\demo-plugincy-com-dynamic-ajax-product-filters-for-woocommerce-men-clothing-mobile-20260422-172719\\fail-002-price-range-price-range-apply-reload.png",
+      "passed": false
+    },
+    {
+      "id": "014-date-filter-date-filter",
+      "fieldId": "date_filter",
+      "title": "Date Filter",
+      "kind": "single-select",
+      "expected": [
+        "today"
+      ],
+      "baselineUrl": "https://demo.plugincy.com/dynamic-ajax-product-filters-for-woocommerce/men-clothing/",
+      "baselineSummary": {
+        "resultCount": "Showing 1–12 of 15 results",
+        "emptyMessage": null,
+        "titles": [
+          "Van Heusen Slim Fit Spread Collar Pure Cotton Formal Shirt",
+          "Staple Crew Neck Tee",
+          "SHORT-SLEEVED T-SHIRT",
+          "SELLORIA Brand Soft Cotton Adjustable Unisex Cap",
+          "PREMIUM HIGH NECK T-SHIRT"
+        ],
+        "productCount": 12
+      },
+      "applyMechanism": "auto-change",
+      "urlMode": "query_string",
+      "applyUrl": "https://demo.plugincy.com/dynamic-ajax-product-filters-for-woocommerce/men-clothing/?filters=1&date=today&orderby=date",
+      "reloadUrl": "https://demo.plugincy.com/dynamic-ajax-product-filters-for-woocommerce/men-clothing/?filters=1&date=today&orderby=date",
+      "urlChanged": true,
+      "reloadUrlStable": true,
+      "summaryChangedAfterApply": true,
+      "applyNetworkActivity": [
+        {
+          "kind": "response",
+          "method": "GET",
+          "resourceType": "xhr",
+          "status": 200,
+          "url": "https://demo.plugincy.com/dynamic-ajax-product-filters-for-woocommerce/men-clothing/?gm-product-filter-nonce=798f6a3a0f&_wp_http_referer=%2Fdynamic-ajax-product-filters-for-woocommerce%2Fmen-clothing%2F&plugincy_search=&min_length=&max_length=&min_width=&max_width=&min_height=&max_height=&min_weight=&max_weight=&sku=&discount=&date_filter=today&date_from=&date_to=&orderby=date&per_page=12&order=ASC&cat_operator=IN&tag_operator=IN&terms_operator=IN&brand_operator=IN&default_min=0&default_max=1899&gm_pf_fragment=1",
+          "timestamp": 1776857374567
+        }
+      ],
+      "observedApplyEffect": true,
+      "expectsUrlChange": true,
+      "expectsReloadPersistence": true,
+      "baselineState": "",
+      "stateAfterApply": "today",
+      "stateAfterReload": "today",
+      "applyStateOk": true,
+      "reloadStateOk": true,
+      "summaryAfterApply": {
+        "resultCount": null,
+        "emptyMessage": "No products were found matching your selection.",
+        "titles": [],
+        "productCount": 0
+      },
+      "summaryAfterReload": {
+        "resultCount": null,
+        "emptyMessage": null,
+        "titles": [],
+        "productCount": 0
+      },
+      "issues": [],
+      "messages": [],
+      "screenshot": null,
+      "passed": true
+    }
+  ],
+  "uniqueMessages": [
+    {
+      "type": "response:error",
+      "text": "GET https://demo.plugincy.com/wp-json/wc/store/v1/products?per_page=50 :: HTTP 404"
+    }
+  ],
+  "pluginDebug": {
+    "available": true,
+    "applyMode": "auto",
+    "urlMode": "query_string",
+    "useOverlay": true,
+    "mobileBreakpoint": 768,
+    "mobileStyle": "style_1",
+    "selectors": {
+      "product": "ul.products",
+      "pagination": ".woocommerce-pagination ul.page-numbers",
+      "sorting": "form.woocommerce-ordering select",
+      "resultCount": ".woocommerce-result-count"
+    },
+    "style": {
+      "showApplyButton": null,
+      "showResetButton": null,
+      "showApplyResetOn": null,
+      "applyBehavior": null
+    },
+    "manage": {
+      "useUrlFilter": "query_string",
+      "showLoader": "on"
+    }
+  },
+  "autoDiscovery": {
+    "used": true,
+    "source": "dom-only",
+    "storeApiEndpoint": "https://demo.plugincy.com/wp-json/wc/store/v1/products?per_page=50",
+    "storeApiOk": false,
+    "storeApiError": "HTTP 404",
+    "discoveredProductCount": 0
+  },
+  "effectiveConfig": {
+    "siteLabel": "demo-plugincy-com-dynamic-ajax-product-filters-for-woocommerce-men-clothing",
+    "baseUrl": "https://demo.plugincy.com/dynamic-ajax-product-filters-for-woocommerce/men-clothing/",
+    "deviceMode": "mobile",
+    "selectors": {
+      "form": "#product-filter",
+      "applyButtonName": "Apply Filters",
+      "resetButtonName": "Reset Filters",
+      "resultCount": ".woocommerce-result-count",
+      "emptyMessage": ".woocommerce-info, .woocommerce-no-products-found",
+      "productTitles": "ul.products li.product .woocommerce-loop-product__title, ul.products li.product h2, ul.products .product h2, ul.products h2"
+    },
+    "testData": {
+      "searchText": "Van Heusen",
+      "priceRange": {
+        "min": "190",
+        "max": "760"
+      },
+      "sku": "",
+      "discount": "",
+      "dimensions": {
+        "min_height": "",
+        "max_height": "",
+        "min_length": "",
+        "max_length": ""
+      }
+    },
+    "fieldOverrides": {},
+    "actionTargets": {
+      "collapseFieldsetId": "plugincy_rating",
+      "optionSearchFieldsetId": "",
+      "optionSearchPlaceholder": "",
+      "optionSearchText": "",
+      "resetFieldsetId": "plugincy_rating",
+      "resetValue": "1",
+      "collapseFieldset": "001-plugincy-rating-rating-reset",
+      "optionSearchFieldset": "",
+      "resetFieldset": "001-plugincy-rating-rating-reset"
+    },
+    "skipFieldsets": []
+  },
+  "summary": {
+    "failedActionTests": 1,
+    "failedFilterTests": 1
+  }
+}

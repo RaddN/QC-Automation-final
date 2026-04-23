@@ -1,0 +1,72 @@
+{
+  "siteLabel": "example-store",
+  "baseUrl": "https://example.com/products/",
+  "outputDir": "./reports",
+  "browser": {
+    "channel": "chrome",
+    "headed": true,
+    "slowMoMs": 0,
+    "viewport": {
+      "width": 1440,
+      "height": 1400
+    }
+  },
+  "selectors": {
+    "form": "#product-filter",
+    "applyButtonName": "Apply Filters",
+    "resetButtonName": "Reset Filters",
+    "resultCount": ".woocommerce-result-count",
+    "emptyMessage": ".woocommerce-info, .woocommerce-no-products-found",
+    "productTitles": "ul.products li.product h2"
+  },
+  "consentButtonNames": [
+    "Accept All",
+    "Accept"
+  ],
+  "noisePatterns": [
+    "cookie",
+    "consent",
+    "googletag",
+    "gtag"
+  ],
+  "testData": {
+    "searchText": "Laptop",
+    "priceRange": {
+      "min": "1000",
+      "max": "2000"
+    },
+    "sku": "ABC123",
+    "discount": "10",
+    "dimensions": {
+      "min_height": "25",
+      "max_height": "35",
+      "min_length": "15",
+      "max_length": "20"
+    }
+  },
+  "fieldOverrides": {
+    "color": {
+      "kind": "checkboxes",
+      "values": [
+        "olive",
+        "white"
+      ]
+    },
+    "tag": {
+      "kind": "multi-select",
+      "selectName": "tags[]",
+      "values": [
+        "acacia-honey"
+      ]
+    }
+  },
+  "skipFieldsets": [],
+  "actionTargets": {
+    "collapseFieldsetId": "color",
+    "optionSearchFieldsetId": "product-category",
+    "optionSearchPlaceholder": "aagagag",
+    "optionSearchText": "Laptop",
+    "resetFieldsetId": "color",
+    "resetValue": "olive"
+  }
+}
