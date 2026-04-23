@@ -1059,6 +1059,9 @@ function buildMarkdownReport(report) {
       for (const issue of test.issues) {
         lines.push(`- ${issue}`);
       }
+      if (test.screenshot) {
+        lines.push(`- Screenshot: ${test.screenshot}`);
+      }
       if (test.reason) {
         lines.push(`- ${test.reason}`);
       }
@@ -2765,13 +2768,380 @@ async function main() {
     );
   }
 
-  async function captureFailureScreenshot(caseId, phase) {
+  function tonePalette(tone) {
+    if (tone === 'result') {
+      return {
+        border: '#2563eb',
+        fill: 'rgba(37, 99, 235, 0.10)',
+        badge: '#2563eb',
+      };
+    }
+
+    if (tone === 'context') {
+      return {
+        border: '#f59e0b',
+        fill: 'rgba(245, 158, 11, 0.10)',
+        badge: '#b45309',
+      };
+    }
+
+    return {
+      border: '#ef4444',
+      fill: 'rgba(239, 68, 68, 0.10)',
+      badge: '#dc2626',
+    };
+  }
+
+  async function locatorToHighlightBox(locator, label, tone = 'filter') {
+    if (!locator) {
+      return null;
+    }
+
+    const target = locator.first();
+    if (!(await target.count().catch(() => 0))) {
+      return null;
+    }
+
+    return target
+      .evaluate(
+        (node, payload) => {
+          const rect = node.getBoundingClientRect();
+          const style = window.getComputedStyle(node);
+          if (
+            style.display === 'none' ||
+            style.visibility === 'hidden' ||
+            rect.width < 8 ||
+            rect.height < 8
+          ) {
+            return null;
+          }
+
+          return {
+            left: Math.max(0, rect.left + window.scrollX - 6),
+            top: Math.max(0, rect.top + window.scrollY - 6),
+            width: rect.width + 12,
+            height: rect.height + 12,
+            label: payload.label,
+            tone: payload.tone,
+          };
+        },
+        { label, tone }
+      )
+      .catch(() => null);
+  }
+
+  async function firstVisibleHighlightBox(selectors, label, tone = 'context', maxMatches = 1) {
+    const selectorList = buildSelectorPool(selectors);
+
+    for (const selector of selectorList) {
+      let locator;
+      try {
+        locator = page.locator(selector);
+      } catch {
+        continue;
+      }
+
+      const count = Math.min(await locator.count().catch(() => 0), Math.max(1, maxMatches) * 4);
+      for (let index = 0; index < count; index += 1) {
+        const box = await locatorToHighlightBox(locator.nth(index), label, tone);
+        if (box) {
+          return box;
+        }
+      }
+    }
+
+    return null;
+  }
+
+  function dedupeHighlightBoxes(boxes) {
+    const unique = [];
+
+    for (const box of boxes.filter(Boolean)) {
+      const duplicate = unique.some((existing) => {
+        return (
+          Math.abs(existing.left - box.left) < 6 &&
+          Math.abs(existing.top - box.top) < 6 &&
+          Math.abs(existing.width - box.width) < 6 &&
+          Math.abs(existing.height - box.height) < 6
+        );
+      });
+
+      if (!duplicate) {
+        unique.push(box);
+      }
+    }
+
+    return unique;
+  }
+
+  async function collectFailureHighlightBoxes(options = {}) {
+    const boxes = [];
+    const groupRefs = Array.isArray(options.groupRefs) ? options.groupRefs : [];
+
+    for (const [index, groupRef] of groupRefs.entries()) {
+      const label = index === 0 ? 'Changed Filter' : `Changed Filter ${index + 1}`;
+      const box = await locatorToHighlightBox(groupLocator(groupRef), label, 'filter');
+      if (box) {
+        boxes.push(box);
+      }
+    }
+
+    if (options.includeForm) {
+      const formBox = await firstVisibleHighlightBox(config.selectors.form, 'Filter Panel', 'context');
+      if (formBox) {
+        boxes.push(formBox);
+      }
+    }
+
+    for (const target of options.selectorTargets || []) {
+      const box = await firstVisibleHighlightBox(
+        target.selectors || target.selector || [],
+        target.label || 'Context',
+        target.tone || 'context',
+        target.maxMatches || 1
+      );
+      if (box) {
+        boxes.push(box);
+      }
+    }
+
+    if (options.includeResults !== false) {
+      const activeFilterBox = await firstVisibleHighlightBox(
+        [
+          '.filtered_by',
+          '.filtered-by',
+          '.plugincy-filtered-by',
+          '.plugincy-active-filters',
+          '.active-filters',
+          '.applied-filters',
+          '.plugincy-terms-lists',
+          '.plugincy-selected-filter',
+          '.dapfforwc-active-filter',
+        ],
+        'Applied Filter',
+        'context'
+      );
+      if (activeFilterBox) {
+        boxes.push(activeFilterBox);
+      }
+
+      const resultBox = await firstVisibleHighlightBox(
+        [config.selectors.emptyMessage, config.selectors.resultCount, '.woocommerce-info', '.woocommerce-no-products-found'],
+        'Result / Error Area',
+        'result'
+      );
+      if (resultBox) {
+        boxes.push(resultBox);
+      }
+
+      const productBox = await firstVisibleHighlightBox(
+        ['ul.products', '.woocommerce ul.products', '.products'],
+        'Product Area',
+        'result'
+      );
+      if (productBox) {
+        boxes.push(productBox);
+      }
+
+      if (!resultBox && !productBox) {
+        const fallbackResultsBox = await page
+          .evaluate((formSelector) => {
+            const form = document.querySelector(formSelector);
+            if (!form) {
+              return null;
+            }
+
+            const isVisible = (element) => {
+              if (!element) return false;
+              const style = window.getComputedStyle(element);
+              const rect = element.getBoundingClientRect();
+              return (
+                style.display !== 'none' &&
+                style.visibility !== 'hidden' &&
+                rect.width >= 40 &&
+                rect.height >= 40
+              );
+            };
+
+            const toBox = (element, label) => {
+              const rect = element.getBoundingClientRect();
+              return {
+                left: Math.max(0, rect.left + window.scrollX - 6),
+                top: Math.max(0, rect.top + window.scrollY - 6),
+                width: rect.width + 12,
+                height: rect.height + 12,
+                label,
+                tone: 'result',
+              };
+            };
+
+            const formRect = form.getBoundingClientRect();
+            let ancestor = form.parentElement;
+            let best = null;
+
+            const scoreCandidate = (element) => {
+              const rect = element.getBoundingClientRect();
+              const area = rect.width * rect.height;
+              const rightColumnBonus = rect.left >= formRect.right - 60 ? 500000 : 0;
+              const overlapTop = Math.max(rect.top, formRect.top);
+              const overlapBottom = Math.min(rect.bottom, formRect.bottom);
+              const verticalOverlap = Math.max(0, overlapBottom - overlapTop);
+              const verticalBonus = verticalOverlap > 40 ? 250000 : 0;
+              return area + rightColumnBonus + verticalBonus;
+            };
+
+            while (ancestor && ancestor !== document.body) {
+              const siblings = Array.from(ancestor.children).filter((element) => {
+                if (element === form || element.contains(form) || form.contains(element)) {
+                  return false;
+                }
+                return isVisible(element);
+              });
+
+              for (const sibling of siblings) {
+                const score = scoreCandidate(sibling);
+                if (!best || score > best.score) {
+                  best = { element: sibling, score };
+                }
+              }
+
+              ancestor = ancestor.parentElement;
+            }
+
+            if (!best?.element) {
+              return null;
+            }
+
+            return toBox(best.element, 'Affected Result Area');
+          }, config.selectors.form)
+          .catch(() => null);
+
+        if (fallbackResultsBox) {
+          boxes.push(fallbackResultsBox);
+        }
+      }
+    }
+
+    return dedupeHighlightBoxes(boxes);
+  }
+
+  async function injectFailureScreenshotOverlay(boxes, options = {}) {
+    const preparedBoxes = (boxes || []).map((box) => {
+      const palette = tonePalette(box.tone);
+      return {
+        ...box,
+        borderColor: palette.border,
+        fillColor: palette.fill,
+        badgeColor: palette.badge,
+      };
+    });
+
+    await page.evaluate(
+      ({ overlayId, overlayBoxes, title, issues }) => {
+        const previous = document.getElementById(overlayId);
+        if (previous) {
+          previous.remove();
+        }
+
+        const root = document.createElement('div');
+        root.id = overlayId;
+        root.setAttribute('data-dapf-qc-overlay', 'true');
+        root.style.position = 'absolute';
+        root.style.left = '0';
+        root.style.top = '0';
+        root.style.width = '100%';
+        root.style.height = `${Math.max(document.documentElement.scrollHeight, document.body.scrollHeight)}px`;
+        root.style.pointerEvents = 'none';
+        root.style.zIndex = '2147483647';
+
+        for (const box of overlayBoxes) {
+          const frame = document.createElement('div');
+          frame.style.position = 'absolute';
+          frame.style.left = `${box.left}px`;
+          frame.style.top = `${box.top}px`;
+          frame.style.width = `${box.width}px`;
+          frame.style.height = `${box.height}px`;
+          frame.style.border = `3px solid ${box.borderColor}`;
+          frame.style.borderRadius = '10px';
+          frame.style.background = box.fillColor;
+          frame.style.boxShadow = `0 0 0 2px rgba(255,255,255,0.85), 0 10px 24px ${box.fillColor}`;
+
+          const badge = document.createElement('div');
+          badge.textContent = box.label;
+          badge.style.position = 'absolute';
+          badge.style.left = '8px';
+          badge.style.top = '-14px';
+          badge.style.padding = '4px 8px';
+          badge.style.borderRadius = '999px';
+          badge.style.background = box.badgeColor;
+          badge.style.color = '#fff';
+          badge.style.font = '600 12px/1.2 Arial, sans-serif';
+          badge.style.letterSpacing = '0.02em';
+          badge.style.boxShadow = '0 2px 6px rgba(0,0,0,0.18)';
+          frame.appendChild(badge);
+          root.appendChild(frame);
+        }
+
+        if (title || (issues || []).length) {
+          const banner = document.createElement('div');
+          banner.style.position = 'absolute';
+          banner.style.left = '16px';
+          banner.style.top = '16px';
+          banner.style.maxWidth = '540px';
+          banner.style.padding = '12px 14px';
+          banner.style.borderRadius = '12px';
+          banner.style.background = 'rgba(15, 23, 42, 0.94)';
+          banner.style.color = '#fff';
+          banner.style.boxShadow = '0 18px 38px rgba(15, 23, 42, 0.28)';
+          banner.style.font = '500 13px/1.45 Arial, sans-serif';
+
+          if (title) {
+            const titleNode = document.createElement('div');
+            titleNode.textContent = title;
+            titleNode.style.fontWeight = '700';
+            titleNode.style.fontSize = '14px';
+            titleNode.style.marginBottom = issues.length ? '8px' : '0';
+            banner.appendChild(titleNode);
+          }
+
+          for (const issue of issues) {
+            const line = document.createElement('div');
+            line.textContent = `• ${issue}`;
+            line.style.marginTop = '4px';
+            banner.appendChild(line);
+          }
+
+          root.appendChild(banner);
+        }
+
+        document.body.appendChild(root);
+      },
+      {
+        overlayId: '__dapf_qc_failure_overlay__',
+        overlayBoxes: preparedBoxes,
+        title: options.title || '',
+        issues: (options.issues || []).filter(Boolean).slice(0, 4),
+      }
+    );
+  }
+
+  async function clearFailureScreenshotOverlay() {
+    await page.evaluate(() => {
+      document.getElementById('__dapf_qc_failure_overlay__')?.remove();
+    }).catch(() => {});
+  }
+
+  async function captureFailureScreenshot(caseId, phase, options = {}) {
     const file = path.join(outputDir, `fail-${sanitizeId(caseId)}-${phase}.png`);
     try {
+      const boxes = await collectFailureHighlightBoxes(options);
+      await injectFailureScreenshotOverlay(boxes, options);
       await page.screenshot({ path: file, fullPage: true });
       return file;
     } catch {
       return null;
+    } finally {
+      await clearFailureScreenshotOverlay();
     }
   }
 
@@ -3777,6 +4147,16 @@ async function main() {
         issues.push('Browser console/request errors were emitted during collapse interaction.');
       }
 
+      let screenshot = null;
+      if (issues.length) {
+        screenshot = await captureFailureScreenshot(plan.id, 'collapse', {
+          title: plan.title,
+          issues,
+          groupRefs: [groupRef],
+          includeResults: false,
+        });
+      }
+
       return {
         id: plan.id,
         title: plan.title,
@@ -3788,6 +4168,7 @@ async function main() {
         finalState,
         messages,
         issues,
+        screenshot,
         passed: issues.length === 0,
       };
     }
@@ -3823,6 +4204,16 @@ async function main() {
         issues.push('Browser console/request errors were emitted during search-terms interaction.');
       }
 
+      let screenshot = null;
+      if (issues.length) {
+        screenshot = await captureFailureScreenshot(plan.id, 'search-terms', {
+          title: plan.title,
+          issues,
+          groupRefs: [groupRef],
+          includeResults: false,
+        });
+      }
+
       return {
         id: plan.id,
         title: plan.title,
@@ -3834,6 +4225,7 @@ async function main() {
         afterOptions,
         messages,
         issues,
+        screenshot,
         passed: issues.length === 0,
       };
     }
@@ -3862,6 +4254,16 @@ async function main() {
         issues.push('Tooltip icon is visible but does not expose tooltip text.');
       }
 
+      let screenshot = null;
+      if (issues.length) {
+        screenshot = await captureFailureScreenshot(plan.id, 'tooltip', {
+          title: plan.title,
+          issues,
+          groupRefs: [groupRef],
+          includeResults: false,
+        });
+      }
+
       return {
         id: plan.id,
         title: plan.title,
@@ -3871,6 +4273,7 @@ async function main() {
         tooltipState,
         issues,
         messages: [],
+        screenshot,
         passed: issues.length === 0,
       };
     }
@@ -3932,6 +4335,16 @@ async function main() {
         issues.push('Browser console/request errors were emitted during hierarchy interaction.');
       }
 
+      let screenshot = null;
+      if (issues.length) {
+        screenshot = await captureFailureScreenshot(plan.id, 'hierarchy', {
+          title: plan.title,
+          issues,
+          groupRefs: [groupRef],
+          includeResults: false,
+        });
+      }
+
       return {
         id: plan.id,
         title: plan.title,
@@ -3943,6 +4356,7 @@ async function main() {
         finalState,
         messages,
         issues,
+        screenshot,
         passed: issues.length === 0,
       };
     }
@@ -4109,7 +4523,11 @@ async function main() {
 
     let screenshot = null;
     if (issues.length) {
-      screenshot = await captureFailureScreenshot(plan.id, 'roundtrip');
+      screenshot = await captureFailureScreenshot(plan.id, 'roundtrip', {
+        title: plan.title,
+        issues,
+        groupRefs: [testCase.groupRef],
+      });
     }
 
     return {
@@ -4289,7 +4707,11 @@ async function main() {
 
     let screenshot = null;
     if (issues.length) {
-      screenshot = await captureFailureScreenshot(plan.id, sanitizeId(scenario));
+      screenshot = await captureFailureScreenshot(plan.id, sanitizeId(scenario), {
+        title: plan.title,
+        issues,
+        groupRefs: [testCase.groupRef],
+      });
     }
 
     return {
@@ -4425,7 +4847,11 @@ async function main() {
 
     let screenshot = null;
     if (issues.length) {
-      screenshot = await captureFailureScreenshot(plan.id, 'combo');
+      screenshot = await captureFailureScreenshot(plan.id, 'combo', {
+        title: plan.title,
+        issues,
+        groupRefs: comboCases.map((testCase) => testCase.groupRef),
+      });
     }
 
     return {
@@ -4465,13 +4891,18 @@ async function main() {
   }
 
   async function buildUnexpectedFailure(id, title, error, phase = 'unexpected') {
+    const issues = [error?.message || String(error)];
     return {
       id,
       title,
       passed: false,
-      issues: [error?.message || String(error)],
+      issues,
       messages: [],
-      screenshot: await captureFailureScreenshot(id, phase),
+      screenshot: await captureFailureScreenshot(id, phase, {
+        title,
+        issues,
+        includeForm: true,
+      }),
     };
   }
 
@@ -4539,6 +4970,27 @@ async function main() {
       issues.push('Browser console/request errors were emitted during overlay toggle.');
     }
 
+    let screenshot = null;
+    if (issues.length) {
+      screenshot = await captureFailureScreenshot('action-overlay-toggle', 'overlay-toggle', {
+        title: 'Overlay toggle',
+        issues,
+        selectorTargets: [
+          {
+            selectors: ['.dapfforwcpro-overlay-button', '[id^="dapfforwcpro-overlay-"][id$="-button"]'],
+            label: 'Overlay Trigger',
+            tone: 'context',
+          },
+          {
+            selectors: ['.dapfforwcpro-overlay-panel'],
+            label: 'Overlay Panel',
+            tone: 'filter',
+          },
+        ],
+        includeResults: false,
+      });
+    }
+
     return {
       id: 'action-overlay-toggle',
       title: 'Overlay toggle',
@@ -4546,6 +4998,7 @@ async function main() {
       closedState,
       messages,
       issues,
+      screenshot,
       passed: issues.length === 0,
     };
   }
@@ -4585,6 +5038,27 @@ async function main() {
       issues.push('Browser console/request errors were emitted during shortcode toggle.');
     }
 
+    let screenshot = null;
+    if (issues.length) {
+      screenshot = await captureFailureScreenshot('action-shortcode-toggle', 'shortcode-toggle', {
+        title: 'Shortcode collapsible toggle',
+        issues,
+        selectorTargets: [
+          {
+            selectors: ['.dapfforwcpro-shortcode-collapsable-toggle'],
+            label: 'Shortcode Toggle',
+            tone: 'context',
+          },
+          {
+            selectors: ['.dapfforwcpro-shortcode-collapsable-panel'],
+            label: 'Shortcode Panel',
+            tone: 'filter',
+          },
+        ],
+        includeResults: false,
+      });
+    }
+
     return {
       id: 'action-shortcode-toggle',
       title: 'Shortcode collapsible toggle',
@@ -4593,6 +5067,7 @@ async function main() {
       afterCloseExpanded,
       messages,
       issues,
+      screenshot,
       passed: issues.length === 0,
     };
   }
@@ -4631,6 +5106,16 @@ async function main() {
       issues.push('Browser console/request errors were emitted during collapse toggle.');
     }
 
+    let screenshot = null;
+    if (issues.length) {
+      screenshot = await captureFailureScreenshot('action-collapse-toggle', 'collapse-toggle', {
+        title: `Collapse toggle on ${collapseField.title || collapseField.id}`,
+        issues,
+        groupRefs: [createGroupRef(collapseField)],
+        includeResults: false,
+      });
+    }
+
     return {
       id: 'action-collapse-toggle',
       title: `Collapse toggle on ${collapseField.title || collapseField.id}`,
@@ -4639,6 +5124,7 @@ async function main() {
       afterExpandState,
       messages,
       issues,
+      screenshot,
       passed: issues.length === 0,
     };
   }
@@ -4689,6 +5175,16 @@ async function main() {
       issues.push('Browser console/request errors were emitted during internal option search.');
     }
 
+    let screenshot = null;
+    if (issues.length) {
+      screenshot = await captureFailureScreenshot('action-option-search', 'option-search', {
+        title: `Internal option search on ${optionSearchField.title || optionSearchField.id}`,
+        issues,
+        groupRefs: [createGroupRef(optionSearchField)],
+        includeResults: false,
+      });
+    }
+
     return {
       id: 'action-option-search',
       title: `Internal option search on ${optionSearchField.title || optionSearchField.id}`,
@@ -4696,6 +5192,7 @@ async function main() {
       afterSample: afterOptions,
       messages,
       issues,
+      screenshot,
       passed: issues.length === 0,
     };
   }
@@ -4742,6 +5239,15 @@ async function main() {
       issues.push('Browser console/request errors were emitted during no-op apply.');
     }
 
+    let screenshot = null;
+    if (issues.length) {
+      screenshot = await captureFailureScreenshot('action-idle-apply', 'idle-apply', {
+        title: 'Apply Filters without changes',
+        issues,
+        includeForm: true,
+      });
+    }
+
     return {
       id: 'action-idle-apply',
       title: 'Apply Filters without changes',
@@ -4754,6 +5260,7 @@ async function main() {
       formStateAfterApply,
       messages,
       issues,
+      screenshot,
       passed: issues.length === 0,
     };
   }
@@ -4801,6 +5308,15 @@ async function main() {
       issues.push('Browser console/request errors were emitted during no-op reset.');
     }
 
+    let screenshot = null;
+    if (issues.length) {
+      screenshot = await captureFailureScreenshot('action-idle-reset', 'idle-reset', {
+        title: 'Reset Filters without changes',
+        issues,
+        includeForm: true,
+      });
+    }
+
     return {
       id: 'action-idle-reset',
       title: 'Reset Filters without changes',
@@ -4813,6 +5329,7 @@ async function main() {
       formStateAfterReset,
       messages,
       issues,
+      screenshot,
       passed: issues.length === 0,
     };
   }
@@ -4896,6 +5413,21 @@ async function main() {
       issues.push('Browser console/request errors were emitted during sorting.');
     }
 
+    let screenshot = null;
+    if (issues.length) {
+      screenshot = await captureFailureScreenshot('action-sorting', 'sorting', {
+        title: `Sorting action to ${targetOption.text || targetOption.value}`,
+        issues,
+        selectorTargets: [
+          {
+            selectors: [config.selectors.sorting, 'form.woocommerce-ordering'],
+            label: 'Sorting Control',
+            tone: 'context',
+          },
+        ],
+      });
+    }
+
     return {
       id: 'action-sorting',
       title: `Sorting action to ${targetOption.text || targetOption.value}`,
@@ -4913,6 +5445,7 @@ async function main() {
       sortingNetworkActivity,
       messages,
       issues,
+      screenshot,
       passed: issues.length === 0,
     };
   }
@@ -4992,6 +5525,21 @@ async function main() {
       issues.push('Browser console/request errors were emitted during pagination.');
     }
 
+    let screenshot = null;
+    if (issues.length) {
+      screenshot = await captureFailureScreenshot('action-pagination', 'pagination', {
+        title: `Pagination action to ${clickInfo.targetLabel || clickInfo.targetPage || 'next page'}`,
+        issues,
+        selectorTargets: [
+          {
+            selectors: [config.selectors.pagination],
+            label: 'Pagination',
+            tone: 'context',
+          },
+        ],
+      });
+    }
+
     return {
       id: 'action-pagination',
       title: `Pagination action to ${clickInfo.targetLabel || clickInfo.targetPage || 'next page'}`,
@@ -5009,6 +5557,7 @@ async function main() {
       paginationNetworkActivity,
       messages,
       issues,
+      screenshot,
       passed: issues.length === 0,
     };
   }
@@ -5098,6 +5647,15 @@ async function main() {
       issues.push('Browser console/request errors were emitted during reset.');
     }
 
+    let screenshot = null;
+    if (issues.length) {
+      screenshot = await captureFailureScreenshot('action-reset-filters', 'reset-filters', {
+        title: `Reset Filters on ${resetTargetField.title || resetTargetField.id}`,
+        issues,
+        groupRefs: [targetGroupRef],
+      });
+    }
+
     return {
       id: 'action-reset-filters',
       title: `Reset Filters on ${resetTargetField.title || resetTargetField.id}`,
@@ -5115,6 +5673,7 @@ async function main() {
       resetSummary,
       messages,
       issues,
+      screenshot,
       passed: issues.length === 0,
     };
   }
