@@ -27,6 +27,18 @@ function parseArgs(argv) {
       continue;
     }
 
+    if (arg === '--scope' && next) {
+      args.scope = next;
+      index += 1;
+      continue;
+    }
+
+    if (arg === '--selector' && next) {
+      args.selector = next;
+      index += 1;
+      continue;
+    }
+
     if (arg === '--headed') {
       args.headed = true;
       continue;
@@ -97,6 +109,15 @@ function buildDefaultConfig() {
     maxDuplicateFieldsetsPerId: 3,
     fieldOverrides: {},
     skipFieldsets: [],
+    qcScope: 'all',
+    focusFieldsets: [],
+    scenarioSettings: {
+      enableCombinationTests: true,
+      maxCombinationPairs: 8,
+      includeCapabilityChecks: true,
+      includeStateScenarios: true,
+      stateFlowMode: 'condensed',
+    },
     actionTargets: {
       collapseFieldsetId: '',
       optionSearchFieldsetId: '',
@@ -151,6 +172,12 @@ function mergeConfig(base, override) {
   output.consentButtonNames = override.consentButtonNames || base.consentButtonNames;
   output.noisePatterns = override.noisePatterns || base.noisePatterns;
   output.skipFieldsets = override.skipFieldsets || base.skipFieldsets;
+  output.focusFieldsets = override.focusFieldsets || base.focusFieldsets;
+  output.qcScope = override.qcScope || base.qcScope;
+  output.scenarioSettings = {
+    ...base.scenarioSettings,
+    ...(override.scenarioSettings || {}),
+  };
 
   return output;
 }
@@ -400,17 +427,22 @@ function statesEqual(left, right) {
   return JSON.stringify(normalizeComparableState(left)) === JSON.stringify(normalizeComparableState(right));
 }
 
-function buildSummarySignature(summary) {
-  return JSON.stringify({
+function buildSummarySignature(summary, options = {}) {
+  const signature = {
     resultCount: summary?.resultCount || null,
     emptyMessage: summary?.emptyMessage || null,
     productCount: summary?.productCount ?? null,
-    titles: Array.isArray(summary?.titles) ? summary.titles.slice(0, 8) : [],
-  });
+  };
+
+  if (options.includeTitles !== false) {
+    signature.titles = Array.isArray(summary?.titles) ? summary.titles.slice(0, 8) : [];
+  }
+
+  return JSON.stringify(signature);
 }
 
-function summariesDiffer(left, right) {
-  return buildSummarySignature(left) !== buildSummarySignature(right);
+function summariesDiffer(left, right, options = {}) {
+  return buildSummarySignature(left, options) !== buildSummarySignature(right, options);
 }
 
 function pickQuartileRange(values) {
@@ -445,6 +477,19 @@ function deriveSiteLabel(url) {
   } catch {
     return 'site';
   }
+}
+
+function parseFieldsetRefs(value) {
+  if (Array.isArray(value)) {
+    return value
+      .flatMap((item) => parseFieldsetRefs(item))
+      .filter(Boolean);
+  }
+
+  return String(value || '')
+    .split(',')
+    .map((item) => item.trim())
+    .filter(Boolean);
 }
 
 function pickSearchToken(text) {
@@ -757,8 +802,10 @@ function deriveFieldOverrides(metadata, baselineSummary = null) {
       const chooseCount = isMultiValueChoiceName(firstCheckboxName)
         ? Math.min(2, checkboxes.length)
         : 1;
+      const visibleOptions = checkboxes.filter((option) => option.wrapperVisible !== false);
+      const preferredOptions = visibleOptions.filter((option) => !option.checked);
       const chosenValues = pickChoiceOptions(
-        checkboxes.filter((option) => option.wrapperVisible !== false),
+        preferredOptions.length ? preferredOptions : visibleOptions,
         chooseCount,
         totalProducts
       )
@@ -776,8 +823,10 @@ function deriveFieldOverrides(metadata, baselineSummary = null) {
     }
 
     if (radios.length) {
+      const visibleOptions = radios.filter((option) => option.wrapperVisible !== false);
+      const preferredOptions = visibleOptions.filter((option) => !option.checked);
       const firstRadio = pickChoiceOptions(
-        radios.filter((option) => option.wrapperVisible !== false),
+        preferredOptions.length ? preferredOptions : visibleOptions,
         1,
         totalProducts
       )[0] ||
@@ -793,8 +842,9 @@ function deriveFieldOverrides(metadata, baselineSummary = null) {
 
     if (selectControls.length) {
       const select = visibleControls.find((control) => control.tag === 'select') || selectControls[0];
+      const preferredOptions = (select.options || []).filter((option) => !option.selected);
       const values = pickSelectOptionValues(
-        select.options || [],
+        preferredOptions.length ? preferredOptions : (select.options || []),
         select.type === 'select-multiple' ? 2 : 1,
         totalProducts
       );
@@ -897,6 +947,17 @@ async function loadInitialConfig(cliArgs) {
     config.deviceMode = String(cliArgs.device).trim().toLowerCase();
   }
 
+  if (cliArgs.scope) {
+    config.qcScope = String(cliArgs.scope).trim().toLowerCase();
+  }
+
+  if (cliArgs.selector) {
+    config.focusFieldsets = parseFieldsetRefs(cliArgs.selector);
+    if (!cliArgs.scope) {
+      config.qcScope = 'specific';
+    }
+  }
+
   if (cliArgs.headed) {
     config.browser.headed = true;
   }
@@ -913,6 +974,16 @@ async function loadInitialConfig(cliArgs) {
   config.configPath = configPath;
   config.runMode = configPath ? 'config' : 'url-auto';
   config.deviceMode = ['desktop', 'mobile'].includes(config.deviceMode) ? config.deviceMode : 'desktop';
+  config.qcScope = config.qcScope === 'specific' ? 'specific' : 'all';
+  config.focusFieldsets = parseFieldsetRefs(config.focusFieldsets);
+  config.scenarioSettings.stateFlowMode =
+    String(config.scenarioSettings?.stateFlowMode || '').trim().toLowerCase() === 'split'
+      ? 'split'
+      : 'condensed';
+
+  if (config.qcScope === 'specific' && !config.focusFieldsets.length) {
+    throw new Error('Specific QC scope requires at least one selector, fieldset id, title, or key.');
+  }
 
   if (!config.siteLabel || config.siteLabel === 'site') {
     config.siteLabel = deriveSiteLabel(config.baseUrl);
@@ -1796,6 +1867,7 @@ async function main() {
           text: extractOptionText(input),
           count: extractOptionCount(extractOptionText(input)),
           type: input.type || 'checkbox',
+          checked: Boolean(input.checked),
         }));
 
         const titleElement =
@@ -1809,6 +1881,13 @@ async function main() {
           group.querySelector('input[type="search"]:not([name])') ||
           group.querySelector('input[type="text"]:not([name])');
         const titleClass = titleBar?.className || '';
+        const tooltipIcon = group.querySelector('.tooltip-icon[title], .tooltip-icon');
+        const hierarchyNodes = group.querySelectorAll('.dapfforwcpro-hierarchy-node');
+        const hierarchyToggles = group.querySelectorAll('.show-sub-cata');
+        const childContainers = group.querySelectorAll('.child-categories');
+        const resetValue = group.querySelector('.reset-value');
+        const searchToggle = group.querySelector('.search_terms');
+        const searchSubmit = group.querySelector('.plugincy-term-search-submit');
 
         return {
           id: group.id || null,
@@ -1819,12 +1898,24 @@ async function main() {
           radioOptions: choiceOptions.filter((option) => option.type === 'radio'),
           hasVisibleControl: controls.some((control) => control.visible),
           hasVisibleChoiceOption: choiceOptions.some((option) => option.wrapperVisible),
+          visibleChoiceCount: choiceOptions.filter((option) => option.wrapperVisible).length,
           hasItemsContainer: Boolean(group.querySelector('.items')),
           hasTermsSearch: Boolean(searchInput || group.querySelector('.search_terms')),
           termsSearchPlaceholder: searchInput?.placeholder || null,
+          hasTermsSearchToggle: Boolean(searchToggle),
+          hasTermsSearchSubmit: Boolean(searchSubmit),
           isCollapsible:
             /plugincy_collapsable_(arrow|minimize_initial)/.test(titleClass) ||
             Boolean(titleBar?.querySelector('.collaps')),
+          hasTooltip: Boolean(tooltipIcon),
+          tooltipText: tooltipIcon?.getAttribute('title') || null,
+          hasHierarchy: Boolean(
+            hierarchyNodes.length && (hierarchyToggles.length || childContainers.length)
+          ),
+          hierarchyNodeCount: hierarchyNodes.length,
+          hierarchyToggleCount: hierarchyToggles.length,
+          hierarchyChildContainerCount: childContainers.length,
+          hasResetValue: Boolean(resetValue),
           rootTag: group.tagName.toLowerCase(),
         };
       });
@@ -2354,8 +2445,7 @@ async function main() {
         return (
           !item.classList.contains('dapfforwcpro-hidden-important') &&
           style.display !== 'none' &&
-          style.visibility !== 'hidden' &&
-          (item.offsetWidth > 0 || item.offsetHeight > 0)
+          style.visibility !== 'hidden'
         );
       });
 
@@ -2977,7 +3067,50 @@ async function main() {
     const match = String(ref).trim();
     return metadata.find((fieldset) => fieldset.key === match) ||
       metadata.find((fieldset) => fieldset.id === match) ||
+      metadata.find((fieldset) => fieldsetMatchesRef(fieldset, match)) ||
       null;
+  }
+
+  function fieldsetMatchesRef(fieldset, ref) {
+    if (!fieldset || !hasValue(ref)) {
+      return false;
+    }
+
+    const needle = sanitizeId(String(ref).trim());
+    if (!needle) {
+      return false;
+    }
+
+    const haystacks = [
+      fieldset.key,
+      fieldset.id,
+      fieldset.title,
+      sanitizeId(fieldset.title),
+      sanitizeId(fieldset.id),
+      sanitizeId(fieldset.key),
+    ]
+      .filter(Boolean)
+      .map((value) => String(value).toLowerCase());
+
+    return haystacks.some((haystack) => haystack === needle || haystack.includes(needle) || needle.includes(haystack));
+  }
+
+  function filterMetadataByFocus(metadata) {
+    if (config.qcScope !== 'specific' || !(config.focusFieldsets || []).length) {
+      return metadata;
+    }
+
+    return metadata.filter((fieldset) => {
+      return config.focusFieldsets.some((ref) => fieldsetMatchesRef(fieldset, ref));
+    });
+  }
+
+  function summarizeAvailableFieldsets(metadata) {
+    return (metadata || [])
+      .map((fieldset) => fieldset?.title || fieldset?.id || fieldset?.key)
+      .filter(Boolean)
+      .slice(0, 30)
+      .join(', ');
   }
 
   function buildCases(metadata, baselineSummary = null) {
@@ -3169,8 +3302,10 @@ async function main() {
         const chooseCount = isMultiValueChoiceName(checkboxControls[0].name)
           ? Math.min(2, checkboxControls.length)
           : 1;
+        const visibleOptions = (fieldset.checkboxOptions || checkboxControls).filter((option) => option.wrapperVisible !== false);
+        const preferredOptions = visibleOptions.filter((option) => !option.checked);
         const chosenControls = pickChoiceOptions(
-          (fieldset.checkboxOptions || checkboxControls).filter((option) => option.wrapperVisible !== false),
+          preferredOptions.length ? preferredOptions : visibleOptions,
           chooseCount,
           totalProducts
         );
@@ -3196,8 +3331,10 @@ async function main() {
       }
 
       if (radioControls.length) {
+        const visibleOptions = (fieldset.radioOptions || radioControls).filter((option) => option.wrapperVisible !== false);
+        const preferredOptions = visibleOptions.filter((option) => !option.checked);
         const control = pickChoiceOptions(
-          (fieldset.radioOptions || radioControls).filter((option) => option.wrapperVisible !== false),
+          preferredOptions.length ? preferredOptions : visibleOptions,
           1,
           totalProducts
         )[0] || radioControls[0];
@@ -3224,8 +3361,9 @@ async function main() {
 
       if (selectControls.length) {
         const select = visibleNamedControls.find((control) => control.tag === 'select') || selectControls[0];
+        const preferredOptions = (select.options || []).filter((option) => !option.selected);
         const values = pickSelectOptionValues(
-          select.options || [],
+          preferredOptions.length ? preferredOptions : (select.options || []),
           select.type === 'select-multiple' ? 2 : 1,
           totalProducts
         );
@@ -3284,6 +3422,68 @@ async function main() {
 
     if (testCase.kind === 'multi-select') {
       return includesAllValues(actualState || [], expectedState || []);
+    }
+
+    return false;
+  }
+
+  function expectedStateForCase(testCase, valuesOverride = undefined) {
+    const source = valuesOverride === undefined ? testCase.values : valuesOverride;
+    if (testCase.kind === 'checkboxes' || testCase.kind === 'radios') {
+      return (source || []).map((item) => item?.value ?? item).filter((value) => value !== undefined && value !== null);
+    }
+
+    if (testCase.kind === 'single-select' || testCase.kind === 'multi-select') {
+      return Array.isArray(source) ? source : [source].filter((value) => value !== undefined && value !== null);
+    }
+
+    return source || {};
+  }
+
+  async function setCaseState(testCase, nextState) {
+    if (testCase.kind === 'checkboxes' || testCase.kind === 'radios') {
+      const wantedValues = new Set(expectedStateForCase(testCase, nextState).map((value) => String(value)));
+      const group = groupLocator(testCase.groupRef);
+      if (!(await group.count())) {
+        return false;
+      }
+
+      return group.evaluate((node, values) => {
+        const inputs = Array.from(
+          node.querySelectorAll('input[type="checkbox"][name], input[type="radio"][name]')
+        );
+        if (!inputs.length) {
+          return false;
+        }
+
+        for (const input of inputs) {
+          const shouldCheck = values.includes(String(input.value));
+          input.checked = shouldCheck;
+          input.dispatchEvent(new Event('input', { bubbles: true }));
+          input.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+
+        return true;
+      }, [...wantedValues]);
+    }
+
+    if (testCase.kind === 'text' || testCase.kind === 'inputs') {
+      const wantedEntries = Object.entries(nextState || {});
+      if (!wantedEntries.length) {
+        return false;
+      }
+
+      let updated = false;
+      for (const [name, value] of wantedEntries) {
+        updated = (await fillInputByName(testCase.groupRef, name, value ?? '')) || updated;
+        await delay(75);
+      }
+      return updated;
+    }
+
+    if (testCase.kind === 'single-select' || testCase.kind === 'multi-select') {
+      const values = expectedStateForCase(testCase, nextState);
+      return selectOptionByName(testCase.groupRef, testCase.selectName, values);
     }
 
     return false;
@@ -3400,6 +3600,854 @@ async function main() {
       summaryAfterReload,
       issues,
       messages: relevantMessages,
+      screenshot,
+      passed: issues.length === 0,
+    };
+  }
+
+  function buildFieldsetScenarioPlans(filterCases, metadata) {
+    const plans = [];
+
+    if (config.scenarioSettings.includeCapabilityChecks) {
+      for (const fieldset of metadata) {
+        const fieldsetRef = createGroupRef(fieldset);
+        const fieldsetId = sanitizeId(
+          [fieldset.key || fieldset.id || fieldset.title || 'fieldset', fieldset.domIndex]
+            .filter((value) => value !== null && value !== undefined && value !== '')
+            .join('-')
+        );
+        const capabilityCase = {
+          id: fieldsetId,
+          fieldId: fieldset.id || fieldset.key || fieldsetId,
+          groupRef: fieldsetRef,
+          title: fieldset.title || fieldset.id || fieldset.key || fieldsetId,
+        };
+
+        if (fieldset.isCollapsible) {
+          plans.push({
+            id: `${fieldsetId}--cap-collapse`,
+            title: `${capabilityCase.title} - Collapse`,
+            kind: 'capability',
+            scenario: 'collapse',
+            testCase: capabilityCase,
+            fieldset,
+          });
+        }
+
+        if (fieldset.hasTermsSearch && hasSearchableChoiceText(fieldset)) {
+          plans.push({
+            id: `${fieldsetId}--cap-option-search`,
+            title: `${capabilityCase.title} - Search Terms`,
+            kind: 'capability',
+            scenario: 'option-search',
+            testCase: capabilityCase,
+            fieldset,
+          });
+        }
+
+        if (fieldset.hasTooltip) {
+          plans.push({
+            id: `${fieldsetId}--cap-tooltip`,
+            title: `${capabilityCase.title} - Tooltip`,
+            kind: 'capability',
+            scenario: 'tooltip',
+            testCase: capabilityCase,
+            fieldset,
+          });
+        }
+
+        if (fieldset.hasHierarchy) {
+          plans.push({
+            id: `${fieldsetId}--cap-hierarchy`,
+            title: `${capabilityCase.title} - Hierarchy`,
+            kind: 'capability',
+            scenario: 'hierarchy',
+            testCase: capabilityCase,
+            fieldset,
+          });
+        }
+      }
+    }
+
+    for (const testCase of filterCases) {
+      const fieldset = findFieldsetByRef(metadata, testCase.id) || findFieldsetByRef(metadata, testCase.fieldId);
+      if (!fieldset) {
+        continue;
+      }
+
+      if (config.scenarioSettings.includeStateScenarios) {
+        const stateFlowMode = config.scenarioSettings.stateFlowMode === 'split' ? 'split' : 'condensed';
+
+        if (stateFlowMode === 'split') {
+          for (const scenario of [
+            'apply',
+            'apply-reload',
+            'apply-clear-apply',
+            'apply-reload-clear-apply',
+            'apply-reset',
+            'apply-reload-reset',
+          ]) {
+            plans.push({
+              id: `${testCase.id}--${scenario}`,
+              title: `${testCase.title} - ${scenario}`,
+              kind: 'stateful',
+              scenario,
+              testCase,
+              fieldset,
+            });
+          }
+          continue;
+        }
+
+        for (const scenario of ['roundtrip']) {
+          plans.push({
+            id: `${testCase.id}--${scenario}`,
+            title: `${testCase.title} - roundtrip`,
+            kind: 'stateful',
+            scenario,
+            testCase,
+            fieldset,
+          });
+        }
+      }
+    }
+
+    return plans;
+  }
+
+  function buildCombinationScenarioPlans(filterCases) {
+    if (!config.scenarioSettings.enableCombinationTests) {
+      return [];
+    }
+
+    const eligible = filterCases.filter((testCase) => {
+      return ['checkboxes', 'radios', 'single-select', 'multi-select', 'text', 'inputs'].includes(testCase.kind);
+    });
+
+    const plans = [];
+    const maxPairs = Number(config.scenarioSettings.maxCombinationPairs || 0);
+    if (maxPairs <= 0) {
+      return plans;
+    }
+
+    for (let index = 0; index < eligible.length && plans.length < maxPairs; index += 1) {
+      const first = eligible[index];
+      for (let nextIndex = index + 1; nextIndex < eligible.length && plans.length < maxPairs; nextIndex += 1) {
+        const second = eligible[nextIndex];
+        if (second.fieldId === first.fieldId) {
+          continue;
+        }
+
+        plans.push({
+          id: `combo-${first.id}-${second.id}--apply-reload-reset`,
+          title: `${first.title} + ${second.title} - combo apply/reload/reset`,
+          kind: 'combo',
+          scenario: 'combo-apply-reload-reset',
+          testCases: [first, second],
+        });
+      }
+    }
+
+    return plans;
+  }
+
+  async function executeFieldCapabilityScenario(plan) {
+    const { scenario, testCase, fieldset } = plan;
+    const groupRef = testCase.groupRef;
+
+    if (scenario === 'collapse') {
+      await navigateToBase();
+      const messageStart = globalMessages.length;
+      const beforeState = await readCollapseState(groupRef);
+      await clickGroupToggle(groupRef);
+      await delay(400);
+      const middleState = await readCollapseState(groupRef);
+      await clickGroupToggle(groupRef);
+      await delay(400);
+      const finalState = await readCollapseState(groupRef);
+      const messages = filterRelevantMessages(globalMessages.slice(messageStart));
+      const issues = [];
+
+      const toggledOnce = beforeState && middleState && beforeState.collapsed !== middleState.collapsed;
+      const toggledBack = beforeState && finalState && beforeState.collapsed === finalState.collapsed;
+      if (!(toggledOnce && toggledBack)) {
+        issues.push('Collapse interaction did not consistently toggle the fieldset content.');
+      }
+      if (messages.length) {
+        issues.push('Browser console/request errors were emitted during collapse interaction.');
+      }
+
+      return {
+        id: plan.id,
+        title: plan.title,
+        kind: 'capability',
+        scenario,
+        fieldId: testCase.fieldId,
+        beforeState,
+        middleState,
+        finalState,
+        messages,
+        issues,
+        passed: issues.length === 0,
+      };
+    }
+
+    if (scenario === 'option-search') {
+      await navigateToBase();
+      await openGroupIfCollapsed(groupRef);
+      const messageStart = globalMessages.length;
+      const beforeOptions = await collectVisibleOptionTexts(groupRef);
+      const searchText =
+        (fieldset.choiceOptions || [])
+          .map((option) => pickSearchToken(option.text))
+          .find((value) => hasValue(value)) || pickSearchToken(fieldset.title);
+      const didFill = await fillFieldsetLooseInput(groupRef, fieldset.termsSearchPlaceholder, searchText);
+
+      if (!didFill || !hasValue(searchText)) {
+        return makeSkippedAction(plan.id, plan.title, 'Search terms UI is present but no usable search token was auto-detected.');
+      }
+
+      await submitGroupOptionSearch(groupRef).catch(() => false);
+      await delay(900);
+      const afterOptions = await collectVisibleOptionTexts(groupRef);
+      const token = String(searchText || '').toLowerCase();
+      const messages = filterRelevantMessages(globalMessages.slice(messageStart));
+      const issues = [];
+      const narrowed = afterOptions.length > 0 && afterOptions.length < beforeOptions.length;
+      const matching = afterOptions.length > 0 && afterOptions.every((value) => value.toLowerCase().includes(token));
+
+      if (!narrowed && !matching) {
+        issues.push('Search terms UI did not narrow the visible options as expected.');
+      }
+      if (messages.length) {
+        issues.push('Browser console/request errors were emitted during search-terms interaction.');
+      }
+
+      return {
+        id: plan.id,
+        title: plan.title,
+        kind: 'capability',
+        scenario,
+        fieldId: testCase.fieldId,
+        searchText,
+        beforeOptions,
+        afterOptions,
+        messages,
+        issues,
+        passed: issues.length === 0,
+      };
+    }
+
+    if (scenario === 'tooltip') {
+      await navigateToBase();
+      const group = groupLocator(groupRef);
+      const tooltip = group.locator('.tooltip-icon').first();
+      if (!(await tooltip.count())) {
+        return makeSkippedAction(plan.id, plan.title, 'Tooltip icon was not found when the scenario executed.');
+      }
+
+      const tooltipState = await tooltip.evaluate((node) => ({
+        title: node.getAttribute('title') || '',
+        ariaLabel: node.getAttribute('aria-label') || '',
+        visible: (() => {
+          const style = window.getComputedStyle(node);
+          return style.display !== 'none' && style.visibility !== 'hidden' && (node.offsetWidth > 0 || node.offsetHeight > 0);
+        })(),
+      }));
+      const issues = [];
+      if (!tooltipState.visible) {
+        issues.push('Tooltip icon exists but is not visible.');
+      }
+      if (!hasValue(tooltipState.title) && !hasValue(tooltipState.ariaLabel)) {
+        issues.push('Tooltip icon is visible but does not expose tooltip text.');
+      }
+
+      return {
+        id: plan.id,
+        title: plan.title,
+        kind: 'capability',
+        scenario,
+        fieldId: testCase.fieldId,
+        tooltipState,
+        issues,
+        messages: [],
+        passed: issues.length === 0,
+      };
+    }
+
+    if (scenario === 'hierarchy') {
+      await navigateToBase();
+      await openGroupIfCollapsed(groupRef);
+      const group = groupLocator(groupRef);
+      const readState = async () =>
+        group.evaluate((node) => {
+          const isVisible = (element) => {
+            if (!element) return false;
+            const style = window.getComputedStyle(element);
+            return (
+              style.display !== 'none' &&
+              style.visibility !== 'hidden' &&
+              (element.offsetWidth > 0 || element.offsetHeight > 0)
+            );
+          };
+
+          return {
+            nodeCount: node.querySelectorAll('.dapfforwcpro-hierarchy-node').length,
+            toggleCount: node.querySelectorAll('.show-sub-cata').length,
+            visibleToggleCount: Array.from(node.querySelectorAll('.show-sub-cata')).filter(isVisible).length,
+            childContainerCount: node.querySelectorAll('.child-categories').length,
+            visibleChildContainerCount: Array.from(node.querySelectorAll('.child-categories')).filter(isVisible).length,
+            toggleLabels: Array.from(node.querySelectorAll('.show-sub-cata')).map((element) => (element.textContent || '').trim()),
+          };
+        });
+
+      const messageStart = globalMessages.length;
+      const beforeState = await readState();
+      let afterToggleState = null;
+      let finalState = null;
+      const issues = [];
+      const toggle = group.locator('.show-sub-cata').first();
+
+      if ((await toggle.count()) && (await toggle.isVisible().catch(() => false))) {
+        await toggle.click({ force: true });
+        await delay(350);
+        afterToggleState = await readState();
+        await toggle.click({ force: true });
+        await delay(350);
+        finalState = await readState();
+
+        const changedChildren = beforeState.visibleChildContainerCount !== afterToggleState.visibleChildContainerCount;
+        const changedLabel = JSON.stringify(beforeState.toggleLabels) !== JSON.stringify(afterToggleState.toggleLabels);
+        if (!changedChildren && !changedLabel) {
+          issues.push('Hierarchy toggle exists but did not change child visibility or toggle state.');
+        }
+      } else if (!(beforeState.toggleCount > 0 || beforeState.childContainerCount > 0)) {
+        return makeSkippedAction(plan.id, plan.title, 'Hierarchy markup exists but no expandable child categories were available.');
+      } else if (!(beforeState.nodeCount > 0 && beforeState.childContainerCount > 0)) {
+        issues.push('Hierarchy markup was expected but nested hierarchy nodes were not found.');
+      }
+
+      const messages = filterRelevantMessages(globalMessages.slice(messageStart));
+      if (messages.length) {
+        issues.push('Browser console/request errors were emitted during hierarchy interaction.');
+      }
+
+      return {
+        id: plan.id,
+        title: plan.title,
+        kind: 'capability',
+        scenario,
+        fieldId: testCase.fieldId,
+        beforeState,
+        afterToggleState,
+        finalState,
+        messages,
+        issues,
+        passed: issues.length === 0,
+      };
+    }
+
+    return makeSkippedAction(plan.id, plan.title, `Unsupported capability scenario: ${scenario}`);
+  }
+
+  async function executeCondensedFieldStateScenario(plan, pluginDebug) {
+    const { testCase, fieldset } = plan;
+    await navigateToBase();
+
+    const urlMode = normalizeUrlMode(pluginDebug?.urlMode || pluginDebug?.manage?.useUrlFilter);
+    const baselineUrl = page.url();
+    const baselineSummary = await captureResultSummary();
+    const baselineState = await readCaseState(testCase);
+    const baselineSorting = await readSortingState(pluginDebug);
+    const compareOptions = buildSemanticUrlCompareOptions(pluginDebug, {
+      defaultOrderby: baselineSorting?.value || null,
+    });
+    const selectedExpectedState = expectedStateForCase(testCase);
+    const messageStart = globalMessages.length;
+
+    await openGroupIfCollapsed(testCase.groupRef);
+    await setCaseState(testCase, testCase.values);
+    await delay(150);
+
+    const applyInfo = await submitCaseChanges(testCase, pluginDebug);
+    const applyUrl = applyInfo.url;
+    const summaryAfterApply = await captureResultSummary();
+    const stateAfterApply = await readCaseState(testCase);
+    const applyNetworkActivity = applyInfo.networkActivity || [];
+    const semanticUrlChanged = !urlsEqual(applyUrl, baselineUrl, compareOptions);
+    const summaryChangedAfterApply = summariesDiffer(baselineSummary, summaryAfterApply);
+    const observedApplyEffect = semanticUrlChanged || summaryChangedAfterApply || applyNetworkActivity.length > 0;
+    const applyStateOk = evaluateCaseState(testCase, stateAfterApply, selectedExpectedState, baselineState);
+
+    await page.reload({ waitUntil: 'domcontentloaded' });
+    await ensureFilterUiReady();
+    const reloadUrl = page.url();
+    const summaryAfterReload = await captureResultSummary();
+    const stateAfterReload = await readCaseState(testCase);
+    const reloadStateOk = evaluateCaseState(testCase, stateAfterReload, selectedExpectedState, baselineState);
+
+    await openGroupIfCollapsed(testCase.groupRef);
+    await setCaseState(testCase, baselineState);
+    await delay(150);
+
+    const clearApplyInfo = await submitCaseChanges(testCase, pluginDebug);
+    const clearUrl = clearApplyInfo.url;
+    const summaryAfterClearApply = await captureResultSummary();
+    const stateAfterClearApply = await readCaseState(testCase);
+    const clearStateOk = statesEqual(stateAfterClearApply, baselineState);
+    const clearSummaryOk = !summariesDiffer(summaryAfterClearApply, baselineSummary, { includeTitles: false });
+    const clearUrlOk = urlsEqual(clearUrl, baselineUrl, compareOptions);
+
+    await page.reload({ waitUntil: 'domcontentloaded' });
+    await ensureFilterUiReady();
+    const clearReloadUrl = page.url();
+    const summaryAfterClearReload = await captureResultSummary();
+    const stateAfterClearReload = await readCaseState(testCase);
+    const clearReloadStateOk = statesEqual(stateAfterClearReload, baselineState);
+    const clearReloadSummaryOk = !summariesDiffer(summaryAfterClearReload, baselineSummary, { includeTitles: false });
+    const clearReloadUrlOk =
+      urlsEqual(clearReloadUrl, clearUrl, compareOptions) && urlsEqual(clearReloadUrl, baselineUrl, compareOptions);
+
+    const canReuseFilteredUrlForReset =
+      shouldExpectReloadPersistence(urlMode) && semanticUrlChanged && !urlsEqual(applyUrl, baselineUrl, compareOptions);
+    let resetPreparationMode = null;
+    let resetPreparationMechanism = null;
+    let reapplyBeforeResetInfo = null;
+    let preparedResetUrl = null;
+
+    if (canReuseFilteredUrlForReset) {
+      await page.goto(applyUrl, { waitUntil: 'domcontentloaded' });
+      await ensureFilterUiReady();
+      resetPreparationMode = 'goto-filtered-url';
+      preparedResetUrl = page.url();
+    } else {
+      await openGroupIfCollapsed(testCase.groupRef);
+      await setCaseState(testCase, testCase.values);
+      await delay(150);
+      reapplyBeforeResetInfo = await submitCaseChanges(testCase, pluginDebug);
+      resetPreparationMode = 'reapply-before-reset';
+      resetPreparationMechanism = reapplyBeforeResetInfo.mode;
+      preparedResetUrl = reapplyBeforeResetInfo.url;
+    }
+
+    const summaryBeforeReset = await captureResultSummary();
+    const stateBeforeReset = await readCaseState(testCase);
+    const resetPreconditionStateOk = evaluateCaseState(testCase, stateBeforeReset, selectedExpectedState, baselineState);
+    const resetPreconditionSummaryOk = !summariesDiffer(summaryBeforeReset, summaryAfterApply, { includeTitles: false });
+
+    const resetInfo = await resetPendingChanges(testCase.groupRef);
+    const resetUnavailable = resetInfo.mode === 'not-found';
+    const resetUrl = resetUnavailable ? null : resetInfo.url;
+    const summaryAfterReset = resetUnavailable ? null : await captureResultSummary();
+    const stateAfterReset = resetUnavailable ? null : await readCaseState(testCase);
+    const resetStateOk = resetUnavailable ? null : statesEqual(stateAfterReset, baselineState);
+    const resetSummaryOk = resetUnavailable
+      ? null
+      : !summariesDiffer(summaryAfterReset, baselineSummary, { includeTitles: false });
+    const resetUrlOk = resetUnavailable ? null : urlsEqual(resetUrl, baselineUrl, compareOptions);
+
+    const messages = filterRelevantMessages(globalMessages.slice(messageStart));
+    const issues = [];
+
+    if (!observedApplyEffect) {
+      issues.push('Filter interaction did not produce an observable same-origin network, DOM, or URL change.');
+    }
+    if (shouldExpectUrlChange(urlMode) && !semanticUrlChanged) {
+      issues.push(`Filtered URL did not change in ${urlMode} mode.`);
+    }
+    if (!applyStateOk) {
+      issues.push('Selected state was not preserved immediately after apply.');
+    }
+    if (shouldExpectReloadPersistence(urlMode) && !reloadStateOk) {
+      issues.push('Selected state was not preserved after the first page reload.');
+    }
+    if (shouldExpectReloadPersistence(urlMode) && !urlsEqual(reloadUrl, applyUrl, compareOptions)) {
+      issues.push('The first reload changed the filtered URL unexpectedly.');
+    }
+    if (!clearStateOk) {
+      issues.push('Clearing or deselecting the fieldset did not restore the original field state.');
+    }
+    if (!clearSummaryOk) {
+      issues.push('Clearing or deselecting the fieldset did not restore the original product summary.');
+    }
+    if (!clearUrlOk) {
+      issues.push('Clearing or deselecting the fieldset did not restore the original URL.');
+    }
+    if (shouldExpectReloadPersistence(urlMode) && !clearReloadStateOk) {
+      issues.push('Cleared or deselected state was not preserved after the second page reload.');
+    }
+    if (!clearReloadSummaryOk) {
+      issues.push('The second reload did not preserve the restored baseline product summary.');
+    }
+    if (shouldExpectReloadPersistence(urlMode) && !clearReloadUrlOk) {
+      issues.push('The second reload changed the restored baseline URL unexpectedly.');
+    }
+    if (!resetPreconditionStateOk) {
+      issues.push('The filtered state could not be restored before the reset step.');
+    }
+    if (!resetPreconditionSummaryOk) {
+      issues.push('The product summary before reset did not match the earlier filtered result.');
+    }
+    if (resetUnavailable) {
+      if (fieldset?.hasResetValue || pluginDebug?.style?.showResetButton === 'yes') {
+        issues.push('Reset control was not available for this fieldset roundtrip.');
+      }
+    } else {
+      if (!resetStateOk) {
+        issues.push('Reset did not restore the original field state.');
+      }
+      if (!resetSummaryOk) {
+        issues.push('Reset did not restore the original product summary.');
+      }
+      if (!resetUrlOk) {
+        issues.push('Reset did not restore the original URL.');
+      }
+    }
+    if (messages.length) {
+      issues.push('Browser console/request errors were emitted during this scenario.');
+    }
+
+    let screenshot = null;
+    if (issues.length) {
+      screenshot = await captureFailureScreenshot(plan.id, 'roundtrip');
+    }
+
+    return {
+      id: plan.id,
+      title: plan.title,
+      kind: testCase.kind,
+      scenario: plan.scenario,
+      fieldId: testCase.fieldId,
+      expected: selectedExpectedState,
+      baselineUrl,
+      baselineSummary,
+      baselineState,
+      applyMechanism: applyInfo.mode,
+      urlMode,
+      applyUrl,
+      stateAfterApply,
+      summaryAfterApply,
+      applyNetworkActivity,
+      observedApplyEffect,
+      applyStateOk,
+      reloadUrl,
+      stateAfterReload,
+      summaryAfterReload,
+      reloadStateOk,
+      clearApplyMechanism: clearApplyInfo.mode,
+      clearUrl,
+      stateAfterClearApply,
+      summaryAfterClearApply,
+      clearStateOk,
+      clearSummaryOk,
+      clearUrlOk,
+      clearReloadUrl,
+      stateAfterClearReload,
+      summaryAfterClearReload,
+      clearReloadStateOk,
+      clearReloadSummaryOk,
+      clearReloadUrlOk,
+      resetPreparationMode,
+      resetPreparationMechanism,
+      preparedResetUrl,
+      stateBeforeReset,
+      summaryBeforeReset,
+      resetPreconditionStateOk,
+      resetPreconditionSummaryOk,
+      resetMechanism: resetInfo?.mode || null,
+      resetUnavailable,
+      resetUrl,
+      stateAfterReset,
+      summaryAfterReset,
+      resetStateOk,
+      resetSummaryOk,
+      resetUrlOk,
+      issues,
+      messages,
+      screenshot,
+      passed: issues.length === 0,
+    };
+  }
+
+  async function executeFieldStateScenario(plan, pluginDebug) {
+    const { scenario, testCase } = plan;
+    await navigateToBase();
+
+    const urlMode = normalizeUrlMode(pluginDebug?.urlMode || pluginDebug?.manage?.useUrlFilter);
+    const baselineUrl = page.url();
+    const baselineSummary = await captureResultSummary();
+    const baselineState = await readCaseState(testCase);
+    const baselineSorting = await readSortingState(pluginDebug);
+    const compareOptions = buildSemanticUrlCompareOptions(pluginDebug, {
+      defaultOrderby: baselineSorting?.value || null,
+    });
+    const messageStart = globalMessages.length;
+
+    await openGroupIfCollapsed(testCase.groupRef);
+    await setCaseState(testCase, testCase.values);
+    await delay(150);
+
+    const applyInfo = await submitCaseChanges(testCase, pluginDebug);
+    const selectedExpectedState = expectedStateForCase(testCase);
+    const applyUrl = applyInfo.url;
+    const summaryAfterApply = await captureResultSummary();
+    const stateAfterApply = await readCaseState(testCase);
+    const applyNetworkActivity = applyInfo.networkActivity || [];
+    const semanticUrlChanged = !urlsEqual(applyUrl, baselineUrl, compareOptions);
+    const summaryChangedAfterApply = summariesDiffer(baselineSummary, summaryAfterApply);
+    const observedApplyEffect = semanticUrlChanged || summaryChangedAfterApply || applyNetworkActivity.length > 0;
+    const applyStateOk = evaluateCaseState(testCase, stateAfterApply, selectedExpectedState, baselineState);
+
+    let reloadUrl = null;
+    let summaryAfterReload = null;
+    let stateAfterReload = null;
+    let reloadStateOk = null;
+    if (scenario.includes('reload')) {
+      await page.reload({ waitUntil: 'domcontentloaded' });
+      await ensureFilterUiReady();
+      reloadUrl = page.url();
+      summaryAfterReload = await captureResultSummary();
+      stateAfterReload = await readCaseState(testCase);
+      reloadStateOk = evaluateCaseState(testCase, stateAfterReload, selectedExpectedState, baselineState);
+    }
+
+    let restoreAction = null;
+    let restoreUrl = null;
+    let summaryAfterRestore = null;
+    let stateAfterRestore = null;
+    let restoreStateOk = null;
+
+    if (scenario.includes('clear-apply')) {
+      await setCaseState(testCase, baselineState);
+      await delay(150);
+      restoreAction = await submitCaseChanges(testCase, pluginDebug);
+      restoreUrl = restoreAction.url;
+      summaryAfterRestore = await captureResultSummary();
+      stateAfterRestore = await readCaseState(testCase);
+      restoreStateOk = statesEqual(stateAfterRestore, baselineState);
+    }
+
+    let resetInfo = null;
+    let resetUrl = null;
+    let summaryAfterReset = null;
+    let stateAfterReset = null;
+    let resetStateOk = null;
+    if (scenario.endsWith('reset')) {
+      resetInfo = await resetPendingChanges(testCase.groupRef);
+      if (resetInfo.mode === 'not-found') {
+        return makeSkippedAction(plan.id, plan.title, 'Reset control was not available for this fieldset flow.');
+      }
+      resetUrl = resetInfo.url;
+      summaryAfterReset = await captureResultSummary();
+      stateAfterReset = await readCaseState(testCase);
+      resetStateOk = statesEqual(stateAfterReset, baselineState);
+    }
+
+    const messages = filterRelevantMessages(globalMessages.slice(messageStart));
+    const issues = [];
+
+    if (!observedApplyEffect) {
+      issues.push('Filter interaction did not produce an observable same-origin network, DOM, or URL change.');
+    }
+    if (shouldExpectUrlChange(urlMode) && !semanticUrlChanged) {
+      issues.push(`Filtered URL did not change in ${urlMode} mode.`);
+    }
+    if (!applyStateOk) {
+      issues.push('Selected state was not preserved immediately after apply.');
+    }
+    if (scenario.includes('reload') && shouldExpectReloadPersistence(urlMode) && !reloadStateOk) {
+      issues.push('Selected state was not preserved after page reload.');
+    }
+    if (scenario.includes('reload') && shouldExpectReloadPersistence(urlMode) && !urlsEqual(reloadUrl, applyUrl, compareOptions)) {
+      issues.push('Reload changed the filtered URL unexpectedly.');
+    }
+    if (scenario.includes('clear-apply')) {
+      if (!restoreStateOk) {
+        issues.push('Clearing or deselecting the fieldset did not restore the original field state.');
+      }
+      if (summariesDiffer(summaryAfterRestore, baselineSummary, { includeTitles: false })) {
+        issues.push('Clearing or deselecting the fieldset did not restore the original product summary.');
+      }
+      if (!urlsEqual(restoreUrl, baselineUrl, compareOptions)) {
+        issues.push('Clearing or deselecting the fieldset did not restore the original URL.');
+      }
+    }
+    if (scenario.endsWith('reset')) {
+      if (!resetStateOk) {
+        issues.push('Reset did not restore the original field state.');
+      }
+      if (summariesDiffer(summaryAfterReset, baselineSummary, { includeTitles: false })) {
+        issues.push('Reset did not restore the original product summary.');
+      }
+      if (!urlsEqual(resetUrl, baselineUrl, compareOptions)) {
+        issues.push('Reset did not restore the original URL.');
+      }
+    }
+    if (messages.length) {
+      issues.push('Browser console/request errors were emitted during this scenario.');
+    }
+
+    let screenshot = null;
+    if (issues.length) {
+      screenshot = await captureFailureScreenshot(plan.id, sanitizeId(scenario));
+    }
+
+    return {
+      id: plan.id,
+      title: plan.title,
+      kind: testCase.kind,
+      scenario,
+      fieldId: testCase.fieldId,
+      expected: selectedExpectedState,
+      baselineUrl,
+      baselineSummary,
+      baselineState,
+      applyMechanism: applyInfo.mode,
+      urlMode,
+      applyUrl,
+      stateAfterApply,
+      summaryAfterApply,
+      applyNetworkActivity,
+      observedApplyEffect,
+      applyStateOk,
+      reloadUrl,
+      stateAfterReload,
+      summaryAfterReload,
+      reloadStateOk,
+      restoreMechanism: restoreAction?.mode || null,
+      restoreUrl,
+      stateAfterRestore,
+      summaryAfterRestore,
+      restoreStateOk,
+      resetMechanism: resetInfo?.mode || null,
+      resetUrl,
+      stateAfterReset,
+      summaryAfterReset,
+      resetStateOk,
+      issues,
+      messages,
+      screenshot,
+      passed: issues.length === 0,
+    };
+  }
+
+  async function executeCombinationScenario(plan, pluginDebug) {
+    const comboCases = plan.testCases || [];
+    if (comboCases.length < 2) {
+      return makeSkippedAction(plan.id, plan.title, 'Not enough fieldsets were available for a combination scenario.');
+    }
+
+    await navigateToBase();
+    const urlMode = normalizeUrlMode(pluginDebug?.urlMode || pluginDebug?.manage?.useUrlFilter);
+    const baselineUrl = page.url();
+    const baselineSummary = await captureResultSummary();
+    const baselineSorting = await readSortingState(pluginDebug);
+    const compareOptions = buildSemanticUrlCompareOptions(pluginDebug, {
+      defaultOrderby: baselineSorting?.value || null,
+    });
+    const baselineStates = {};
+    for (const testCase of comboCases) {
+      baselineStates[testCase.id] = await readCaseState(testCase);
+    }
+
+    const messageStart = globalMessages.length;
+    for (const testCase of comboCases) {
+      await openGroupIfCollapsed(testCase.groupRef);
+      await setCaseState(testCase, testCase.values);
+      await delay(100);
+    }
+
+    const applyInfo = await applyPendingChanges(pluginDebug);
+    const applyUrl = applyInfo.url;
+    const summaryAfterApply = await captureResultSummary();
+    const stateAfterApply = {};
+    for (const testCase of comboCases) {
+      stateAfterApply[testCase.id] = await readCaseState(testCase);
+    }
+
+    await page.reload({ waitUntil: 'domcontentloaded' });
+    await ensureFilterUiReady();
+    const reloadUrl = page.url();
+    const summaryAfterReload = await captureResultSummary();
+    const stateAfterReload = {};
+    for (const testCase of comboCases) {
+      stateAfterReload[testCase.id] = await readCaseState(testCase);
+    }
+
+    const resetInfo = await resetPendingChanges(null);
+    if (resetInfo.mode === 'not-found') {
+      return makeSkippedAction(plan.id, plan.title, 'Global reset control was not available for the combination scenario.');
+    }
+
+    const resetUrl = resetInfo.url;
+    const summaryAfterReset = await captureResultSummary();
+    const stateAfterReset = {};
+    for (const testCase of comboCases) {
+      stateAfterReset[testCase.id] = await readCaseState(testCase);
+    }
+
+    const messages = filterRelevantMessages(globalMessages.slice(messageStart));
+    const issues = [];
+    const observedApplyEffect =
+      !urlsEqual(applyUrl, baselineUrl, compareOptions) ||
+      summariesDiffer(summaryAfterApply, baselineSummary) ||
+      (applyInfo.networkActivity || []).length > 0;
+
+    if (!observedApplyEffect) {
+      issues.push('Combination filter interaction did not produce an observable same-origin network, DOM, or URL change.');
+    }
+
+    for (const testCase of comboCases) {
+      const expected = expectedStateForCase(testCase);
+      if (!evaluateCaseState(testCase, stateAfterApply[testCase.id], expected, baselineStates[testCase.id])) {
+        issues.push(`Combination apply did not preserve the selected state for ${testCase.title}.`);
+      }
+      if (shouldExpectReloadPersistence(urlMode) && !evaluateCaseState(testCase, stateAfterReload[testCase.id], expected, baselineStates[testCase.id])) {
+        issues.push(`Combination reload did not preserve the selected state for ${testCase.title}.`);
+      }
+      if (!statesEqual(stateAfterReset[testCase.id], baselineStates[testCase.id])) {
+        issues.push(`Combination reset did not restore the original state for ${testCase.title}.`);
+      }
+    }
+
+    if (shouldExpectReloadPersistence(urlMode) && !urlsEqual(reloadUrl, applyUrl, compareOptions)) {
+      issues.push('Reload changed the combination-filter URL unexpectedly.');
+    }
+    if (!urlsEqual(resetUrl, baselineUrl, compareOptions)) {
+      issues.push('Combination reset did not restore the original URL.');
+    }
+    if (summariesDiffer(summaryAfterReset, baselineSummary, { includeTitles: false })) {
+      issues.push('Combination reset did not restore the original product summary.');
+    }
+    if (messages.length) {
+      issues.push('Browser console/request errors were emitted during the combination scenario.');
+    }
+
+    let screenshot = null;
+    if (issues.length) {
+      screenshot = await captureFailureScreenshot(plan.id, 'combo');
+    }
+
+    return {
+      id: plan.id,
+      title: plan.title,
+      kind: 'combo',
+      scenario: plan.scenario,
+      fieldIds: comboCases.map((testCase) => testCase.fieldId),
+      baselineUrl,
+      applyUrl,
+      reloadUrl,
+      resetUrl,
+      baselineSummary,
+      summaryAfterApply,
+      summaryAfterReload,
+      summaryAfterReset,
+      baselineStates,
+      stateAfterApply,
+      stateAfterReload,
+      stateAfterReset,
+      issues,
+      messages,
       screenshot,
       passed: issues.length === 0,
     };
@@ -4082,7 +5130,14 @@ async function main() {
     const baselineSummary = await captureResultSummary();
     await expandGroupsForDiscovery();
     const metadata = await getMetadata();
+    let scopedMetadata = filterMetadataByFocus(metadata);
     let generatedConfig = null;
+
+    if (config.qcScope === 'specific' && !scopedMetadata.length) {
+      throw new Error(
+        `No visible fieldset matched the requested selector scope (${(config.focusFieldsets || []).join(', ')}). Available fieldsets: ${summarizeAvailableFieldsets(metadata)}`
+      );
+    }
 
     if (config.runMode === 'url-auto') {
       const storeCatalog = await fetchStoreCatalog();
@@ -4099,22 +5154,36 @@ async function main() {
       });
     }
 
-    const filterCases = buildCases(metadata, baselineSummary);
+    const derivedActionTargets = deriveActionTargets(config.qcScope === 'specific' ? scopedMetadata : metadata);
+    config.actionTargets =
+      config.qcScope === 'specific'
+        ? {
+            ...config.actionTargets,
+            ...derivedActionTargets,
+          }
+        : {
+            ...derivedActionTargets,
+            ...config.actionTargets,
+          };
+
+    const filterCases = buildCases(scopedMetadata, baselineSummary);
+    const fieldScenarioPlans = buildFieldsetScenarioPlans(filterCases, scopedMetadata);
+    const comboScenarioPlans = buildCombinationScenarioPlans(filterCases);
     const actionTests = [];
     const filterTests = [];
     const actionPlans = [
       { id: 'action-overlay-toggle', title: 'Overlay toggle', label: 'Action: overlay toggle', run: () => testOverlayToggle() },
       { id: 'action-shortcode-toggle', title: 'Shortcode collapsible toggle', label: 'Action: shortcode collapsible toggle', run: () => testShortcodeToggle() },
-      { id: 'action-collapse-toggle', title: 'Collapse toggle', label: 'Action: group collapse toggle', run: () => testCollapseToggle(metadata) },
-      { id: 'action-option-search', title: 'Internal option search', label: 'Action: internal option search', run: () => testInternalOptionSearch(metadata) },
+      { id: 'action-collapse-toggle', title: 'Collapse toggle', label: 'Action: group collapse toggle', run: () => testCollapseToggle(scopedMetadata) },
+      { id: 'action-option-search', title: 'Internal option search', label: 'Action: internal option search', run: () => testInternalOptionSearch(scopedMetadata) },
       { id: 'action-idle-apply', title: 'Apply Filters without changes', label: 'Action: idle apply', run: () => testIdleApplyAction(pluginDebug) },
       { id: 'action-idle-reset', title: 'Reset Filters without changes', label: 'Action: idle reset', run: () => testIdleResetAction(pluginDebug) },
       { id: 'action-sorting', title: 'Sorting action', label: 'Action: sorting', run: () => testSortingAction(pluginDebug) },
       { id: 'action-pagination', title: 'Pagination action', label: 'Action: pagination', run: () => testPaginationAction(pluginDebug) },
-      { id: 'action-reset-filters', title: 'Reset Filters', label: 'Action: reset filters', run: () => testResetAction(metadata, pluginDebug) },
+      { id: 'action-reset-filters', title: 'Reset Filters', label: 'Action: reset filters', run: () => testResetAction(scopedMetadata, pluginDebug) },
     ];
 
-    progress.setTotal(actionPlans.length + filterCases.length + 1);
+    progress.setTotal(actionPlans.length + fieldScenarioPlans.length + comboScenarioPlans.length + 1);
 
     for (const plan of actionPlans) {
       progress.step(plan.label);
@@ -4125,13 +5194,30 @@ async function main() {
       }
     }
 
-    for (const testCase of filterCases) {
-      progress.step(`Filter: ${testCase.title || testCase.id}`);
+    for (const plan of fieldScenarioPlans) {
+      progress.step(`Fieldset: ${plan.title}`);
       try {
-        filterTests.push(await executeFilterCase(testCase, pluginDebug));
+        if (plan.kind === 'capability') {
+          filterTests.push(await executeFieldCapabilityScenario(plan));
+        } else if (plan.scenario === 'roundtrip') {
+          filterTests.push(await executeCondensedFieldStateScenario(plan, pluginDebug));
+        } else {
+          filterTests.push(await executeFieldStateScenario(plan, pluginDebug));
+        }
       } catch (error) {
         filterTests.push(
-          await buildUnexpectedFailure(testCase.id, testCase.title || testCase.id, error, 'filter')
+          await buildUnexpectedFailure(plan.id, plan.title || plan.id, error, 'filter')
+        );
+      }
+    }
+
+    for (const plan of comboScenarioPlans) {
+      progress.step(`Combo: ${plan.title}`);
+      try {
+        filterTests.push(await executeCombinationScenario(plan, pluginDebug));
+      } catch (error) {
+        filterTests.push(
+          await buildUnexpectedFailure(plan.id, plan.title || plan.id, error, 'filter')
         );
       }
     }
@@ -4177,11 +5263,14 @@ async function main() {
         siteLabel: config.siteLabel,
         baseUrl: config.baseUrl,
         deviceMode: config.deviceMode,
+        qcScope: config.qcScope,
+        focusFieldsets: config.focusFieldsets,
         selectors: config.selectors,
         testData: config.testData,
         fieldOverrides: config.fieldOverrides,
         actionTargets: config.actionTargets,
         skipFieldsets: config.skipFieldsets,
+        scenarioSettings: config.scenarioSettings,
       },
       summary: {
         failedActionTests: summarizeIssueCounts(actionTests),

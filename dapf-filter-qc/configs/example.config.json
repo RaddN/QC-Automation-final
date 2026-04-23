@@ -61,6 +61,15 @@
     }
   },
   "skipFieldsets": [],
+  "qcScope": "all",
+  "focusFieldsets": [],
+  "scenarioSettings": {
+    "enableCombinationTests": true,
+    "maxCombinationPairs": 8,
+    "includeCapabilityChecks": true,
+    "includeStateScenarios": true,
+    "stateFlowMode": "condensed"
+  },
   "actionTargets": {
     "collapseFieldsetId": "color",
     "optionSearchFieldsetId": "product-category",

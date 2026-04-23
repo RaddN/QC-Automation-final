@@ -5,6 +5,9 @@ param(
     [string]$Url = "",
     [ValidateSet("desktop", "mobile", "both")]
     [string]$Device = "",
+    [ValidateSet("all", "specific")]
+    [string]$Scope = "",
+    [string]$Selector = "",
     [switch]$Headed,
     [switch]$Headless
 )
@@ -88,6 +91,33 @@ if ($Headed -and $Headless) {
     throw "Choose either -Headed or -Headless, not both."
 }
 
+if ([string]::IsNullOrWhiteSpace($Scope) -and -not [string]::IsNullOrWhiteSpace($Selector)) {
+    $Scope = "specific"
+}
+
+if (-not [string]::IsNullOrWhiteSpace($Url) -and [string]::IsNullOrWhiteSpace($Scope)) {
+    $enteredScope = Read-Host "QC scope for this URL [all/specific] [all]"
+    if ([string]::IsNullOrWhiteSpace($enteredScope)) {
+        $enteredScope = "all"
+    }
+
+    $enteredScope = $enteredScope.Trim().ToLowerInvariant()
+    if ($enteredScope -notin @("all", "specific")) {
+        throw "Invalid QC scope: $enteredScope"
+    }
+
+    $Scope = $enteredScope
+}
+
+if ($Scope -eq "specific" -and [string]::IsNullOrWhiteSpace($Selector)) {
+    $enteredSelector = Read-Host "Enter selector/group id/title/key"
+    if ([string]::IsNullOrWhiteSpace($enteredSelector)) {
+        throw "Provide a selector/group reference when QC scope is specific."
+    }
+
+    $Selector = $enteredSelector.Trim()
+}
+
 if ([string]::IsNullOrWhiteSpace($Device)) {
     $enteredDevice = Read-Host "Test device [desktop/mobile/both] [both]"
     if ([string]::IsNullOrWhiteSpace($enteredDevice)) {
@@ -163,6 +193,14 @@ try {
 
         if (-not [string]::IsNullOrWhiteSpace($Url)) {
             $args += @("--url", $Url)
+        }
+
+        if (-not [string]::IsNullOrWhiteSpace($Scope)) {
+            $args += @("--scope", $Scope)
+        }
+
+        if (-not [string]::IsNullOrWhiteSpace($Selector)) {
+            $args += @("--selector", $Selector)
         }
 
         if ($browserMode -eq "headed") {
