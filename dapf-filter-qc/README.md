@@ -8,9 +8,14 @@ Reusable Playwright QC automation for storefronts that use Dynamic AJAX Product 
 - Verify filtered URL changes after apply.
 - Verify the selected state is still present immediately after apply.
 - Reload the filtered URL and verify the selected state again.
-- Test reset behavior.
+- Test idle apply behavior when an Apply button is visible.
+- Test idle reset behavior when a Reset button is visible.
+- Test sorting actions and reload persistence.
+- Test pagination actions and reload persistence.
+- Test reset behavior after a real filter selection.
 - Test one collapse toggle interaction.
 - Test one internal option-search interaction.
+- Inspect plugin runtime settings and include selector/mode/toggle context in the report.
 - Save JSON and Markdown reports plus failure screenshots.
 - In URL-only mode, auto-discover test data, filter option values, and action targets from the live site.
 
@@ -118,6 +123,7 @@ Each run writes a timestamped folder under `reports/` containing:
 ## Notes
 
 - This runner is designed for sites that use the same filter markup pattern as your plugin output.
+- The report now summarizes plugin-aware context such as URL mode, overlay state, sorting/pagination selectors, AJAX toggles, and the main filter visibility flags exposed by the plugin debug data.
 - URL-only mode is best-effort. If a site hides useful data, the runner will skip the unsupported filter types rather than guessing fake values.
 - For client sites you test often, start with URL-only mode once, then promote the generated config into `configs/` if you want a stricter repeatable setup.
 - The script exits with code `1` when it finds QC failures. That is useful for CI or batch runs.

@@ -60,6 +60,8 @@ function buildDefaultConfig() {
       form: '#product-filter',
       applyButtonName: 'Apply Filters',
       resetButtonName: 'Reset Filters',
+      pagination: '.woocommerce-pagination, .plugincy-filter-pagination, nav.woocommerce-pagination, ul.page-numbers',
+      sorting: 'form.woocommerce-ordering select.orderby, form.woocommerce-ordering select, .woocommerce-ordering select.orderby, .woocommerce-ordering select, select.orderby',
       resultCount: '.woocommerce-result-count',
       emptyMessage: '.woocommerce-info, .woocommerce-no-products-found',
       productTitles: 'ul.products li.product h2',
@@ -307,6 +309,21 @@ function parseNumber(value) {
   return Number.isFinite(parsed) ? parsed : null;
 }
 
+function normalizeToggle(value) {
+  if (!hasValue(value)) {
+    return null;
+  }
+
+  const normalized = String(value).trim().toLowerCase();
+  if (['on', 'yes', 'true', '1'].includes(normalized)) {
+    return true;
+  }
+  if (['off', 'no', 'false', '0'].includes(normalized)) {
+    return false;
+  }
+  return null;
+}
+
 function parseOptionCount(text) {
   const match = String(text || '').match(/\((\d[\d,.\s]*)\)\s*$/);
   if (!match) {
@@ -328,6 +345,59 @@ function shouldExpectUrlChange(urlMode) {
 
 function shouldExpectReloadPersistence(urlMode) {
   return urlMode === 'query_string' || urlMode === 'permalinks';
+}
+
+function buildSelectorPool(...values) {
+  const pool = [];
+  const seen = new Set();
+  const push = (value) => {
+    if (!hasValue(value)) {
+      return;
+    }
+
+    const normalized = String(value).trim();
+    if (!normalized || seen.has(normalized)) {
+      return;
+    }
+
+    seen.add(normalized);
+    pool.push(normalized);
+  };
+
+  for (const value of values) {
+    if (Array.isArray(value)) {
+      for (const item of value) {
+        push(item);
+      }
+      continue;
+    }
+
+    push(value);
+  }
+
+  return pool;
+}
+
+function normalizeComparableState(value) {
+  if (Array.isArray(value)) {
+    return value
+      .map((item) => normalizeComparableState(item))
+      .sort((left, right) => JSON.stringify(left).localeCompare(JSON.stringify(right)));
+  }
+
+  if (value && typeof value === 'object') {
+    return Object.fromEntries(
+      Object.keys(value)
+        .sort()
+        .map((key) => [key, normalizeComparableState(value[key])])
+    );
+  }
+
+  return value;
+}
+
+function statesEqual(left, right) {
+  return JSON.stringify(normalizeComparableState(left)) === JSON.stringify(normalizeComparableState(right));
 }
 
 function buildSummarySignature(summary) {
@@ -892,10 +962,16 @@ function buildMarkdownReport(report) {
     }
 
   if (report.pluginDebug?.available) {
-    lines.push(`- Plugin debug selectors: product=${report.pluginDebug.selectors.product || 'n/a'}, resultCount=${report.pluginDebug.selectors.resultCount || 'n/a'}`);
-    lines.push(`- Plugin apply mode: ${report.pluginDebug.applyMode}`);
-    lines.push(`- Plugin URL mode: ${report.pluginDebug.urlMode || 'unknown'}`);
-    lines.push(`- Plugin mobile breakpoint: ${report.pluginDebug.mobileBreakpoint || 'n/a'}`);
+    lines.push(
+      `- Plugin selectors: product=${report.pluginDebug.selectors.product || 'n/a'}, pagination=${report.pluginDebug.selectors.pagination || 'n/a'}, sorting=${report.pluginDebug.selectors.sorting || 'n/a'}, resultCount=${report.pluginDebug.selectors.resultCount || 'n/a'}`
+    );
+    lines.push(
+      `- Plugin features: apply=${report.pluginDebug.applyMode}, url=${report.pluginDebug.urlMode || 'unknown'}, overlay=${report.pluginDebug.advanced.useOverlay === null ? 'n/a' : report.pluginDebug.advanced.useOverlay ? 'on' : 'off'}, ajax pagination=${report.pluginDebug.advanced.paginationViaAjax === null ? 'n/a' : report.pluginDebug.advanced.paginationViaAjax ? 'on' : 'off'}, ajax sorting=${report.pluginDebug.advanced.sortingViaAjax === null ? 'n/a' : report.pluginDebug.advanced.sortingViaAjax ? 'on' : 'off'}`
+    );
+    lines.push(
+      `- Plugin filters: search=${report.pluginDebug.manage.flags.showSearch === null ? 'n/a' : report.pluginDebug.manage.flags.showSearch ? 'on' : 'off'}, categories=${report.pluginDebug.manage.flags.showCategories === null ? 'n/a' : report.pluginDebug.manage.flags.showCategories ? 'on' : 'off'}, attributes=${report.pluginDebug.manage.flags.showAttributes === null ? 'n/a' : report.pluginDebug.manage.flags.showAttributes ? 'on' : 'off'}, tags=${report.pluginDebug.manage.flags.showTags === null ? 'n/a' : report.pluginDebug.manage.flags.showTags ? 'on' : 'off'}, price=${report.pluginDebug.manage.flags.showPriceRange === null ? 'n/a' : report.pluginDebug.manage.flags.showPriceRange ? 'on' : 'off'}, rating=${report.pluginDebug.manage.flags.showRating === null ? 'n/a' : report.pluginDebug.manage.flags.showRating ? 'on' : 'off'}`
+    );
+    lines.push(`- Plugin mobile: style=${report.pluginDebug.mobileStyle || 'n/a'}, breakpoint=${report.pluginDebug.mobileBreakpoint || 'n/a'}`);
   }
 
   lines.push('');
@@ -990,11 +1066,47 @@ function buildProductTitleSelector(productSelector) {
   ].join(', ');
 }
 
-function normalizeComparableUrl(rawUrl) {
+function normalizeComparableUrl(rawUrl, options = {}) {
   try {
     const parsed = new URL(rawUrl);
     parsed.hash = '';
     parsed.searchParams.delete('plugincydebug');
+
+    const filtersQueryKeys = buildSelectorPool(options.filtersQueryKey, 'filters');
+    const orderbyKeys = buildSelectorPool(options.orderbyQueryKey, 'orderby');
+    const paginationKeys = buildSelectorPool(options.paginationQueryKey, 'paged', 'page');
+    const defaultOrderby = hasValue(options.defaultOrderby) ? String(options.defaultOrderby) : null;
+
+    for (const [key, value] of Array.from(parsed.searchParams.entries())) {
+      if (!hasValue(value)) {
+        parsed.searchParams.delete(key);
+      }
+    }
+
+    if (options.stripDefaultFilterFlag) {
+      for (const key of filtersQueryKeys) {
+        if (parsed.searchParams.get(key) === '1') {
+          parsed.searchParams.delete(key);
+        }
+      }
+    }
+
+    if (options.stripFirstPage) {
+      for (const key of paginationKeys) {
+        if (parsed.searchParams.get(key) === '1') {
+          parsed.searchParams.delete(key);
+        }
+      }
+    }
+
+    if (defaultOrderby) {
+      for (const key of orderbyKeys) {
+        if (parsed.searchParams.get(key) === defaultOrderby) {
+          parsed.searchParams.delete(key);
+        }
+      }
+    }
+
     const sorted = new URLSearchParams();
     for (const [key, value] of Array.from(parsed.searchParams.entries()).sort(([leftKey, leftValue], [rightKey, rightValue]) => {
       return `${leftKey}=${leftValue}`.localeCompare(`${rightKey}=${rightValue}`);
@@ -1009,8 +1121,8 @@ function normalizeComparableUrl(rawUrl) {
   }
 }
 
-function urlsEqual(left, right) {
-  return normalizeComparableUrl(left) === normalizeComparableUrl(right);
+function urlsEqual(left, right, options = {}) {
+  return normalizeComparableUrl(left, options) === normalizeComparableUrl(right, options);
 }
 
 function withDebugQuery(rawUrl) {
@@ -1243,11 +1355,25 @@ async function main() {
           runtime.mobileBreakpoint
       ),
       mobileStyle: formDataset.mobileStyle || null,
+      queryKeys: {
+        filters: localized.filters_word_in_permalinks || 'filters',
+        orderby: localized.orderby_query_key || 'orderby',
+        pagination: localized.pagination_query_key || 'paged',
+      },
       selectors: {
         product: advanced.product_selector || formDataset.product_selector || null,
         pagination: advanced.pagination_selector || formDataset.pagination_selector || null,
         sorting: advanced.sorting_selector || null,
         resultCount: advanced.result_count_selector || null,
+      },
+      advanced: {
+        useOverlay: normalizeToggle(advanced.use_overlay),
+        paginationViaAjax: normalizeToggle(advanced.pagination_via_ajax),
+        sortingViaAjax: normalizeToggle(advanced.sorting_via_ajax),
+        browserHistoryStepNavigation: normalizeToggle(advanced.browser_history_step_navigation),
+        smartAutoScroll: normalizeToggle(advanced.smart_auto_scroll),
+        waitCursorOnFiltering: normalizeToggle(advanced.wait_cursor_on_filtering),
+        sidebarOnTop: normalizeToggle(advanced.sidebar_on_top),
       },
       style: {
         showApplyButton: style.show_apply_button?.reset_btn || null,
@@ -1258,6 +1384,26 @@ async function main() {
       manage: {
         useUrlFilter: manage.use_url_filter || null,
         showLoader: manage.show_loader || null,
+        useCustomTemplate: normalizeToggle(manage.use_custom_template),
+        flags: {
+          showSearch: normalizeToggle(manage.show_search),
+          showCategories: normalizeToggle(manage.show_categories),
+          showAttributes: normalizeToggle(manage.show_attributes),
+          showTags: normalizeToggle(manage.show_tags),
+          showPriceRange: normalizeToggle(manage.show_price_range),
+          showRating: normalizeToggle(manage.show_rating),
+          showBrand: normalizeToggle(manage.show_brand),
+          showAuthor: normalizeToggle(manage.show_author),
+          showStatus: normalizeToggle(manage.show_status),
+          showOnsale: normalizeToggle(manage.show_onsale),
+          showFeatured: normalizeToggle(manage.show_featured),
+          showDimension: normalizeToggle(manage.show_dimension),
+          showSku: normalizeToggle(manage.show_sku),
+          showDiscount: normalizeToggle(manage.show_discount),
+          showDateFilter: normalizeToggle(manage.show_date_filter),
+          showCustomFields: normalizeToggle(manage.show_custom_fields),
+          showCustomTaxonomies: normalizeToggle(manage.show_custom_taxonomies),
+        },
       },
     };
   };
@@ -1275,6 +1421,38 @@ async function main() {
       config.selectors.productTitles = buildProductTitleSelector(pluginDebug.selectors.product);
     }
   };
+
+  const buildSemanticUrlCompareOptions = (pluginDebug, overrides = {}) => {
+    return {
+      filtersQueryKey: pluginDebug?.queryKeys?.filters || 'filters',
+      orderbyQueryKey: pluginDebug?.queryKeys?.orderby || 'orderby',
+      paginationQueryKey: pluginDebug?.queryKeys?.pagination || 'paged',
+      stripDefaultFilterFlag: true,
+      stripFirstPage: true,
+      ...overrides,
+    };
+  };
+
+  const buildSortingSelectorPool = (pluginDebug) =>
+    buildSelectorPool(
+      pluginDebug?.selectors?.sorting,
+      config.selectors.sorting,
+      'form.woocommerce-ordering select.orderby',
+      'form.woocommerce-ordering select',
+      '.woocommerce-ordering select.orderby',
+      '.woocommerce-ordering select',
+      'select.orderby'
+    );
+
+  const buildPaginationSelectorPool = (pluginDebug) =>
+    buildSelectorPool(
+      pluginDebug?.selectors?.pagination,
+      config.selectors.pagination,
+      '.woocommerce-pagination',
+      'nav.woocommerce-pagination',
+      '.plugincy-filter-pagination',
+      'ul.page-numbers'
+    );
 
   async function dismissConsent() {
     for (const label of config.consentButtonNames) {
@@ -1322,6 +1500,11 @@ async function main() {
         typeof window.dapfforwcpro_data === 'object' && window.dapfforwcpro_data
           ? {
               mobile_breakpoint: window.dapfforwcpro_data.mobile_breakpoint || null,
+              filters_word_in_permalinks: window.dapfforwcpro_data.filters_word_in_permalinks || null,
+              orderby_query_key:
+                window.dapfforwcpro_data.dapfforwc_seo_permalinks_options?.dapfforwc_permalinks_prefix_options?.orderby || null,
+              pagination_query_key:
+                window.dapfforwcpro_data.dapfforwc_seo_permalinks_options?.dapfforwc_permalinks_prefix_options?.pagination || null,
             }
           : {};
 
@@ -1799,6 +1982,355 @@ async function main() {
     }
 
     return groups.first();
+  }
+
+  async function captureFormControlState() {
+    return page.evaluate((formSelector) => {
+      const form = document.querySelector(formSelector);
+      if (!form) {
+        return {};
+      }
+
+      const state = {};
+      const fields = Array.from(form.querySelectorAll('input[name], select[name], textarea[name]'));
+
+      for (const field of fields) {
+        const name = String(field.getAttribute('name') || '').trim();
+        if (!name) {
+          continue;
+        }
+
+        const tagName = String(field.tagName || '').toLowerCase();
+        const type = String(field.type || '').toLowerCase();
+
+        if (type === 'checkbox') {
+          if (!Array.isArray(state[name])) {
+            state[name] = [];
+          }
+          if (field.checked) {
+            state[name].push(String(field.value ?? ''));
+          }
+          continue;
+        }
+
+        if (type === 'radio') {
+          if (!(name in state)) {
+            state[name] = null;
+          }
+          if (field.checked) {
+            state[name] = String(field.value ?? '');
+          }
+          continue;
+        }
+
+        if (tagName === 'select' && field.multiple) {
+          state[name] = Array.from(field.selectedOptions).map((option) => String(option.value ?? ''));
+          continue;
+        }
+
+        state[name] = String(field.value ?? '');
+      }
+
+      for (const key of Object.keys(state)) {
+        if (Array.isArray(state[key])) {
+          state[key] = [...state[key]].sort();
+        }
+      }
+
+      return state;
+    }, config.selectors.form);
+  }
+
+  async function readSortingState(pluginDebug) {
+    const selectorPool = buildSortingSelectorPool(pluginDebug);
+    return page.evaluate((selectors) => {
+      const normalizeText = (value) => String(value || '').replace(/\s+/g, ' ').trim();
+      const isVisible = (element) => {
+        if (!element) return false;
+        const style = window.getComputedStyle(element);
+        return (
+          style.display !== 'none' &&
+          style.visibility !== 'hidden' &&
+          (element.offsetWidth > 0 || element.offsetHeight > 0)
+        );
+      };
+
+      const resolveSelect = (node) => {
+        if (!node) return null;
+        if (String(node.tagName || '').toLowerCase() === 'select') {
+          return node;
+        }
+        return node.querySelector('select');
+      };
+
+      for (const selector of selectors) {
+        try {
+          const nodes = Array.from(document.querySelectorAll(selector));
+          for (const node of nodes) {
+            const select = resolveSelect(node);
+            if (!select || !isVisible(select)) {
+              continue;
+            }
+
+            return {
+              selector,
+              name: select.name || null,
+              value: String(select.value ?? ''),
+              selectedText: normalizeText(select.selectedOptions?.[0]?.textContent || ''),
+              options: Array.from(select.options || []).map((option) => ({
+                value: String(option.value ?? ''),
+                text: normalizeText(option.textContent || option.label || ''),
+                disabled: Boolean(option.disabled),
+              })),
+            };
+          }
+        } catch {
+          // Ignore invalid selectors and continue.
+        }
+      }
+
+      return null;
+    }, selectorPool);
+  }
+
+  async function changeSortingValue(pluginDebug, nextValue) {
+    const selectorPool = buildSortingSelectorPool(pluginDebug);
+    return page.evaluate(
+      ({ selectors, value }) => {
+        const isVisible = (element) => {
+          if (!element) return false;
+          const style = window.getComputedStyle(element);
+          return (
+            style.display !== 'none' &&
+            style.visibility !== 'hidden' &&
+            (element.offsetWidth > 0 || element.offsetHeight > 0)
+          );
+        };
+
+        const resolveSelect = (node) => {
+          if (!node) return null;
+          if (String(node.tagName || '').toLowerCase() === 'select') {
+            return node;
+          }
+          return node.querySelector('select');
+        };
+
+        for (const selector of selectors) {
+          try {
+            const nodes = Array.from(document.querySelectorAll(selector));
+            for (const node of nodes) {
+              const select = resolveSelect(node);
+              if (!select || !isVisible(select)) {
+                continue;
+              }
+
+              const option = Array.from(select.options || []).find(
+                (candidate) => String(candidate.value ?? '') === String(value)
+              );
+              if (!option) {
+                continue;
+              }
+
+              select.value = String(value);
+              select.dispatchEvent(new Event('input', { bubbles: true }));
+              select.dispatchEvent(new Event('change', { bubbles: true }));
+
+              return {
+                selector,
+                name: select.name || null,
+                value: String(select.value ?? ''),
+              };
+            }
+          } catch {
+            // Ignore invalid selectors and continue.
+          }
+        }
+
+        return null;
+      },
+      {
+        selectors: selectorPool,
+        value: String(nextValue ?? ''),
+      }
+    );
+  }
+
+  async function readPaginationState(pluginDebug) {
+    const selectorPool = buildPaginationSelectorPool(pluginDebug);
+    return page.evaluate((selectors) => {
+      const normalizeText = (value) => String(value || '').replace(/\s+/g, ' ').trim();
+      const isVisible = (element) => {
+        if (!element) return false;
+        const style = window.getComputedStyle(element);
+        return (
+          style.display !== 'none' &&
+          style.visibility !== 'hidden' &&
+          (element.offsetWidth > 0 || element.offsetHeight > 0)
+        );
+      };
+
+      const extractPageNumber = (value) => {
+        const match = normalizeText(value).match(/\d+/);
+        return match ? Number(match[0]) : null;
+      };
+
+      const visited = new Set();
+
+      for (const selector of selectors) {
+        try {
+          const wrappers = Array.from(document.querySelectorAll(selector));
+          for (const wrapper of wrappers) {
+            if (!wrapper || visited.has(wrapper) || !isVisible(wrapper)) {
+              continue;
+            }
+
+            visited.add(wrapper);
+            const currentNode =
+              wrapper.querySelector('[aria-current="page"]') ||
+              wrapper.querySelector('.page-numbers.current') ||
+              wrapper.querySelector('.current');
+            const currentLabel = normalizeText(currentNode?.textContent || '');
+            const currentPage = extractPageNumber(currentLabel);
+            const targets = Array.from(
+              wrapper.querySelectorAll('a[href], button, [role="button"], [data-page], [data-target-page], [data-pagination]')
+            )
+              .filter(isVisible)
+              .map((element) => {
+                const label = normalizeText(element.textContent || element.getAttribute('aria-label') || '');
+                const datasetPage =
+                  element.getAttribute('data-page') ||
+                  element.getAttribute('data-target-page') ||
+                  element.getAttribute('data-pagination') ||
+                  '';
+                return {
+                  label,
+                  page: extractPageNumber(datasetPage || label),
+                  href: element.getAttribute('href') || null,
+                  rel: element.getAttribute('rel') || null,
+                  className: String(element.className || ''),
+                };
+              });
+
+            return {
+              selector,
+              currentPage,
+              currentLabel,
+              targets,
+            };
+          }
+        } catch {
+          // Ignore invalid selectors and continue.
+        }
+      }
+
+      return null;
+    }, selectorPool);
+  }
+
+  async function clickPaginationTarget(pluginDebug, preferredPage = 2) {
+    const selectorPool = buildPaginationSelectorPool(pluginDebug);
+    return page.evaluate(
+      ({ selectors, preferred }) => {
+        const normalizeText = (value) => String(value || '').replace(/\s+/g, ' ').trim();
+        const isVisible = (element) => {
+          if (!element) return false;
+          const style = window.getComputedStyle(element);
+          return (
+            style.display !== 'none' &&
+            style.visibility !== 'hidden' &&
+            (element.offsetWidth > 0 || element.offsetHeight > 0)
+          );
+        };
+
+        const extractPageNumber = (value) => {
+          const match = normalizeText(value).match(/\d+/);
+          return match ? Number(match[0]) : null;
+        };
+
+        const visited = new Set();
+
+        for (const selector of selectors) {
+          try {
+            const wrappers = Array.from(document.querySelectorAll(selector));
+            for (const wrapper of wrappers) {
+              if (!wrapper || visited.has(wrapper) || !isVisible(wrapper)) {
+                continue;
+              }
+
+              visited.add(wrapper);
+              const currentNode =
+                wrapper.querySelector('[aria-current="page"]') ||
+                wrapper.querySelector('.page-numbers.current') ||
+                wrapper.querySelector('.current');
+              const currentPage = extractPageNumber(currentNode?.textContent || '');
+              const elements = Array.from(
+                wrapper.querySelectorAll('a[href], button, [role="button"], [data-page], [data-target-page], [data-pagination]')
+              ).filter(isVisible);
+
+              const mapped = elements.map((element) => ({
+                element,
+                label: normalizeText(element.textContent || element.getAttribute('aria-label') || ''),
+                page: extractPageNumber(
+                  element.getAttribute('data-page') ||
+                    element.getAttribute('data-target-page') ||
+                    element.getAttribute('data-pagination') ||
+                    element.textContent ||
+                    element.getAttribute('aria-label') ||
+                    ''
+                ),
+                href: element.getAttribute('href') || null,
+                rel: element.getAttribute('rel') || null,
+                className: String(element.className || ''),
+              }));
+
+              let target = mapped.find(
+                (candidate) => Number.isFinite(candidate.page) && candidate.page === preferred && candidate.page !== currentPage
+              );
+
+              if (!target) {
+                target = mapped.find((candidate) => {
+                  return (
+                    /(^|\s)next(\s|$)/i.test(candidate.className) ||
+                    /(^|\s)next(\s|$)/i.test(candidate.rel || '') ||
+                    /^next$/i.test(candidate.label) ||
+                    /^next page$/i.test(candidate.label)
+                  );
+                });
+              }
+
+              if (!target) {
+                target = mapped.find(
+                  (candidate) => Number.isFinite(candidate.page) && candidate.page !== currentPage
+                );
+              }
+
+              if (!target) {
+                continue;
+              }
+
+              target.element.scrollIntoView({ block: 'center', inline: 'nearest' });
+              target.element.click();
+
+              return {
+                selector,
+                currentPage,
+                targetPage: Number.isFinite(target.page) ? target.page : null,
+                targetLabel: target.label || null,
+                href: target.href || null,
+              };
+            }
+          } catch {
+            // Ignore invalid selectors and continue.
+          }
+        }
+
+        return null;
+      },
+      {
+        selectors: selectorPool,
+        preferred: Number(preferredPage) || 2,
+      }
+    );
   }
 
   async function readCollapseState(groupRef) {
@@ -3120,6 +3652,319 @@ async function main() {
     };
   }
 
+  async function testIdleApplyAction(pluginDebug) {
+    await navigateToBase();
+
+    if (!(await hasVisibleApplyButton())) {
+      return makeSkippedAction(
+        'action-idle-apply',
+        'Apply Filters without changes',
+        'Apply button is not visible in the current filter UI.'
+      );
+    }
+
+    const baselineUrl = page.url();
+    const baselineSummary = await captureResultSummary();
+    const baselineFormState = await captureFormControlState();
+    const baselineSorting = await readSortingState(pluginDebug);
+    const compareOptions = buildSemanticUrlCompareOptions(pluginDebug, {
+      defaultOrderby: baselineSorting?.value || null,
+    });
+    const messageStart = globalMessages.length;
+    const applyInfo = await applyPendingChanges(pluginDebug);
+    const applyUrl = applyInfo.url;
+    const applySummary = await captureResultSummary();
+    const formStateAfterApply = await captureFormControlState();
+    const messages = filterRelevantMessages(globalMessages.slice(messageStart));
+    const issues = [];
+
+    if (!statesEqual(formStateAfterApply, baselineFormState)) {
+      issues.push('Apply Filters changed filter state even though no new filter input was provided.');
+    }
+    if (summariesDiffer(applySummary, baselineSummary)) {
+      issues.push('Apply Filters changed the product results even though no new filter input was provided.');
+    }
+    if (
+      !urlsEqual(applyUrl, baselineUrl, compareOptions) &&
+      (summariesDiffer(applySummary, baselineSummary) || !statesEqual(formStateAfterApply, baselineFormState))
+    ) {
+      issues.push('Apply Filters changed the page URL unexpectedly without a matching filter-state change.');
+    }
+    if (messages.length) {
+      issues.push('Browser console/request errors were emitted during no-op apply.');
+    }
+
+    return {
+      id: 'action-idle-apply',
+      title: 'Apply Filters without changes',
+      applyMechanism: applyInfo.mode,
+      baselineUrl,
+      applyUrl,
+      baselineSummary,
+      applySummary,
+      baselineFormState,
+      formStateAfterApply,
+      messages,
+      issues,
+      passed: issues.length === 0,
+    };
+  }
+
+  async function testIdleResetAction(pluginDebug) {
+    await navigateToBase();
+
+    const baselineUrl = page.url();
+    const baselineSummary = await captureResultSummary();
+    const baselineFormState = await captureFormControlState();
+    const baselineSorting = await readSortingState(pluginDebug);
+    const compareOptions = buildSemanticUrlCompareOptions(pluginDebug, {
+      defaultOrderby: baselineSorting?.value || null,
+    });
+    const messageStart = globalMessages.length;
+    const resetInfo = await resetPendingChanges(null);
+
+    if (resetInfo.mode === 'not-found') {
+      return makeSkippedAction(
+        'action-idle-reset',
+        'Reset Filters without changes',
+        'Reset button is not visible in the current filter UI.'
+      );
+    }
+
+    const resetUrl = resetInfo.url;
+    const resetSummary = await captureResultSummary();
+    const formStateAfterReset = await captureFormControlState();
+    const messages = filterRelevantMessages(globalMessages.slice(messageStart));
+    const issues = [];
+
+    if (!statesEqual(formStateAfterReset, baselineFormState)) {
+      issues.push('Reset Filters changed filter state even though no filter was selected.');
+    }
+    if (summariesDiffer(resetSummary, baselineSummary)) {
+      issues.push('Reset Filters changed the product results even though no filter was selected.');
+    }
+    if (
+      !urlsEqual(resetUrl, baselineUrl, compareOptions) &&
+      (summariesDiffer(resetSummary, baselineSummary) || !statesEqual(formStateAfterReset, baselineFormState))
+    ) {
+      issues.push('Reset Filters changed the page URL unexpectedly without a matching filter-state change.');
+    }
+    if (messages.length) {
+      issues.push('Browser console/request errors were emitted during no-op reset.');
+    }
+
+    return {
+      id: 'action-idle-reset',
+      title: 'Reset Filters without changes',
+      resetMechanism: resetInfo.mode,
+      baselineUrl,
+      resetUrl,
+      baselineSummary,
+      resetSummary,
+      baselineFormState,
+      formStateAfterReset,
+      messages,
+      issues,
+      passed: issues.length === 0,
+    };
+  }
+
+  async function testSortingAction(pluginDebug) {
+    await navigateToBase();
+
+    const beforeSort = await readSortingState(pluginDebug);
+    if (!beforeSort) {
+      return makeSkippedAction(
+        'action-sorting',
+        'Sorting action',
+        'Sorting control was not found in the current storefront.'
+      );
+    }
+
+    const targetOption = (beforeSort.options || []).find((option) => {
+      return (
+        isMeaningfulSelectOption(option) &&
+        !option.disabled &&
+        String(option.value) !== String(beforeSort.value)
+      );
+    });
+
+    if (!targetOption) {
+      return makeSkippedAction(
+        'action-sorting',
+        'Sorting action',
+        'No alternate sorting option was available to test.'
+      );
+    }
+
+    const baselineUrl = page.url();
+    const baselineSummary = await captureResultSummary();
+    const urlMode = normalizeUrlMode(pluginDebug?.urlMode || pluginDebug?.manage?.useUrlFilter);
+    const messageStart = globalMessages.length;
+    const networkCursor = markNetworkActivity();
+    const didChange = await changeSortingValue(pluginDebug, targetOption.value);
+
+    if (!didChange) {
+      return makeSkippedAction(
+        'action-sorting',
+        'Sorting action',
+        `Could not switch sorting to ${targetOption.text || targetOption.value}.`
+      );
+    }
+
+    await waitForAjaxSettled(baselineUrl);
+    const applyUrl = page.url();
+    const summaryAfterSort = await captureResultSummary();
+    const stateAfterSort = await readSortingState(pluginDebug);
+    const sortingNetworkActivity = getNetworkActivitySince(networkCursor);
+
+    await page.reload({ waitUntil: 'domcontentloaded' });
+    await ensureFilterUiReady();
+    const reloadUrl = page.url();
+    const summaryAfterReload = await captureResultSummary();
+    const stateAfterReload = await readSortingState(pluginDebug);
+
+    const observedEffect =
+      !urlsEqual(applyUrl, baselineUrl) ||
+      summariesDiffer(baselineSummary, summaryAfterSort) ||
+      sortingNetworkActivity.length > 0 ||
+      String(stateAfterSort?.value ?? '') !== String(beforeSort.value ?? '');
+    const messages = filterRelevantMessages(globalMessages.slice(messageStart));
+    const issues = [];
+
+    if (!observedEffect) {
+      issues.push('Sorting interaction did not produce an observable same-origin network, DOM, or URL change.');
+    }
+    if (String(stateAfterSort?.value ?? '') !== String(targetOption.value)) {
+      issues.push('Sorting selection was not applied after changing the control.');
+    }
+    if (shouldExpectReloadPersistence(urlMode) && String(stateAfterReload?.value ?? '') !== String(targetOption.value)) {
+      issues.push('Sorting selection was not preserved after page reload.');
+    }
+    if (shouldExpectReloadPersistence(urlMode) && !urlsEqual(reloadUrl, applyUrl)) {
+      issues.push('Reload changed the sorted URL unexpectedly.');
+    }
+    if (messages.length) {
+      issues.push('Browser console/request errors were emitted during sorting.');
+    }
+
+    return {
+      id: 'action-sorting',
+      title: `Sorting action to ${targetOption.text || targetOption.value}`,
+      urlMode,
+      baselineUrl,
+      applyUrl,
+      reloadUrl,
+      beforeSort,
+      targetOption,
+      stateAfterSort,
+      stateAfterReload,
+      baselineSummary,
+      summaryAfterSort,
+      summaryAfterReload,
+      sortingNetworkActivity,
+      messages,
+      issues,
+      passed: issues.length === 0,
+    };
+  }
+
+  async function testPaginationAction(pluginDebug) {
+    await navigateToBase();
+
+    const beforePagination = await readPaginationState(pluginDebug);
+    if (!beforePagination) {
+      return makeSkippedAction(
+        'action-pagination',
+        'Pagination action',
+        'Pagination container was not found in the current storefront.'
+      );
+    }
+
+    const baselineUrl = page.url();
+    const baselineSummary = await captureResultSummary();
+    const urlMode = normalizeUrlMode(pluginDebug?.urlMode || pluginDebug?.manage?.useUrlFilter);
+    const preferredPage = Number.isFinite(beforePagination.currentPage)
+      ? beforePagination.currentPage + 1
+      : 2;
+    const messageStart = globalMessages.length;
+    const networkCursor = markNetworkActivity();
+    const clickInfo = await clickPaginationTarget(pluginDebug, preferredPage);
+
+    if (!clickInfo) {
+      return makeSkippedAction(
+        'action-pagination',
+        'Pagination action',
+        'No alternate pagination target was available to test.'
+      );
+    }
+
+    await waitForAjaxSettled(baselineUrl);
+    const applyUrl = page.url();
+    const summaryAfterPagination = await captureResultSummary();
+    const stateAfterPagination = await readPaginationState(pluginDebug);
+    const paginationNetworkActivity = getNetworkActivitySince(networkCursor);
+
+    await page.reload({ waitUntil: 'domcontentloaded' });
+    await ensureFilterUiReady();
+    const reloadUrl = page.url();
+    const summaryAfterReload = await captureResultSummary();
+    const stateAfterReload = await readPaginationState(pluginDebug);
+
+    const observedEffect =
+      !urlsEqual(applyUrl, baselineUrl) ||
+      summariesDiffer(baselineSummary, summaryAfterPagination) ||
+      paginationNetworkActivity.length > 0 ||
+      stateAfterPagination?.currentPage !== beforePagination.currentPage;
+    const messages = filterRelevantMessages(globalMessages.slice(messageStart));
+    const issues = [];
+
+    if (!observedEffect) {
+      issues.push('Pagination interaction did not produce an observable same-origin network, DOM, or URL change.');
+    }
+    if (
+      Number.isFinite(clickInfo.targetPage) &&
+      Number.isFinite(stateAfterPagination?.currentPage) &&
+      stateAfterPagination.currentPage !== clickInfo.targetPage
+    ) {
+      issues.push(`Pagination did not move to the expected page ${clickInfo.targetPage}.`);
+    }
+    if (
+      Number.isFinite(clickInfo.targetPage) &&
+      shouldExpectReloadPersistence(urlMode) &&
+      Number.isFinite(stateAfterReload?.currentPage) &&
+      stateAfterReload.currentPage !== clickInfo.targetPage
+    ) {
+      issues.push('Pagination state was not preserved after page reload.');
+    }
+    if (shouldExpectReloadPersistence(urlMode) && !urlsEqual(reloadUrl, applyUrl)) {
+      issues.push('Reload changed the paginated URL unexpectedly.');
+    }
+    if (messages.length) {
+      issues.push('Browser console/request errors were emitted during pagination.');
+    }
+
+    return {
+      id: 'action-pagination',
+      title: `Pagination action to ${clickInfo.targetLabel || clickInfo.targetPage || 'next page'}`,
+      urlMode,
+      baselineUrl,
+      applyUrl,
+      reloadUrl,
+      beforePagination,
+      clickInfo,
+      stateAfterPagination,
+      stateAfterReload,
+      baselineSummary,
+      summaryAfterPagination,
+      summaryAfterReload,
+      paginationNetworkActivity,
+      messages,
+      issues,
+      passed: issues.length === 0,
+    };
+  }
+
   async function testResetAction(metadata, pluginDebug) {
     const resetFieldRef = config.actionTargets.resetFieldset || config.actionTargets.resetFieldsetId;
     const resetTargetField = findFieldsetByRef(metadata, resetFieldRef);
@@ -3146,6 +3991,10 @@ async function main() {
     const urlMode = normalizeUrlMode(pluginDebug?.urlMode || pluginDebug?.manage?.useUrlFilter);
     const baselineUrl = page.url();
     const baselineSummary = await captureResultSummary();
+    const baselineSorting = await readSortingState(pluginDebug);
+    const compareOptions = buildSemanticUrlCompareOptions(pluginDebug, {
+      defaultOrderby: baselineSorting?.value || null,
+    });
     const targetGroupRef = createGroupRef(resetTargetField);
     const baselineState = await readChoiceState(targetGroupRef);
     const messageStart = globalMessages.length;
@@ -3188,7 +4037,7 @@ async function main() {
     if (!stateBeforeReset.includes(config.actionTargets.resetValue)) {
       issues.push('Precondition failed because the selected option was not retained before reset.');
     }
-    if (shouldExpectUrlChange(urlMode) && !urlsEqual(resetUrl, baselineUrl)) {
+    if (shouldExpectUrlChange(urlMode) && !urlsEqual(resetUrl, baselineUrl, compareOptions)) {
       issues.push('Reset Filters did not return the page to the initial products URL.');
     }
     if (stateAfterReset.includes(config.actionTargets.resetValue) && !baselineState.includes(config.actionTargets.resetValue)) {
@@ -3258,6 +4107,10 @@ async function main() {
       { id: 'action-shortcode-toggle', title: 'Shortcode collapsible toggle', label: 'Action: shortcode collapsible toggle', run: () => testShortcodeToggle() },
       { id: 'action-collapse-toggle', title: 'Collapse toggle', label: 'Action: group collapse toggle', run: () => testCollapseToggle(metadata) },
       { id: 'action-option-search', title: 'Internal option search', label: 'Action: internal option search', run: () => testInternalOptionSearch(metadata) },
+      { id: 'action-idle-apply', title: 'Apply Filters without changes', label: 'Action: idle apply', run: () => testIdleApplyAction(pluginDebug) },
+      { id: 'action-idle-reset', title: 'Reset Filters without changes', label: 'Action: idle reset', run: () => testIdleResetAction(pluginDebug) },
+      { id: 'action-sorting', title: 'Sorting action', label: 'Action: sorting', run: () => testSortingAction(pluginDebug) },
+      { id: 'action-pagination', title: 'Pagination action', label: 'Action: pagination', run: () => testPaginationAction(pluginDebug) },
       { id: 'action-reset-filters', title: 'Reset Filters', label: 'Action: reset filters', run: () => testResetAction(metadata, pluginDebug) },
     ];
 
