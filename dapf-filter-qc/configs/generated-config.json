@@ -1,0 +1,223 @@
+{
+  "generatedAt": "2026-04-25T11:42:58.636Z",
+  "baseUrl": "http://dynamic-ajax-product-filters-for-woocommerce.local/products/",
+  "runMode": "url-auto",
+  "deviceMode": "mobile",
+  "siteLabel": "dynamic-ajax-product-filters-for-woocommerce-local-products",
+  "testData": {
+    "searchText": "Months product",
+    "priceRange": {
+      "min": "169900",
+      "max": "500000"
+    },
+    "sku": "21sgsgh",
+    "discount": "33",
+    "dimensions": {
+      "min_height": "29",
+      "max_height": "31",
+      "min_length": "15",
+      "max_length": "17"
+    }
+  },
+  "fieldOverrides": {
+    "001-plugincy-rating-rating-reset": {
+      "kind": "checkboxes",
+      "values": [
+        "1"
+      ]
+    },
+    "003-product-category-category": {
+      "kind": "checkboxes",
+      "values": [
+        "anesthesia-machine"
+      ]
+    },
+    "004-color-color": {
+      "kind": "checkboxes",
+      "values": [
+        "1-5-kg",
+        "raihanblack"
+      ]
+    },
+    "005-processor-agagag": {
+      "kind": "checkboxes",
+      "values": [
+        "amd-ryzen-5",
+        "amd-ryzen-7"
+      ]
+    },
+    "006-months-months": {
+      "kind": "checkboxes",
+      "values": [
+        "apr-2026",
+        "feb-2026"
+      ]
+    },
+    "007-material-material": {
+      "kind": "checkboxes",
+      "values": [
+        "cord-fabric",
+        "cotton"
+      ]
+    },
+    "008-filter-the-results-raihan-filter-the-results": {
+      "kind": "checkboxes",
+      "values": [
+        "db-7-16"
+      ]
+    },
+    "009-size-size": {
+      "kind": "checkboxes",
+      "values": [
+        "l",
+        "m"
+      ]
+    },
+    "010-mens-trend-men-s-trend": {
+      "kind": "checkboxes",
+      "values": [
+        "nautical",
+        "office"
+      ]
+    },
+    "011-test10-test10": {
+      "kind": "checkboxes",
+      "values": [
+        "test"
+      ]
+    },
+    "012-acf-text-acf-text": {
+      "kind": "checkboxes",
+      "values": [
+        "bd-product",
+        "global-product"
+      ]
+    },
+    "013-acf-text-acf-text": {
+      "kind": "checkboxes",
+      "values": [
+        "global-product"
+      ]
+    },
+    "014-ast-site-content-layout-ast-site-content-layout": {
+      "kind": "checkboxes",
+      "values": [
+        "default"
+      ]
+    },
+    "015-astra-migrate-meta-layouts-astra-migrate-meta-layouts": {
+      "kind": "checkboxes",
+      "values": [
+        "set"
+      ]
+    },
+    "016-post-views-count-post-views-count": {
+      "kind": "checkboxes",
+      "values": [
+        "1"
+      ]
+    },
+    "017-site-content-style-site-content-style": {
+      "kind": "checkboxes",
+      "values": [
+        "default"
+      ]
+    },
+    "018-site-sidebar-layout-site-sidebar-layout": {
+      "kind": "checkboxes",
+      "values": [
+        "default"
+      ]
+    },
+    "019-site-sidebar-style-site-sidebar-style": {
+      "kind": "checkboxes",
+      "values": [
+        "default"
+      ]
+    },
+    "020-stick-header-meta-stick-header-meta": {
+      "kind": "checkboxes",
+      "values": [
+        "default"
+      ]
+    },
+    "021-theme-transparent-header-meta-theme-transparent-header-meta": {
+      "kind": "checkboxes",
+      "values": [
+        "default"
+      ]
+    },
+    "022-total-sales-total-sales": {
+      "kind": "checkboxes",
+      "values": [
+        "0",
+        "20"
+      ]
+    },
+    "023-taxonomy-mulopimfwc-store-location-locations": {
+      "kind": "checkboxes",
+      "values": [
+        "cumilla"
+      ]
+    },
+    "024-tag-tags": {
+      "kind": "multi-select",
+      "selectName": "tags[]",
+      "values": [
+        "sulfate-free-for-tear-free-baby-bath-time-8-ounce",
+        "1-touch-prime"
+      ]
+    },
+    "025-brands-brands": {
+      "kind": "checkboxes",
+      "values": [
+        "lenevo"
+      ]
+    },
+    "026-authors-authors": {
+      "kind": "checkboxes",
+      "values": [
+        "admin"
+      ]
+    },
+    "027-status-stock-status": {
+      "kind": "checkboxes",
+      "values": [
+        "onbackorder"
+      ]
+    },
+    "028-sale-status-sale-status": {
+      "kind": "checkboxes",
+      "values": [
+        "notonsale"
+      ]
+    },
+    "029-featured-status-featured-products": {
+      "kind": "checkboxes",
+      "values": [
+        "featured"
+      ]
+    }
+  },
+  "actionTargets": {
+    "collapseFieldset": "001-plugincy-rating-rating-reset",
+    "collapseFieldsetId": "plugincy_rating",
+    "optionSearchFieldset": "004-color-color",
+    "optionSearchFieldsetId": "color",
+    "optionSearchPlaceholder": "",
+    "optionSearchText": "black",
+    "resetFieldset": "001-plugincy-rating-rating-reset",
+    "resetFieldsetId": "plugincy_rating",
+    "resetValue": "1"
+  },
+  "autoDiscovery": {
+    "used": true,
+    "source": "dom+woo-store-api",
+    "storeApiEndpoint": "http://dynamic-ajax-product-filters-for-woocommerce.local/wp-json/wc/store/v1/products?per_page=50",
+    "storeApiOk": true,
+    "storeApiError": null,
+    "discoveredProductCount": 50,
+    "sampledFieldsetCount": 34,
+    "maxDuplicateFieldsetsPerId": 3
+  }
+}

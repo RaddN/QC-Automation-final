@@ -3299,6 +3299,17 @@ async function main() {
       return false;
     }
 
+    const firstGroupRef = Array.isArray(options.groupRefs) ? options.groupRefs[0] : null;
+    if (firstGroupRef) {
+      const changedGroup = groupLocator(firstGroupRef).first();
+      if (await changedGroup.count().catch(() => 0)) {
+        await changedGroup.evaluate((node) => {
+          node.scrollIntoView({ block: 'center', inline: 'nearest' });
+        }).catch(() => {});
+        await delay(250);
+      }
+    }
+
     const filterBoxes = await collectFailureHighlightBoxes({
       ...options,
       includeResults: false,
