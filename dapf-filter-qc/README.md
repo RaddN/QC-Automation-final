@@ -48,8 +48,14 @@ When you run without arguments, the launcher now accepts either:
 
 When you start from a direct URL, the launcher also asks whether to QC:
 
-- `all` visible fieldsets
-- a `specific` selector/group id/title/key such as `category`, `tags`, or `brands`
+- `all` visible fieldsets (`a` also works)
+- a `specific` selector/group id/title/key such as `category`, `tags`, or `brands` (`s` also works)
+
+For device and browser prompts you can use short forms too:
+
+- `d`, `m`, or `b` for `desktop`, `mobile`, or `both`
+- `h` for `headed`
+- `hl` for `headless`
 
 If `.ps1` files open in Notepad on your PC, use the batch wrapper instead:
 
@@ -90,6 +96,12 @@ To run only one selector or fieldset:
 
 ```powershell
 .\run-qc.ps1 -Url "https://client-site.com/shop/" -Scope specific -Selector "category"
+```
+
+Short form:
+
+```powershell
+.\run-qc.ps1 -Url "https://client-site.com/shop/" -Scope s -Selector "price" -Device m -h
 ```
 
 ### Controlled: config mode

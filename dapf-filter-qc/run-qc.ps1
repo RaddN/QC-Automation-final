@@ -3,11 +3,12 @@ param(
     [string]$InputTarget = "",
     [string]$Config = "",
     [string]$Url = "",
-    [ValidateSet("desktop", "mobile", "both")]
+    [ValidateSet("desktop", "mobile", "both", "d", "m", "b")]
     [string]$Device = "",
-    [ValidateSet("all", "specific")]
+    [ValidateSet("all", "specific", "a", "s")]
     [string]$Scope = "",
     [string]$Selector = "",
+    [Alias("h")]
     [switch]$Headed,
     [switch]$Headless
 )
@@ -54,6 +55,48 @@ function Test-IsUrl {
     return $Value -match '^(https?://)'
 }
 
+function Normalize-Device {
+    param([string]$Value)
+
+    $normalized = $Value.Trim().ToLowerInvariant()
+    switch ($normalized) {
+        "d" { return "desktop" }
+        "desktop" { return "desktop" }
+        "m" { return "mobile" }
+        "mobile" { return "mobile" }
+        "b" { return "both" }
+        "both" { return "both" }
+        default { throw "Invalid device mode: $Value" }
+    }
+}
+
+function Normalize-Scope {
+    param([string]$Value)
+
+    $normalized = $Value.Trim().ToLowerInvariant()
+    switch ($normalized) {
+        "a" { return "all" }
+        "all" { return "all" }
+        "s" { return "specific" }
+        "specific" { return "specific" }
+        default { throw "Invalid QC scope: $Value" }
+    }
+}
+
+function Normalize-BrowserMode {
+    param([string]$Value)
+
+    $normalized = $Value.Trim().ToLowerInvariant()
+    switch ($normalized) {
+        "h" { return "headed" }
+        "headed" { return "headed" }
+        "head" { return "headed" }
+        "hl" { return "headless" }
+        "headless" { return "headless" }
+        default { throw "Invalid browser mode: $Value" }
+    }
+}
+
 if ([string]::IsNullOrWhiteSpace($Config) -and [string]::IsNullOrWhiteSpace($Url) -and -not [string]::IsNullOrWhiteSpace($InputTarget)) {
     if (Test-IsUrl $InputTarget) {
         $Url = $InputTarget
@@ -95,18 +138,17 @@ if ([string]::IsNullOrWhiteSpace($Scope) -and -not [string]::IsNullOrWhiteSpace(
     $Scope = "specific"
 }
 
+if (-not [string]::IsNullOrWhiteSpace($Scope)) {
+    $Scope = Normalize-Scope $Scope
+}
+
 if (-not [string]::IsNullOrWhiteSpace($Url) -and [string]::IsNullOrWhiteSpace($Scope)) {
-    $enteredScope = Read-Host "QC scope for this URL [all/specific] [all]"
+    $enteredScope = Read-Host "QC scope for this URL [all/a, specific/s] [all]"
     if ([string]::IsNullOrWhiteSpace($enteredScope)) {
         $enteredScope = "all"
     }
 
-    $enteredScope = $enteredScope.Trim().ToLowerInvariant()
-    if ($enteredScope -notin @("all", "specific")) {
-        throw "Invalid QC scope: $enteredScope"
-    }
-
-    $Scope = $enteredScope
+    $Scope = Normalize-Scope $enteredScope
 }
 
 if ($Scope -eq "specific" -and [string]::IsNullOrWhiteSpace($Selector)) {
@@ -119,30 +161,23 @@ if ($Scope -eq "specific" -and [string]::IsNullOrWhiteSpace($Selector)) {
 }
 
 if ([string]::IsNullOrWhiteSpace($Device)) {
-    $enteredDevice = Read-Host "Test device [desktop/mobile/both] [both]"
+    $enteredDevice = Read-Host "Test device [desktop/d, mobile/m, both/b] [both]"
     if ([string]::IsNullOrWhiteSpace($enteredDevice)) {
         $enteredDevice = "both"
     }
 
-    $enteredDevice = $enteredDevice.Trim().ToLowerInvariant()
-    if ($enteredDevice -notin @("desktop", "mobile", "both")) {
-        throw "Invalid device mode: $enteredDevice"
-    }
-
-    $Device = $enteredDevice
+    $Device = Normalize-Device $enteredDevice
+}
+else {
+    $Device = Normalize-Device $Device
 }
 
 $browserMode = if ($Headless) { "headless" } else { "headed" }
 
 if (-not $Headed -and -not $Headless) {
-    $enteredBrowserMode = Read-Host "Browser mode [headed/headless] [headed]"
+    $enteredBrowserMode = Read-Host "Browser mode [headed/h, headless/hl] [headed]"
     if (-not [string]::IsNullOrWhiteSpace($enteredBrowserMode)) {
-        $enteredBrowserMode = $enteredBrowserMode.Trim().ToLowerInvariant()
-        if ($enteredBrowserMode -notin @("headed", "headless")) {
-            throw "Invalid browser mode: $enteredBrowserMode"
-        }
-
-        $browserMode = $enteredBrowserMode
+        $browserMode = Normalize-BrowserMode $enteredBrowserMode
     }
 }
 

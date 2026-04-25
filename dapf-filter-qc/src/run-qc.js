@@ -44,6 +44,11 @@ function parseArgs(argv) {
       continue;
     }
 
+    if (arg === '-h' || arg === '--h') {
+      args.headed = true;
+      continue;
+    }
+
     if (arg === '--headless') {
       args.headless = true;
       continue;
@@ -51,6 +56,19 @@ function parseArgs(argv) {
   }
 
   return args;
+}
+
+function normalizeDeviceMode(value) {
+  const normalized = String(value || '').trim().toLowerCase();
+  if (normalized === 'd' || normalized === 'desktop') return 'desktop';
+  if (normalized === 'm' || normalized === 'mobile') return 'mobile';
+  return 'desktop';
+}
+
+function normalizeQcScope(value) {
+  const normalized = String(value || '').trim().toLowerCase();
+  if (normalized === 's' || normalized === 'specific') return 'specific';
+  return 'all';
 }
 
 function buildDefaultConfig() {
@@ -318,6 +336,16 @@ function includesAllValues(actual, expected) {
 
 function summarizeIssueCounts(tests) {
   return tests.reduce((count, test) => count + (test.passed ? 0 : 1), 0);
+}
+
+function logIssueFound(test) {
+  if (!test || test.passed || test.skipped) {
+    return;
+  }
+
+  const title = test.title || test.id || 'Unnamed test';
+  const firstIssue = (test.issues || []).find((issue) => hasValue(issue)) || test.reason || 'See the report for details.';
+  console.log(`[issue found] ${title}: ${firstIssue}`);
 }
 
 function hasValue(value) {
@@ -944,11 +972,11 @@ async function loadInitialConfig(cliArgs) {
   }
 
   if (cliArgs.device) {
-    config.deviceMode = String(cliArgs.device).trim().toLowerCase();
+    config.deviceMode = normalizeDeviceMode(cliArgs.device);
   }
 
   if (cliArgs.scope) {
-    config.qcScope = String(cliArgs.scope).trim().toLowerCase();
+    config.qcScope = normalizeQcScope(cliArgs.scope);
   }
 
   if (cliArgs.selector) {
@@ -973,8 +1001,8 @@ async function loadInitialConfig(cliArgs) {
   config.baseUrl = config.baseUrl.trim();
   config.configPath = configPath;
   config.runMode = configPath ? 'config' : 'url-auto';
-  config.deviceMode = ['desktop', 'mobile'].includes(config.deviceMode) ? config.deviceMode : 'desktop';
-  config.qcScope = config.qcScope === 'specific' ? 'specific' : 'all';
+  config.deviceMode = normalizeDeviceMode(config.deviceMode);
+  config.qcScope = normalizeQcScope(config.qcScope);
   config.focusFieldsets = parseFieldsetRefs(config.focusFieldsets);
   config.scenarioSettings.stateFlowMode =
     String(config.scenarioSettings?.stateFlowMode || '').trim().toLowerCase() === 'split'
@@ -1199,6 +1227,30 @@ function urlsEqual(left, right, options = {}) {
   return normalizeComparableUrl(left, options) === normalizeComparableUrl(right, options);
 }
 
+function formatDuration(ms) {
+  const totalSeconds = Math.max(0, Math.round((Number(ms) || 0) / 1000));
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+  if (minutes <= 0) return `${seconds}s`;
+  return `${minutes}m ${String(seconds).padStart(2, '0')}s`;
+}
+
+function etaText(current, total, startedAtMs) {
+  if (current <= 0 || total <= current) {
+    return 'almost there, no tea refill needed';
+  }
+
+  const elapsedMs = Date.now() - startedAtMs;
+  const remainingMs = (elapsedMs / current) * (total - current);
+  const teaLines = [
+    'time for a tiny tea sip',
+    'kettle can stay warm',
+    'one more biscuit window',
+    'stretch break approved',
+  ];
+  return `${formatDuration(remainingMs)} left, ${teaLines[current % teaLines.length]}`;
+}
+
 function withDebugQuery(rawUrl) {
   const parsed = new URL(rawUrl);
   parsed.searchParams.set('plugincydebug', 'true');
@@ -1208,11 +1260,13 @@ function withDebugQuery(rawUrl) {
 function createProgressLogger() {
   let total = 1;
   let current = 0;
+  let startedAtMs = Date.now();
 
   return {
     setTotal(nextTotal) {
       total = Math.max(1, Number(nextTotal) || 1);
       current = 0;
+      startedAtMs = Date.now();
     },
     info(label) {
       console.log(`[info] ${label}`);
@@ -1220,7 +1274,7 @@ function createProgressLogger() {
     step(label) {
       current += 1;
       const percent = Math.min(100, Math.round((current / total) * 100));
-      console.log(`[${current}/${total}] ${percent}% ${label}`);
+      console.log(`[${current}/${total}] ${percent}% ${label} | ETA: ${etaText(current, total, startedAtMs)}`);
     },
   };
 }
@@ -5730,7 +5784,7 @@ async function main() {
     const comboScenarioPlans = buildCombinationScenarioPlans(filterCases);
     const actionTests = [];
     const filterTests = [];
-    const actionPlans = [
+    const broadActionPlans = [
       { id: 'action-overlay-toggle', title: 'Overlay toggle', label: 'Action: overlay toggle', run: () => testOverlayToggle() },
       { id: 'action-shortcode-toggle', title: 'Shortcode collapsible toggle', label: 'Action: shortcode collapsible toggle', run: () => testShortcodeToggle() },
       { id: 'action-collapse-toggle', title: 'Collapse toggle', label: 'Action: group collapse toggle', run: () => testCollapseToggle(scopedMetadata) },
@@ -5741,43 +5795,53 @@ async function main() {
       { id: 'action-pagination', title: 'Pagination action', label: 'Action: pagination', run: () => testPaginationAction(pluginDebug) },
       { id: 'action-reset-filters', title: 'Reset Filters', label: 'Action: reset filters', run: () => testResetAction(scopedMetadata, pluginDebug) },
     ];
+    const actionPlans = config.qcScope === 'specific' ? [] : broadActionPlans;
 
     progress.setTotal(actionPlans.length + fieldScenarioPlans.length + comboScenarioPlans.length + 1);
 
     for (const plan of actionPlans) {
       progress.step(plan.label);
       try {
-        actionTests.push(await plan.run());
+        const result = await plan.run();
+        actionTests.push(result);
+        logIssueFound(result);
       } catch (error) {
-        actionTests.push(await buildUnexpectedFailure(plan.id, plan.title, error, 'action'));
+        const failure = await buildUnexpectedFailure(plan.id, plan.title, error, 'action');
+        actionTests.push(failure);
+        logIssueFound(failure);
       }
     }
 
     for (const plan of fieldScenarioPlans) {
       progress.step(`Fieldset: ${plan.title}`);
       try {
+        let result;
         if (plan.kind === 'capability') {
-          filterTests.push(await executeFieldCapabilityScenario(plan));
+          result = await executeFieldCapabilityScenario(plan);
         } else if (plan.scenario === 'roundtrip') {
-          filterTests.push(await executeCondensedFieldStateScenario(plan, pluginDebug));
+          result = await executeCondensedFieldStateScenario(plan, pluginDebug);
         } else {
-          filterTests.push(await executeFieldStateScenario(plan, pluginDebug));
+          result = await executeFieldStateScenario(plan, pluginDebug);
         }
+        filterTests.push(result);
+        logIssueFound(result);
       } catch (error) {
-        filterTests.push(
-          await buildUnexpectedFailure(plan.id, plan.title || plan.id, error, 'filter')
-        );
+        const failure = await buildUnexpectedFailure(plan.id, plan.title || plan.id, error, 'filter');
+        filterTests.push(failure);
+        logIssueFound(failure);
       }
     }
 
     for (const plan of comboScenarioPlans) {
       progress.step(`Combo: ${plan.title}`);
       try {
-        filterTests.push(await executeCombinationScenario(plan, pluginDebug));
+        const result = await executeCombinationScenario(plan, pluginDebug);
+        filterTests.push(result);
+        logIssueFound(result);
       } catch (error) {
-        filterTests.push(
-          await buildUnexpectedFailure(plan.id, plan.title || plan.id, error, 'filter')
-        );
+        const failure = await buildUnexpectedFailure(plan.id, plan.title || plan.id, error, 'filter');
+        filterTests.push(failure);
+        logIssueFound(failure);
       }
     }
 
