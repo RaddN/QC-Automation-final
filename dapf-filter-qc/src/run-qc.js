@@ -3185,9 +3185,157 @@ async function main() {
     }).catch(() => {});
   }
 
+  async function findVisibleOverlayPanel() {
+    const selectors = [
+      '.dapfforwcpro-overlay-shell.is-open .dapfforwcpro-overlay-panel',
+      '.dapfforwcpro-overlay-panel[aria-hidden="false"]',
+      '.dapfforwcpro-overlay-panel:visible',
+    ];
+
+    for (const selector of selectors) {
+      const locator = page.locator(selector).first();
+      if (!(await locator.count())) {
+        continue;
+      }
+
+      if (await locator.isVisible().catch(() => false)) {
+        return locator;
+      }
+    }
+
+    return null;
+  }
+
+  async function closeVisibleOverlayPanel() {
+    const closeCandidates = [
+      page.locator('.dapfforwcpro-overlay-panel .filter-cancel-button:visible').first(),
+      page.locator('.dapfforwcpro-overlay-panel [aria-label*="close" i]:visible').first(),
+      page.locator('.dapfforwcpro-overlay-panel button:has-text("Close"):visible').first(),
+      page.locator('.dapfforwcpro-overlay-panel button:has-text("Cancel"):visible').first(),
+    ];
+
+    for (const candidate of closeCandidates) {
+      try {
+        if ((await candidate.count()) && (await candidate.isVisible({ timeout: 300 }))) {
+          await candidate.click({ force: true });
+          await delay(300);
+          return true;
+        }
+      } catch {
+        // Continue with the DOM fallback.
+      }
+    }
+
+    return page.evaluate(() => {
+      const shell = document.querySelector('.dapfforwcpro-overlay-shell.is-open');
+      const panel = document.querySelector('.dapfforwcpro-overlay-panel[aria-hidden="false"], .dapfforwcpro-overlay-panel');
+      document.body.classList.remove('dapfforwcpro-overlay-open');
+      if (shell) {
+        shell.classList.remove('is-open');
+      }
+      if (panel) {
+        panel.setAttribute('aria-hidden', 'true');
+      }
+      return Boolean(shell || panel);
+    }).catch(() => false);
+  }
+
+  function escapeHtml(value) {
+    return String(value || '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  async function composeSideBySideScreenshot(leftBuffer, rightBuffer, file, options = {}) {
+    const composer = await context.newPage();
+    try {
+      const leftSrc = `data:image/png;base64,${leftBuffer.toString('base64')}`;
+      const rightSrc = `data:image/png;base64,${rightBuffer.toString('base64')}`;
+      const issueLines = (options.issues || []).filter(Boolean).slice(0, 3);
+      const issueHtml = issueLines.length
+        ? `<div class="issues">${issueLines.map((issue) => `<div>${escapeHtml(issue)}</div>`).join('')}</div>`
+        : '';
+      await composer.setContent(
+        `<!doctype html>
+        <html>
+          <head>
+            <style>
+              html, body { margin: 0; padding: 0; background: #f8fafc; }
+              .summary { margin: 16px 16px 0; padding: 10px 12px; background: #0f172a; color: #fff; font: 600 13px/1.4 Arial, sans-serif; border-radius: 6px; }
+              .summary strong { display: block; margin-bottom: ${issueLines.length ? '6px' : '0'}; }
+              .issues div { margin-top: 3px; font-weight: 500; }
+              .wrap { display: flex; align-items: flex-start; gap: 16px; padding: 16px; }
+              .pane { background: #fff; border: 1px solid #cbd5e1; box-shadow: 0 10px 24px rgba(15, 23, 42, 0.12); }
+              .label { position: sticky; top: 0; z-index: 2; padding: 8px 10px; background: #1e293b; color: #fff; font: 700 13px/1.2 Arial, sans-serif; }
+              img { display: block; max-width: none; }
+            </style>
+          </head>
+          <body>
+            <div class="summary"><strong>${escapeHtml(options.title || 'QC issue screenshot')}</strong>${issueHtml}</div>
+            <div class="wrap">
+              <div class="pane"><div class="label">Page without filter open</div><img src="${leftSrc}"></div>
+              <div class="pane"><div class="label">Filter area</div><img src="${rightSrc}"></div>
+            </div>
+          </body>
+        </html>`,
+        { waitUntil: 'load' }
+      );
+      await composer.screenshot({ path: file, fullPage: true });
+    } finally {
+      await composer.close().catch(() => {});
+    }
+  }
+
+  async function captureMobileOverlayCompositeScreenshot(file, options = {}) {
+    if (config.deviceMode !== 'mobile') {
+      return false;
+    }
+
+    const panel = await findVisibleOverlayPanel();
+    if (!panel) {
+      return false;
+    }
+
+    const filterBoxes = await collectFailureHighlightBoxes({
+      ...options,
+      includeResults: false,
+      includeForm: false,
+      selectorTargets: [],
+    });
+    await injectFailureScreenshotOverlay(filterBoxes, {});
+    const filterBuffer = await panel.screenshot({ animations: 'disabled' }).catch(() => null);
+    await clearFailureScreenshotOverlay();
+    if (!filterBuffer) {
+      return false;
+    }
+
+    await closeVisibleOverlayPanel();
+    const pageBoxes = await collectFailureHighlightBoxes({
+      includeResults: true,
+      includeForm: false,
+      groupRefs: [],
+      selectorTargets: [],
+    });
+    await injectFailureScreenshotOverlay(pageBoxes, {});
+    const pageBuffer = await page.screenshot({ fullPage: true, animations: 'disabled' }).catch(() => null);
+    await clearFailureScreenshotOverlay();
+    if (!pageBuffer) {
+      return false;
+    }
+
+    await composeSideBySideScreenshot(pageBuffer, filterBuffer, file, options);
+    return true;
+  }
+
   async function captureFailureScreenshot(caseId, phase, options = {}) {
     const file = path.join(outputDir, `fail-${sanitizeId(caseId)}-${phase}.png`);
     try {
+      if (await captureMobileOverlayCompositeScreenshot(file, options)) {
+        return file;
+      }
       const boxes = await collectFailureHighlightBoxes(options);
       await injectFailureScreenshotOverlay(boxes, options);
       await page.screenshot({ path: file, fullPage: true });
