@@ -1,0 +1,54 @@
+{
+  "siteLabel": "example-store",
+  "baseUrl": "https://example.com/shop/",
+  "outputDir": "./reports",
+  "deviceMode": "desktop",
+  "browser": {
+    "channel": "chrome",
+    "headed": true,
+    "slowMoMs": 0,
+    "viewport": {
+      "width": 1440,
+      "height": 1200
+    }
+  },
+  "selectors": {
+    "products": "ul.products li.product, .wc-block-grid__product, .product",
+    "productTitle": ".woocommerce-loop-product__title, h2, h3",
+    "addToCart": ".add_to_cart_button, .single_add_to_cart_button",
+    "directCheckout": ".direct-checkout-button, .onepaquc-checkout-btn, .plugincy-quick-checkout a",
+    "quickViewButton": ".opqvfw-btn, .rmenu-quick-view-overlay a",
+    "quickViewModal": ".opqvfw-modal-container",
+    "cartButton": ".rwc_cart-button",
+    "cartDrawer": ".cart-drawer",
+    "onePageCheckout": ".one-page-checkout-container, #checkout-popup.onepagecheckoutwidget, .checkout-popup.onepagecheckoutwidget",
+    "checkoutForm": "form.checkout, .woocommerce-checkout, .wc-block-checkout",
+    "archiveVariations": ".archive-variations-container",
+    "archiveQuantity": ".rmenu-archive-quantity, .rmenupro-archive-quantity",
+    "trustBadges": ".onepaqucpro-trust-badges, .trust-badges, .trust-badge-wrapper, .trust-badges-wrapper"
+  },
+  "consentButtonNames": [
+    "Accept All",
+    "Accept"
+  ],
+  "noisePatterns": [
+    "cookie",
+    "consent",
+    "googletag",
+    "gtag",
+    "google-analytics",
+    "googlesyndication",
+    "doubleclick",
+    "facebook",
+    "clarity",
+    "hotjar"
+  ],
+  "scenarioSettings": {
+    "includeInteractions": true,
+    "allowCartMutations": true,
+    "includeAddToCartInteractions": false,
+    "directCheckoutRequiredOnly": true,
+    "maxDirectCheckoutInteractions": 8,
+    "maxTargets": 80
+  }
+}

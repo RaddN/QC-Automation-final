@@ -1,0 +1,12 @@
+{
+  "name": "one-page-checkout-qc",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Reusable QC automation for One Page Quick Checkout for WooCommerce Pro storefronts.",
+  "scripts": {
+    "qc": "node src/run-qc.js"
+  },
+  "dependencies": {
+    "playwright": "^1.54.2"
+  }
+}

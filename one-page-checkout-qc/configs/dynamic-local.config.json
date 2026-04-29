@@ -1,0 +1,23 @@
+{
+  "siteLabel": "plugincy-on-page-checkout-local",
+  "baseUrl": "http://plugincy-on-page-checkout.local/",
+  "outputDir": "./reports",
+  "deviceMode": "desktop",
+  "browser": {
+    "channel": "chrome",
+    "headed": true,
+    "slowMoMs": 0,
+    "viewport": {
+      "width": 1440,
+      "height": 1200
+    }
+  },
+  "scenarioSettings": {
+    "includeInteractions": true,
+    "allowCartMutations": true,
+    "includeAddToCartInteractions": false,
+    "directCheckoutRequiredOnly": true,
+    "maxDirectCheckoutInteractions": 8,
+    "maxTargets": 80
+  }
+}
