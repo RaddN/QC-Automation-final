@@ -2,6 +2,39 @@ const fs = require('node:fs/promises');
 const path = require('node:path');
 const { chromium } = require('playwright');
 
+class ConnectivityRetryError extends Error {
+  constructor(message, cause = null) {
+    super(message);
+    this.name = 'ConnectivityRetryError';
+    this.cause = cause;
+  }
+}
+
+const CONNECTIVITY_ERROR_PATTERNS = [
+  /ERR_INTERNET_DISCONNECTED/i,
+  /ERR_NETWORK_CHANGED/i,
+  /ERR_NAME_NOT_RESOLVED/i,
+  /ERR_CONNECTION_TIMED_OUT/i,
+  /ERR_TIMED_OUT/i,
+  /ERR_CONNECTION_RESET/i,
+  /ERR_CONNECTION_CLOSED/i,
+  /ERR_ADDRESS_UNREACHABLE/i,
+  /ERR_NETWORK_IO_SUSPENDED/i,
+  /\bENOTFOUND\b/i,
+  /\bEAI_AGAIN\b/i,
+  /\bECONNRESET\b/i,
+  /\bETIMEDOUT\b/i,
+];
+
+function isConnectivityErrorText(value) {
+  const text = String(value?.message || value || '');
+  return CONNECTIVITY_ERROR_PATTERNS.some((pattern) => pattern.test(text));
+}
+
+function isConnectivityRetryError(error) {
+  return error instanceof ConnectivityRetryError || isConnectivityErrorText(error);
+}
+
 function parseArgs(argv) {
   const args = {};
 
@@ -1338,12 +1371,102 @@ async function main() {
     advanced: null,
     runtime: null,
   };
+  let connectivityFailure = null;
+  let lastConnectivityLogAt = 0;
 
   const pushMessage = (type, text) => {
     const message = String(text || '').trim();
     if (!message) return;
     globalMessages.push({ type, text: message });
   };
+
+  const markConnectivityFailure = (reason) => {
+    const message = String(reason || 'Network request failed').trim();
+    connectivityFailure = {
+      message,
+      detectedAt: new Date().toISOString(),
+    };
+
+    const now = Date.now();
+    if (now - lastConnectivityLogAt > 15000) {
+      progress.info(`Internet connection problem detected: ${message}`);
+      progress.info('Waiting here until the connection is back, then this step will retry.');
+      lastConnectivityLogAt = now;
+    }
+  };
+
+  async function canReachSite() {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 8000);
+    try {
+      const response = await fetch(config.baseUrl, {
+        method: 'HEAD',
+        cache: 'no-store',
+        redirect: 'manual',
+        signal: controller.signal,
+      });
+      return Boolean(response);
+    } catch (error) {
+      if (/method/i.test(String(error?.message || error))) {
+        return true;
+      }
+      return false;
+    } finally {
+      clearTimeout(timeout);
+    }
+  }
+
+  async function waitForInternetConnection(label, reason) {
+    progress.info(`${label}: paused because internet connection appears to be unavailable.`);
+    if (reason) {
+      progress.info(`Last network error: ${reason}`);
+    }
+
+    let checks = 0;
+    while (!(await canReachSite())) {
+      checks += 1;
+      if (checks === 1 || checks % 6 === 0) {
+        progress.info('Still waiting for internet/site connection...');
+      }
+      await page.waitForTimeout(5000);
+    }
+
+    connectivityFailure = null;
+    progress.info('Connection is back. Retrying the same step.');
+  }
+
+  async function runWithConnectivityRetry(label, operation) {
+    let attempt = 0;
+
+    while (true) {
+      attempt += 1;
+      connectivityFailure = null;
+
+      try {
+        return await operation();
+      } catch (error) {
+        if (!isConnectivityRetryError(error) && !connectivityFailure) {
+          throw error;
+        }
+
+        const reason = connectivityFailure?.message || error?.message || String(error);
+        await waitForInternetConnection(label, reason);
+        if (attempt > 1) {
+          progress.info(`${label}: retry attempt ${attempt}.`);
+        }
+      }
+    }
+  }
+
+  function throwIfConnectivityFailed(contextLabel) {
+    if (!connectivityFailure) {
+      return;
+    }
+
+    throw new ConnectivityRetryError(
+      `${contextLabel} could not continue because the internet connection was interrupted: ${connectivityFailure.message}`
+    );
+  }
 
   const isSameOriginUrl = (rawUrl) => {
     try {
@@ -1405,6 +1528,11 @@ async function main() {
       return;
     }
 
+    if (isConnectivityErrorText(errorText)) {
+      markConnectivityFailure(`${request.method()} ${request.url()} :: ${errorText}`);
+      return;
+    }
+
     networkActivity.push({
       kind: 'requestfailed',
       method: request.method(),
@@ -1447,6 +1575,22 @@ async function main() {
   const reportJsonPath = path.join(outputDir, 'report.json');
   const reportMarkdownPath = path.join(outputDir, 'report.md');
   const generatedConfigPath = path.join(outputDir, 'generated-config.json');
+
+  async function gotoWithConnectivityRetry(url, options = {}) {
+    return runWithConnectivityRetry(`Open ${url}`, async () => {
+      const response = await page.goto(url, options);
+      throwIfConnectivityFailed(`Open ${url}`);
+      return response;
+    });
+  }
+
+  async function reloadWithConnectivityRetry() {
+    return runWithConnectivityRetry('Reload page', async () => {
+      const response = await page.reload({ waitUntil: 'domcontentloaded' });
+      throwIfConnectivityFailed('Reload page');
+      return response;
+    });
+  }
 
   const summarizePluginDebug = () => {
     const advanced = pluginDebugRaw.advanced || {};
@@ -1600,7 +1744,7 @@ async function main() {
   }
 
   async function waitForAjaxSettled(previousUrl = page.url()) {
-    await Promise.allSettled([
+    const results = await Promise.allSettled([
       page.waitForURL((url) => !urlsEqual(url.toString(), previousUrl), { timeout: 8000 }),
       page.waitForLoadState('networkidle', { timeout: 8000 }),
       page.waitForFunction(
@@ -1619,6 +1763,14 @@ async function main() {
     await delay(1200);
     await dismissConsent();
     await delay(200);
+
+    const connectivityRejection = results.find(
+      (result) => result.status === 'rejected' && isConnectivityRetryError(result.reason)
+    );
+    if (connectivityRejection) {
+      throw new ConnectivityRetryError('Network did not settle because the internet connection was interrupted.', connectivityRejection.reason);
+    }
+    throwIfConnectivityFailed('Network wait');
   }
 
   async function readRuntimeDetails() {
@@ -1769,7 +1921,7 @@ async function main() {
 
     page.on('console', debugListener);
     try {
-      await page.goto(debugUrl, { waitUntil: 'domcontentloaded' });
+      await gotoWithConnectivityRetry(debugUrl, { waitUntil: 'domcontentloaded' });
       await ensureFilterUiReady();
       pluginDebugRaw.runtime = await readRuntimeDetails();
       await delay(1200);
@@ -1779,7 +1931,7 @@ async function main() {
   }
 
   async function navigateTo(url) {
-    await page.goto(url, { waitUntil: 'domcontentloaded' });
+    await gotoWithConnectivityRetry(url, { waitUntil: 'domcontentloaded' });
     await ensureFilterUiReady();
   }
 
@@ -1986,7 +2138,7 @@ async function main() {
   }
 
   async function fetchStoreCatalog() {
-    return page.evaluate(async () => {
+    const result = await page.evaluate(async () => {
       const endpoint = new URL('/wp-json/wc/store/v1/products?per_page=50', window.location.origin);
 
       try {
@@ -2019,6 +2171,12 @@ async function main() {
         };
       }
     });
+
+    if (result?.error && isConnectivityErrorText(result.error)) {
+      throw new ConnectivityRetryError(`Store catalog request failed because the internet connection was interrupted: ${result.error}`);
+    }
+
+    return result;
   }
 
   async function expandGroupsForDiscovery() {
@@ -4103,7 +4261,7 @@ async function main() {
     const stateAfterApply = await readCaseState(testCase);
     const applyNetworkActivity = applyInfo.networkActivity || [];
 
-    await page.reload({ waitUntil: 'domcontentloaded' });
+    await reloadWithConnectivityRetry();
     await ensureFilterUiReady();
     const reloadUrl = page.url();
     const summaryAfterReload = await captureResultSummary();
@@ -4606,7 +4764,7 @@ async function main() {
     const observedApplyEffect = semanticUrlChanged || summaryChangedAfterApply || applyNetworkActivity.length > 0;
     const applyStateOk = evaluateCaseState(testCase, stateAfterApply, selectedExpectedState, baselineState);
 
-    await page.reload({ waitUntil: 'domcontentloaded' });
+    await reloadWithConnectivityRetry();
     await ensureFilterUiReady();
     const reloadUrl = page.url();
     const summaryAfterReload = await captureResultSummary();
@@ -4625,7 +4783,7 @@ async function main() {
     const clearSummaryOk = !summariesDiffer(summaryAfterClearApply, baselineSummary, { includeTitles: false });
     const clearUrlOk = urlsEqual(clearUrl, baselineUrl, compareOptions);
 
-    await page.reload({ waitUntil: 'domcontentloaded' });
+    await reloadWithConnectivityRetry();
     await ensureFilterUiReady();
     const clearReloadUrl = page.url();
     const summaryAfterClearReload = await captureResultSummary();
@@ -4643,7 +4801,7 @@ async function main() {
     let preparedResetUrl = null;
 
     if (canReuseFilteredUrlForReset) {
-      await page.goto(applyUrl, { waitUntil: 'domcontentloaded' });
+      await gotoWithConnectivityRetry(applyUrl, { waitUntil: 'domcontentloaded' });
       await ensureFilterUiReady();
       resetPreparationMode = 'goto-filtered-url';
       preparedResetUrl = page.url();
@@ -4834,7 +4992,7 @@ async function main() {
     let stateAfterReload = null;
     let reloadStateOk = null;
     if (scenario.includes('reload')) {
-      await page.reload({ waitUntil: 'domcontentloaded' });
+      await reloadWithConnectivityRetry();
       await ensureFilterUiReady();
       reloadUrl = page.url();
       summaryAfterReload = await captureResultSummary();
@@ -5000,7 +5158,7 @@ async function main() {
       stateAfterApply[testCase.id] = await readCaseState(testCase);
     }
 
-    await page.reload({ waitUntil: 'domcontentloaded' });
+    await reloadWithConnectivityRetry();
     await ensureFilterUiReady();
     const reloadUrl = page.url();
     const summaryAfterReload = await captureResultSummary();
@@ -5596,7 +5754,7 @@ async function main() {
     const stateAfterSort = await readSortingState(pluginDebug);
     const sortingNetworkActivity = getNetworkActivitySince(networkCursor);
 
-    await page.reload({ waitUntil: 'domcontentloaded' });
+    await reloadWithConnectivityRetry();
     await ensureFilterUiReady();
     const reloadUrl = page.url();
     const summaryAfterReload = await captureResultSummary();
@@ -5699,7 +5857,7 @@ async function main() {
     const stateAfterPagination = await readPaginationState(pluginDebug);
     const paginationNetworkActivity = getNetworkActivitySince(networkCursor);
 
-    await page.reload({ waitUntil: 'domcontentloaded' });
+    await reloadWithConnectivityRetry();
     await ensureFilterUiReady();
     const reloadUrl = page.url();
     const summaryAfterReload = await captureResultSummary();
@@ -5893,11 +6051,11 @@ async function main() {
 
   try {
     progress.info(`Starting ${config.deviceMode} QC on ${config.baseUrl}`);
-    await inspectPluginSettings();
+    await runWithConnectivityRetry('Inspect plugin debug settings', inspectPluginSettings);
     const pluginDebug = summarizePluginDebug();
     applyPluginRuntimeOverrides(pluginDebug);
 
-    await navigateToBase();
+    await runWithConnectivityRetry('Open base page for discovery', navigateToBase);
     const startedAt = new Date().toISOString();
     const baselineSummary = await captureResultSummary();
     await expandGroupsForDiscovery();
@@ -5912,7 +6070,7 @@ async function main() {
     }
 
     if (config.runMode === 'url-auto') {
-      const storeCatalog = await fetchStoreCatalog();
+      const storeCatalog = await runWithConnectivityRetry('Fetch store catalog', fetchStoreCatalog);
       generatedConfig = buildAutoDiscoveryConfig(config, metadata, storeCatalog, baselineSummary);
       config = mergeConfig(config, generatedConfig);
       config.deviceMode = devicePreset.name;
@@ -5961,7 +6119,7 @@ async function main() {
     for (const plan of actionPlans) {
       progress.step(plan.label);
       try {
-        const result = await plan.run();
+        const result = await runWithConnectivityRetry(plan.label, plan.run);
         actionTests.push(result);
         logIssueFound(result);
       } catch (error) {
@@ -5974,14 +6132,15 @@ async function main() {
     for (const plan of fieldScenarioPlans) {
       progress.step(`Fieldset: ${plan.title}`);
       try {
-        let result;
-        if (plan.kind === 'capability') {
-          result = await executeFieldCapabilityScenario(plan);
-        } else if (plan.scenario === 'roundtrip') {
-          result = await executeCondensedFieldStateScenario(plan, pluginDebug);
-        } else {
-          result = await executeFieldStateScenario(plan, pluginDebug);
-        }
+        const result = await runWithConnectivityRetry(`Fieldset: ${plan.title}`, async () => {
+          if (plan.kind === 'capability') {
+            return executeFieldCapabilityScenario(plan);
+          }
+          if (plan.scenario === 'roundtrip') {
+            return executeCondensedFieldStateScenario(plan, pluginDebug);
+          }
+          return executeFieldStateScenario(plan, pluginDebug);
+        });
         filterTests.push(result);
         logIssueFound(result);
       } catch (error) {
@@ -5994,7 +6153,7 @@ async function main() {
     for (const plan of comboScenarioPlans) {
       progress.step(`Combo: ${plan.title}`);
       try {
-        const result = await executeCombinationScenario(plan, pluginDebug);
+        const result = await runWithConnectivityRetry(`Combo: ${plan.title}`, () => executeCombinationScenario(plan, pluginDebug));
         filterTests.push(result);
         logIssueFound(result);
       } catch (error) {
