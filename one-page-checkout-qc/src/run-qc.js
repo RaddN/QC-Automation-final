@@ -74,7 +74,8 @@ function buildDefaultConfig() {
       checkoutForm: 'form.checkout, .woocommerce-checkout, .wc-block-checkout',
       archiveVariations: '.archive-variations-container',
       archiveQuantity: '.rmenu-archive-quantity, .rmenupro-archive-quantity',
-      trustBadges: '.onepaqucpro-trust-badges, .trust-badges, .trust-badge-wrapper, .trust-badges-wrapper',
+      trustBadges:
+        '.onepaquc-trust-badges, .onepaquc-trust-badges-block-hook, .custom-trust-badges, .onepaqucpro-trust-badges, .trust-badges, .trust-badge-wrapper, .trust-badges-wrapper',
     },
     consentButtonNames: ['Accept All', 'Accept'],
     noisePatterns: [
