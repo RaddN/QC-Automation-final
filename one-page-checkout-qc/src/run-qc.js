@@ -1497,6 +1497,7 @@ async function main() {
         addToCartButtons,
         directCheckoutCount: visibleCount(selectors.directCheckout),
         directCheckoutButtons,
+        archiveVariableDirectCheckoutCount: directCheckoutButtons.filter((button) => button.productType === 'variable').length,
         quickViewButtonCount: visibleCount(selectors.quickViewButton),
         quickViewButtons,
         quickViewModalCount: count(selectors.quickViewModal),
@@ -1517,6 +1518,7 @@ async function main() {
         forceLoginPromptCount: visibleCount('.woocommerce-form-login, .woocommerce-info .showlogin, .onepaqucpro-force-login, .onepaqucpro-login-required'),
         checkoutFields,
         archiveVariationsCount: visibleCount(selectors.archiveVariations),
+        archiveVariationPopupDataCount: count('.onepaqucpro-variation-popup-data[data-popup-info]'),
         archiveQuantityCount: visibleCount(selectors.archiveQuantity),
         variationFormCount: count('form.variations_form'),
         variationSelectCount: count('form.variations_form select'),
@@ -2189,17 +2191,21 @@ async function main() {
     const text = issues.join(' ').toLowerCase();
     const targets = [];
 
-    if (/quick view|modal/.test(text)) {
+    if (/quick view/.test(text)) {
       targets.push(
         { selectors: config.selectors.quickViewModal, label: 'Quick View Modal', tone: 'filter' },
         { selectors: config.selectors.quickViewButton, label: 'Quick View Button', tone: 'context' }
       );
     }
 
-    if (/archive variation|variation control/.test(text)) {
+    if (/archive variation|archive variable|variation control|variation modal|variation selection modal/.test(text)) {
       targets.push(
         { selectors: '[data-onepaquc-qc-archive-variation-control="1"]', label: 'Clicked Variation Option', tone: 'filter' },
+        { selectors: '[data-onepaquc-qc-archive-modal-control="1"]', label: 'Modal Variation Option', tone: 'filter' },
+        { selectors: '[data-onepaquc-qc-archive-variable-direct-target="1"]', label: 'Archive Variable Buy Now', tone: 'filter' },
+        { selectors: '[data-onepaquc-qc-archive-variable-product="1"]', label: 'Archive Variable Product', tone: 'context' },
         { selectors: '[data-onepaquc-qc-archive-variation-container="1"]', label: 'Archive Variation Area', tone: 'context' },
+        { selectors: '.onepaqucpro-variation-modal', label: 'Archive Variation Modal', tone: 'result' },
         { selectors: '.archive-variations-container .variation-button, .archive-variations-container .var-attr-option', label: 'Archive Variation Option', tone: 'filter' }
       );
     } else if (/variation/.test(text)) {
@@ -3171,6 +3177,285 @@ async function main() {
     };
   }
 
+  async function markArchiveVariableDirectCheckoutCandidate(options = {}) {
+    return page.evaluate(
+      ({ selector, requireArchiveControls, preferUnselected }) => {
+        const buttonMarker = 'data-onepaquc-qc-archive-variable-direct-target';
+        const productMarker = 'data-onepaquc-qc-archive-variable-product';
+
+        document.querySelectorAll(`[${buttonMarker}], [${productMarker}]`).forEach((node) => {
+          node.removeAttribute(buttonMarker);
+          node.removeAttribute(productMarker);
+        });
+
+        const isVisible = (node) => {
+          if (!node) return false;
+          const style = window.getComputedStyle(node);
+          const rect = node.getBoundingClientRect();
+          return (
+            style.display !== 'none' &&
+            style.visibility !== 'hidden' &&
+            style.opacity !== '0' &&
+            rect.width >= 8 &&
+            rect.height >= 8 &&
+            rect.bottom > 0 &&
+            rect.right > 0 &&
+            rect.top < window.innerHeight * 1.8
+          );
+        };
+
+        const productTypeFor = (node) => {
+          const productNode = node.closest('.product, li.product, .wc-block-grid__product');
+          const classText = productNode?.className || '';
+          const classMatch = classText.match(/product[_-]type[_-]([a-z0-9_-]+)/i);
+          return (
+            node.getAttribute('data-product-type') ||
+            node.getAttribute('data-product_type') ||
+            (classMatch ? classMatch[1] : '') ||
+            ''
+          );
+        };
+
+        const readVariationState = (productNode) => {
+          const container = productNode?.querySelector('.archive-variations-container') || null;
+          const selectedControls = Array.from(container?.querySelectorAll('.variation-button.selected, .var-attr-option.selected') || []);
+          return {
+            archiveControlsCount: Array.from(
+              productNode?.querySelectorAll('.archive-variations-container .variation-button, .archive-variations-container .var-attr-option') || []
+            ).filter(isVisible).length,
+            selectedCount: selectedControls.length,
+            requiredAttributeCount: productNode?.querySelectorAll('.archive-variations-container .var-attr-group').length || 0,
+            variationId:
+              container?.querySelector('input.variation_id, input[name="variation_id"], .variation_id')?.value ||
+              productNode?.querySelector('input.variation_id, input[name="variation_id"], .variation_id')?.value ||
+              '',
+          };
+        };
+
+        const candidates = Array.from(document.querySelectorAll(selector))
+          .filter((node) => {
+            return (
+              isVisible(node) &&
+              !node.disabled &&
+              node.getAttribute('aria-disabled') !== 'true' &&
+              !node.classList.contains('disabled') &&
+              productTypeFor(node) === 'variable'
+            );
+          })
+          .map((node) => {
+            const productNode = node.closest('.product, li.product, .wc-block-grid__product');
+            const variationState = readVariationState(productNode);
+            return {
+              node,
+              productNode,
+              variationState,
+              hasPopupData: Boolean(productNode?.querySelector('.onepaqucpro-variation-popup-data[data-popup-info], .rmenupro-product-data[data-product-info]')),
+              productId: node.getAttribute('data-product-id') || node.getAttribute('data-product_id') || '',
+              productTitle: productNode?.querySelector('.woocommerce-loop-product__title, h2, h3, .product_title')?.textContent?.trim() || '',
+            };
+          })
+          .filter((candidate) => candidate.productNode && (!requireArchiveControls || candidate.variationState.archiveControlsCount > 0));
+
+        if (!candidates.length) {
+          return null;
+        }
+
+        candidates.sort((left, right) => {
+          if (preferUnselected) {
+            const leftSelected = left.variationState.variationId || left.variationState.selectedCount > 0 ? 1 : 0;
+            const rightSelected = right.variationState.variationId || right.variationState.selectedCount > 0 ? 1 : 0;
+            if (leftSelected !== rightSelected) return leftSelected - rightSelected;
+          }
+
+          if (left.hasPopupData !== right.hasPopupData) {
+            return left.hasPopupData ? -1 : 1;
+          }
+
+          return right.variationState.archiveControlsCount - left.variationState.archiveControlsCount;
+        });
+
+        const picked = candidates[0];
+        picked.node.setAttribute(buttonMarker, '1');
+        picked.productNode.setAttribute(productMarker, '1');
+
+        return {
+          text: picked.node.textContent.trim().replace(/\s+/g, ' '),
+          productId: picked.productId,
+          productType: 'variable',
+          classes: picked.node.className || '',
+          href: picked.node.getAttribute('href') || '',
+          productTitle: picked.productTitle,
+          hasPopupData: picked.hasPopupData,
+          ...picked.variationState,
+        };
+      },
+      {
+        selector: config.selectors.directCheckout,
+        requireArchiveControls: Boolean(options.requireArchiveControls),
+        preferUnselected: Boolean(options.preferUnselected),
+      }
+    );
+  }
+
+  async function readArchiveVariationScopeState(scopeSelector) {
+    return page.evaluate((selector) => {
+      const isVisible = (node) => {
+        if (!node) return false;
+        const style = window.getComputedStyle(node);
+        return (
+          style.display !== 'none' &&
+          style.visibility !== 'hidden' &&
+          style.opacity !== '0' &&
+          (node.offsetWidth > 0 || node.offsetHeight > 0 || node.getClientRects().length > 0)
+        );
+      };
+
+      const scope = document.querySelector(selector);
+      const container = scope?.matches('.archive-variations-container')
+        ? scope
+        : scope?.querySelector('.archive-variations-container');
+      const selectedControls = Array.from(container?.querySelectorAll('.variation-button.selected, .var-attr-option.selected') || []);
+      const modal = document.querySelector('.onepaqucpro-variation-modal');
+      const feedback = modal?.querySelector('.onepaqucpro-variation-modal__feedback');
+      const buyAction = modal?.querySelector('.onepaqucpro-variation-modal__action--buy');
+      const cartAction = modal?.querySelector('.onepaqucpro-variation-modal__action--cart');
+
+      return {
+        scopeFound: Boolean(scope),
+        containerFound: Boolean(container),
+        modalOpen: Boolean(modal && isVisible(modal)),
+        controlCount: Array.from(container?.querySelectorAll('.variation-button, .var-attr-option') || []).filter(isVisible).length,
+        selectedCount: selectedControls.length,
+        selectedText: selectedControls.map((node) => node.textContent.trim().replace(/\s+/g, ' ')).filter(Boolean),
+        requiredAttributeCount: container?.querySelectorAll('.var-attr-group').length || 0,
+        variationId:
+          container?.querySelector('input.variation_id, input[name="variation_id"], .variation_id')?.value ||
+          scope?.querySelector('input.variation_id, input[name="variation_id"], .variation_id')?.value ||
+          '',
+        feedbackText: feedback?.textContent?.trim().replace(/\s+/g, ' ') || '',
+        buyActionVisible: Boolean(buyAction && isVisible(buyAction)),
+        cartActionVisible: Boolean(cartAction && isVisible(cartAction)),
+      };
+    }, scopeSelector);
+  }
+
+  async function selectFirstArchiveVariationOptions(scopeSelector, markerAttr) {
+    const marked = await page.evaluate(
+      ({ selector, markerAttr }) => {
+        document.querySelectorAll(`[${markerAttr}]`).forEach((node) => node.removeAttribute(markerAttr));
+
+        const isVisible = (node) => {
+          if (!node) return false;
+          const style = window.getComputedStyle(node);
+          return (
+            style.display !== 'none' &&
+            style.visibility !== 'hidden' &&
+            style.opacity !== '0' &&
+            (node.offsetWidth > 0 || node.offsetHeight > 0 || node.getClientRects().length > 0)
+          );
+        };
+
+        const parseJson = (node) => {
+          if (!node || !node.textContent) return null;
+          try {
+            return JSON.parse(node.textContent);
+          } catch {
+            return null;
+          }
+        };
+
+        const normalizeAttrs = (attrs) => {
+          const normalized = {};
+          for (const [key, value] of Object.entries(attrs || {})) {
+            if (value !== undefined && value !== null && value !== '') {
+              normalized[String(key).replace(/^attribute_/, '')] = String(value);
+            }
+          }
+          return normalized;
+        };
+
+        const scope = document.querySelector(selector);
+        const container = scope?.matches('.archive-variations-container')
+          ? scope
+          : scope?.querySelector('.archive-variations-container');
+
+        if (!scope || !container) {
+          return {
+            scopeFound: Boolean(scope),
+            containerFound: Boolean(container),
+            markedCount: 0,
+            strategy: 'none',
+          };
+        }
+
+        const variationMap = parseJson(container.querySelector('script.var-map'));
+        const desiredAttrs = Array.isArray(variationMap) && variationMap[0]
+          ? normalizeAttrs(variationMap[0].attrs || variationMap[0].attributes || {})
+          : {};
+        const pickedControls = [];
+        const groups = Array.from(container.querySelectorAll('.var-attr-group'));
+
+        if (groups.length) {
+          for (const group of groups) {
+            const attrName =
+              group.getAttribute('data-attr') ||
+              group.getAttribute('data-attribute') ||
+              group.querySelector('.var-attr-option')?.getAttribute('data-attr') ||
+              '';
+            const controls = Array.from(group.querySelectorAll('.var-attr-option, .variation-button')).filter((control) => {
+              return isVisible(control) && !control.disabled && !control.classList.contains('disabled');
+            });
+            const desiredValue = desiredAttrs[String(attrName).replace(/^attribute_/, '')] || '';
+            const picked =
+              controls.find((control) => desiredValue && String(control.getAttribute('data-value') || control.getAttribute('data-id') || '') === desiredValue) ||
+              controls.find((control) => !control.classList.contains('selected')) ||
+              controls[0];
+
+            if (picked) {
+              pickedControls.push(picked);
+            }
+          }
+        } else {
+          const control = Array.from(container.querySelectorAll('.variation-button, .var-attr-option')).find((node) => {
+            return isVisible(node) && !node.disabled && !node.classList.contains('disabled');
+          });
+
+          if (control) {
+            pickedControls.push(control);
+          }
+        }
+
+        pickedControls.forEach((control) => control.setAttribute(markerAttr, '1'));
+
+        return {
+          scopeFound: true,
+          containerFound: true,
+          markedCount: pickedControls.length,
+          strategy: groups.length ? 'attribute-groups' : 'single-control',
+          desiredAttrs,
+          controlText: pickedControls.map((node) => node.textContent.trim().replace(/\s+/g, ' ')).filter(Boolean),
+        };
+      },
+      { selector: scopeSelector, markerAttr }
+    );
+
+    const controls = page.locator(`[${markerAttr}="1"]`);
+    const count = await controls.count();
+    for (let index = 0; index < count; index += 1) {
+      await controls.nth(index).scrollIntoViewIfNeeded().catch(() => null);
+      await controls.nth(index).click({ force: true });
+      await delay(350);
+    }
+
+    await delay(800);
+
+    return {
+      ...marked,
+      clickedCount: count,
+      state: await readArchiveVariationScopeState(scopeSelector),
+    };
+  }
+
   async function markDirectCheckoutCandidate(target) {
     return page.evaluate(
       ({ selector, targetKind }) => {
@@ -3591,6 +3876,323 @@ async function main() {
       issues,
       details,
       screenshot: await screenshotForIssues(id, 'Direct checkout behavior', issues),
+    });
+  }
+
+  async function testArchiveVariableDirectCheckoutFlow(target, featureFlags, flow) {
+    const isPreselectedFlow = flow === 'preselected';
+    const title = isPreselectedFlow
+      ? 'Archive variable direct checkout with selected variation'
+      : 'Archive variable direct checkout variation modal';
+    const id = `interaction-archive-variable-direct-${flow}-${target.key}`;
+    const issues = [];
+    const details = {
+      flow,
+      expectedOutcome: featureFlags.directCheckoutOutcome,
+      method: featureFlags.checkoutMethod,
+      confirmationExpected: featureFlags.directCheckoutConfirmation,
+      clearCartExpected: featureFlags.directCheckoutClearCart,
+    };
+    const beforeMessages = messages.length;
+    const startUrl = page.url();
+    let dialogHandler = null;
+
+    if (!config.scenarioSettings.allowCartMutations) {
+      return makeResult({
+        id,
+        title,
+        target,
+        skipped: true,
+        reason: 'Cart-changing archive variable direct checkout checks are disabled by config.',
+      });
+    }
+
+    try {
+      const currentRuntime = await readRuntime();
+      details.checkoutUrl = currentRuntime.cartParams.checkoutUrl || '';
+      details.cartUrl = currentRuntime.cartParams.cartUrl || '';
+      details.stateBeforePreparation = await readDirectCheckoutState();
+
+      await closeTransientUiBeforeDirectCheckout();
+
+      const candidate = await markArchiveVariableDirectCheckoutCandidate({
+        requireArchiveControls: isPreselectedFlow,
+        preferUnselected: !isPreselectedFlow,
+      });
+      details.button = candidate;
+
+      if (!candidate) {
+        return makeResult({
+          id,
+          title,
+          target,
+          skipped: true,
+          reason: isPreselectedFlow
+            ? 'No variable direct checkout button with visible archive variation controls was available.'
+            : 'No visible variable direct checkout button was available on the archive.',
+          details,
+        });
+      }
+
+      if (isPreselectedFlow) {
+        details.preselection = await selectFirstArchiveVariationOptions(
+          '[data-onepaquc-qc-archive-variable-product="1"]',
+          'data-onepaquc-qc-archive-preselect-control'
+        );
+
+        if (!details.preselection.clickedCount) {
+          issues.push('Archive variable direct checkout could not preselect an archive variation before Buy Now.');
+        }
+
+        if (!details.preselection.state.variationId && details.preselection.state.requiredAttributeCount > details.preselection.state.selectedCount) {
+          issues.push('Archive variation preselection did not produce a complete selected variation before Buy Now.');
+        }
+      } else {
+        details.beforeUnselectedClick = await readArchiveVariationScopeState('[data-onepaquc-qc-archive-variable-product="1"]');
+      }
+
+      await page.evaluate(() => {
+        window.__onepaqucQcDirectEvents = [];
+        if (window.jQuery) {
+          window.jQuery(document.body)
+            .off('added_to_cart.onepaqucQcArchiveVariable')
+            .on('added_to_cart.onepaqucQcArchiveVariable', function (_event, fragments, cartHash) {
+              window.__onepaqucQcDirectEvents.push({
+                type: 'added_to_cart',
+                cartHash: cartHash || '',
+                fragmentKeys: fragments ? Object.keys(fragments) : [],
+                timestamp: Date.now(),
+              });
+            });
+        }
+      });
+
+      const dialogMessages = [];
+      dialogHandler = async (dialog) => {
+        dialogMessages.push({
+          type: dialog.type(),
+          message: dialog.message(),
+        });
+        await dialog.accept();
+      };
+      page.on('dialog', dialogHandler);
+
+      const ajaxRequestPromise = page
+        .waitForRequest((request) => isAdminAjaxActionRequest(request, 'onepaqucpro_ajax_add_to_cart'), { timeout: 18000 })
+        .catch(() => null);
+
+      const ajaxAddPromise = page
+        .waitForResponse(
+          (response) => isAdminAjaxActionRequest(response.request(), 'onepaqucpro_ajax_add_to_cart'),
+          { timeout: 18000 }
+        )
+        .catch(() => null);
+
+      const clearCartRequestPromise = page
+        .waitForRequest((request) => isAdminAjaxActionRequest(request, 'woocommerce_clear_cart'), { timeout: 18000 })
+        .catch(() => null);
+
+      const clearCartPromise = page
+        .waitForResponse(
+          (response) => isAdminAjaxActionRequest(response.request(), 'woocommerce_clear_cart'),
+          { timeout: 18000 }
+        )
+        .catch(() => null);
+
+      const navigationPromise = page
+        .waitForURL((url) => normalizeComparableUrl(url.toString()) !== normalizeComparableUrl(startUrl), { timeout: 18000 })
+        .catch(() => null);
+
+      const expectedOutcome = featureFlags.directCheckoutOutcome;
+      const expectsAjax = ['popup_checkout', 'side_cart', 'ajax_add'].includes(expectedOutcome);
+      const expectsRedirect = ['checkout_redirect', 'cart_redirect'].includes(expectedOutcome);
+      const directTarget = page.locator('[data-onepaquc-qc-archive-variable-direct-target="1"]').first();
+      await directTarget.scrollIntoViewIfNeeded().catch(() => null);
+      await directTarget.click({ force: true });
+      await delay(700);
+
+      if (isPreselectedFlow) {
+        const modalAfterPreselectedClick = expectsRedirect
+          ? { skipped: true, reason: 'Redirect outcome may navigate before modal state can be read.' }
+          : await readArchiveVariationScopeState('.onepaqucpro-variation-modal');
+        details.modalAfterPreselectedClick = modalAfterPreselectedClick;
+
+        if (modalAfterPreselectedClick.modalOpen) {
+          issues.push('Archive variable Buy Now still opened the variation modal after a valid archive variation selection.');
+          details.modalSelectionAfterPreselection = await selectFirstArchiveVariationOptions(
+            '.onepaqucpro-variation-modal',
+            'data-onepaquc-qc-archive-modal-control'
+          );
+
+          if (details.modalSelectionAfterPreselection.state.variationId) {
+            await page.locator('.onepaqucpro-variation-modal__action--buy').first().click({ force: true });
+          }
+        }
+      } else {
+        const modalAppeared = await page
+          .locator('.onepaqucpro-variation-modal')
+          .first()
+          .isVisible({ timeout: 5000 })
+          .catch(() => false);
+        details.modalAfterUnselectedClick = await readArchiveVariationScopeState('.onepaqucpro-variation-modal');
+
+        if (!modalAppeared) {
+          issues.push('Variable archive Buy Now did not open the variation selection modal when no archive variation was selected.');
+        } else {
+          details.modalSelection = await selectFirstArchiveVariationOptions(
+            '.onepaqucpro-variation-modal',
+            'data-onepaquc-qc-archive-modal-control'
+          );
+
+          if (!details.modalSelection.clickedCount) {
+            issues.push('The archive variable variation modal opened, but no selectable variation option was found.');
+          }
+
+          if (!details.modalSelection.state.variationId && details.modalSelection.state.requiredAttributeCount > details.modalSelection.state.selectedCount) {
+            issues.push('Selecting options in the archive variation modal did not produce a complete selected variation.');
+          }
+
+          if (details.modalSelection.state.variationId || details.modalSelection.state.selectedCount > 0) {
+            await page.locator('.onepaqucpro-variation-modal__action--buy').first().click({ force: true });
+          }
+        }
+      }
+
+      const [ajaxRequest, ajaxResponse] = expectsAjax
+        ? await Promise.all([ajaxRequestPromise, ajaxAddPromise])
+        : await Promise.all([
+            Promise.race([ajaxRequestPromise, delay(1200).then(() => null)]),
+            Promise.race([ajaxAddPromise, delay(1200).then(() => null)]),
+          ]);
+      const [clearCartRequest, clearCartResponse] = featureFlags.directCheckoutClearCart
+        ? await Promise.all([clearCartRequestPromise, clearCartPromise])
+        : await Promise.all([
+            Promise.race([clearCartRequestPromise, delay(500).then(() => null)]),
+            Promise.race([clearCartPromise, delay(500).then(() => null)]),
+          ]);
+
+      if (expectsRedirect) {
+        await navigationPromise;
+      } else {
+        await page.waitForLoadState('networkidle', { timeout: 10000 }).catch(() => null);
+      }
+
+      await delay(1800);
+      if (dialogHandler) {
+        page.off('dialog', dialogHandler);
+        dialogHandler = null;
+      }
+
+      let ajaxPayload = null;
+      if (ajaxResponse) {
+        try {
+          ajaxPayload = await ajaxResponse.json();
+        } catch {
+          ajaxPayload = null;
+        }
+      }
+
+      const finalState = await readDirectCheckoutState();
+      const ajaxPostData = ajaxRequest ? ajaxRequest.postData() || '' : '';
+      details.dialogMessages = dialogMessages;
+      details.ajaxRequestSeen = Boolean(ajaxRequest);
+      details.ajaxRequestPostData = ajaxPostData.slice(0, 600);
+      details.ajaxStatus = ajaxResponse ? ajaxResponse.status() : null;
+      details.ajaxPayload = ajaxPayload;
+      details.clearCartRequestSeen = Boolean(clearCartRequest);
+      details.clearCartStatus = clearCartResponse ? clearCartResponse.status() : null;
+      details.finalState = finalState;
+
+      if (featureFlags.directCheckoutConfirmation && dialogMessages.length === 0) {
+        issues.push('Archive variable direct checkout confirmation is enabled, but no confirmation dialog appeared.');
+      }
+
+      if (!featureFlags.directCheckoutConfirmation && dialogMessages.some((dialog) => dialog.type === 'confirm')) {
+        issues.push('A direct checkout confirmation dialog appeared even though confirmation is disabled.');
+      }
+
+      if (featureFlags.directCheckoutClearCart && !clearCartRequest && !clearCartResponse) {
+        issues.push('Clear-cart is enabled, but no clear-cart AJAX request was observed for archive variable direct checkout.');
+      } else if (featureFlags.directCheckoutClearCart && clearCartRequest && !clearCartResponse) {
+        issues.push('Clear-cart AJAX request was sent, but no response was observed for archive variable direct checkout.');
+      }
+
+      if (expectsAjax) {
+        if (!ajaxRequest && !ajaxResponse) {
+          issues.push('Archive variable direct checkout should use AJAX for this method, but no add-to-cart AJAX request was observed.');
+        } else if (ajaxRequest && !ajaxResponse) {
+          issues.push('Archive variable direct checkout AJAX request was sent, but no response was observed.');
+        } else if (ajaxResponse.status() >= 400) {
+          issues.push(`Archive variable direct checkout AJAX request returned HTTP ${ajaxResponse.status()}.`);
+        } else if (ajaxPayload && ajaxPayload.success !== true) {
+          issues.push(`Archive variable direct checkout AJAX response was not successful: ${ajaxPayload.message || 'unknown error'}.`);
+        }
+
+        if (ajaxPostData && !/(^|&)variation_id=[1-9]\d*/.test(ajaxPostData)) {
+          issues.push('Archive variable direct checkout AJAX request did not include a selected variation_id.');
+        }
+      }
+
+      if (expectsRedirect && finalState.url.includes('onepaqucpro_add-to-cart') && !finalState.url.includes('onepaqucpro_variation_id=')) {
+        issues.push('Archive variable direct checkout redirect did not include a selected variation_id.');
+      }
+
+      const expectedProductName = ajaxPayload?.product_name || candidate.productTitle || '';
+      if (
+        expectedProductName &&
+        (finalState.popupVisible || finalState.inlineCheckoutVisible || expectedOutcome === 'ajax_add') &&
+        finalState.checkoutProductNames.length > 0 &&
+        !listIncludesProductName(finalState.checkoutProductNames, expectedProductName)
+      ) {
+        issues.push(`Archive variable direct checkout added "${expectedProductName}", but that product was not found in the visible checkout/order summary.`);
+      }
+
+      if (expectedOutcome === 'checkout_redirect') {
+        const checkoutUrl = details.checkoutUrl || '';
+        if (checkoutUrl && !normalizeComparableUrl(finalState.url).startsWith(normalizeComparableUrl(checkoutUrl))) {
+          issues.push('Archive variable direct checkout method is Redirect to Checkout, but the browser did not land on the checkout URL.');
+        }
+      } else if (expectedOutcome === 'cart_redirect') {
+        const cartUrl = details.cartUrl || '';
+        if (cartUrl && !normalizeComparableUrl(finalState.url).startsWith(normalizeComparableUrl(cartUrl))) {
+          issues.push('Archive variable direct checkout method is Redirect to Cart Page, but the browser did not land on the cart URL.');
+        }
+      } else if (expectedOutcome === 'popup_checkout') {
+        if (!finalState.popupVisible && !finalState.inlineCheckoutVisible) {
+          issues.push('Archive variable direct checkout method is Popup Checkout, but neither the popup nor an inline one-page checkout became visible.');
+        }
+        if (finalState.popupVisible && !finalState.popupHasCheckout) {
+          issues.push('Archive variable Popup Checkout opened, but no checkout form or iframe was detected inside it.');
+        }
+      } else if (expectedOutcome === 'side_cart') {
+        if (!finalState.cartDrawerOpen) {
+          issues.push('Archive variable direct checkout method is Side Cart, but the cart drawer did not open.');
+        }
+      } else if (expectedOutcome === 'ajax_add') {
+        if (!ajaxPayload?.success && !(finalState.addedEvents || []).length && !finalState.notices.length) {
+          issues.push('Archive variable AJAX Add to Cart did not produce a successful response, added-to-cart event, or visible notice.');
+        }
+      }
+    } catch (error) {
+      issues.push(error.message);
+    } finally {
+      if (dialogHandler) {
+        page.off('dialog', dialogHandler);
+      }
+    }
+
+    const relevantMessages = filterRelevantMessages(messages.slice(beforeMessages));
+    if (relevantMessages.length) {
+      issues.push(`Browser errors occurred during archive variable direct checkout: ${relevantMessages[0].text || relevantMessages[0].url}`);
+    }
+
+    return makeResult({
+      id,
+      title,
+      target,
+      issues,
+      details,
+      screenshot: await screenshotForIssues(id, title, issues),
     });
   }
 
@@ -5015,11 +5617,50 @@ async function main() {
             if (!result.passed && !result.skipped) console.log(`[issue found] ${result.title}: ${result.issues[0]}`);
           }
 
+          const maxDirectCheckoutInteractions = Number(config.scenarioSettings.maxDirectCheckoutInteractions) || 8;
+          const shouldRunArchiveVariableDirectCheckout =
+            featureFlags.directCheckout &&
+            target.kind === 'archive' &&
+            facts.variableProductCards > 0 &&
+            facts.archiveVariableDirectCheckoutCount > 0 &&
+            (featureFlags.directCheckoutAllowedTypes || []).includes('variable') &&
+            isDirectCheckoutExpectedOnTarget(target, featureFlags) &&
+            directCheckoutInteractionRuns < maxDirectCheckoutInteractions &&
+            (!config.scenarioSettings.directCheckoutRequiredOnly || target.required);
+
+          if (shouldRunArchiveVariableDirectCheckout) {
+            if (facts.archiveVariationsCount > 0 && directCheckoutInteractionRuns < maxDirectCheckoutInteractions) {
+              if (needsReloadBeforeDirectCheckout) {
+                await gotoPage(target.url);
+                needsReloadBeforeDirectCheckout = false;
+              }
+
+              directCheckoutInteractionRuns += 1;
+              const result = await testArchiveVariableDirectCheckoutFlow(target, featureFlags, 'preselected');
+              tests.push(result);
+              needsReloadBeforeDirectCheckout = !result.skipped;
+              if (!result.passed && !result.skipped) console.log(`[issue found] ${result.title}: ${result.issues[0]}`);
+            }
+
+            if (directCheckoutInteractionRuns < maxDirectCheckoutInteractions) {
+              if (needsReloadBeforeDirectCheckout) {
+                await gotoPage(target.url);
+                needsReloadBeforeDirectCheckout = false;
+              }
+
+              directCheckoutInteractionRuns += 1;
+              const result = await testArchiveVariableDirectCheckoutFlow(target, featureFlags, 'modalFallback');
+              tests.push(result);
+              needsReloadBeforeDirectCheckout = !result.skipped;
+              if (!result.passed && !result.skipped) console.log(`[issue found] ${result.title}: ${result.issues[0]}`);
+            }
+          }
+
           const shouldRunDirectCheckout =
             featureFlags.directCheckout &&
             facts.directCheckoutCount > 0 &&
             isDirectCheckoutExpectedOnTarget(target, featureFlags) &&
-            directCheckoutInteractionRuns < (Number(config.scenarioSettings.maxDirectCheckoutInteractions) || 8) &&
+            directCheckoutInteractionRuns < maxDirectCheckoutInteractions &&
             (!config.scenarioSettings.directCheckoutRequiredOnly || target.required);
 
           if (shouldRunDirectCheckout) {
