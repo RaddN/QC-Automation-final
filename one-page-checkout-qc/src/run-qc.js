@@ -92,12 +92,12 @@ function buildDefaultConfig() {
     scenarioSettings: {
       includeInteractions: true,
       allowCartMutations: true,
-      includeAddToCartInteractions: false,
+      includeAddToCartInteractions: true,
       includeFloatingCartWorkflow: true,
       includeFloatingCartCheckout: true,
-      directCheckoutRequiredOnly: true,
+      directCheckoutRequiredOnly: false,
       strictRequiredTargets: false,
-      maxDirectCheckoutInteractions: 8,
+      maxDirectCheckoutInteractions: 16,
       maxTargets: 80,
     },
     testData: {
@@ -180,6 +180,94 @@ function sanitizeId(value) {
     .slice(0, 90);
 }
 
+function toReportPath(value) {
+  return String(value || '').split(path.sep).join('/');
+}
+
+function normalizeIssueReason(value) {
+  const normalized = String(value || '').replace(/\s+/g, ' ').trim();
+  return normalized || 'Unknown issue';
+}
+
+function primaryIssueReason(issues = []) {
+  if (Array.isArray(issues)) {
+    return normalizeIssueReason(issues.find(Boolean));
+  }
+
+  return normalizeIssueReason(issues);
+}
+
+function shortHash(value) {
+  let hash = 5381;
+  const text = normalizeIssueReason(value);
+
+  for (let index = 0; index < text.length; index += 1) {
+    hash = (Math.imul(hash, 33) ^ text.charCodeAt(index)) >>> 0;
+  }
+
+  return hash.toString(36).padStart(6, '0').slice(-6);
+}
+
+function compactSlug(value, maxLength, fallback = 'unknown') {
+  return sanitizeId(value).slice(0, maxLength).replace(/-+$/g, '') || fallback;
+}
+
+function issueReasonFolderName(reason) {
+  const slug = compactSlug(reason, 40, 'unknown-issue');
+  return `${slug}-${shortHash(reason)}`;
+}
+
+function screenshotFileName(id) {
+  return `fail-${compactSlug(id, 36)}-${shortHash(id)}.png`;
+}
+
+function screenshotFolderFromReportPath(screenshotPath) {
+  const normalized = toReportPath(screenshotPath);
+  const parts = normalized.split('/').filter(Boolean);
+  if (parts.length <= 1) {
+    return '';
+  }
+
+  return parts.slice(0, -1).join('/');
+}
+
+function buildIssueScreenshotGroups(tests = []) {
+  const groups = new Map();
+
+  for (const test of tests) {
+    if (!test || test.passed || test.skipped || !test.screenshot) {
+      continue;
+    }
+
+    const reason = primaryIssueReason(test.issues);
+    const folder = screenshotFolderFromReportPath(test.screenshot);
+    const key = `${reason}::${folder}`;
+
+    if (!groups.has(key)) {
+      groups.set(key, {
+        reason,
+        folder,
+        screenshots: [],
+      });
+    }
+
+    groups.get(key).screenshots.push({
+      testId: test.id,
+      title: test.title,
+      target: test.target ? { label: test.target.label, url: test.target.url } : null,
+      screenshot: test.screenshot,
+    });
+  }
+
+  return Array.from(groups.values()).sort((a, b) => {
+    if (b.screenshots.length !== a.screenshots.length) {
+      return b.screenshots.length - a.screenshots.length;
+    }
+
+    return a.reason.localeCompare(b.reason);
+  });
+}
+
 function hasValue(value) {
   return !(value === null || value === undefined || String(value).trim() === '');
 }
@@ -214,9 +302,26 @@ function settingArray(value, fallback = []) {
   return fallback;
 }
 
+function parseJsonSetting(value, fallback = {}) {
+  if (value && typeof value === 'object') {
+    return value;
+  }
+
+  if (!hasValue(value)) {
+    return fallback;
+  }
+
+  try {
+    const parsed = JSON.parse(String(value));
+    return parsed && typeof parsed === 'object' ? parsed : fallback;
+  } catch {
+    return fallback;
+  }
+}
+
 function getDirectCheckoutPageKey(target) {
   if (!target) return '';
-  if (target.kind === 'simpleProduct' || target.kind === 'variableProduct') return 'single';
+  if (['simpleProduct', 'variableProduct', 'externalProduct', 'groupedProduct', 'onePageCheckoutProduct'].includes(target.kind)) return 'single';
   if (target.role === 'shop') return 'shop-page';
   if (target.role === 'parentCategory' || target.role === 'childCategory' || target.taxonomy === 'product_cat') {
     return 'category-archives';
@@ -230,12 +335,15 @@ function getDirectCheckoutProductTypeKey(target) {
   if (!target) return '';
   if (target.kind === 'simpleProduct') return 'simple';
   if (target.kind === 'variableProduct') return 'variable';
+  if (target.kind === 'externalProduct') return 'external';
+  if (target.kind === 'groupedProduct') return 'grouped';
+  if (target.kind === 'onePageCheckoutProduct') return target.productType || '';
   return '';
 }
 
 function getQuickViewPageKey(target) {
   if (!target) return '';
-  if (target.kind === 'simpleProduct' || target.kind === 'variableProduct') return 'single-product';
+  if (['simpleProduct', 'variableProduct', 'externalProduct', 'groupedProduct', 'onePageCheckoutProduct'].includes(target.kind)) return 'single-product';
   if (target.role === 'shop') return 'shop-page';
   if (target.role === 'parentCategory' || target.role === 'childCategory' || target.taxonomy === 'product_cat') {
     return 'category-archives';
@@ -540,15 +648,34 @@ function buildTargets(debugData, config) {
     });
   };
 
+  const productTargetKinds = ['simpleProduct', 'variableProduct', 'externalProduct', 'groupedProduct', 'onePageCheckoutProduct'];
+  const pageTargetKinds = {
+    cart: 'cart',
+    checkout: 'checkout',
+  };
+
   for (const [key, page] of Object.entries(debugData?.requiredPages || {})) {
     pushTarget({
       key,
       role: key,
-      kind: ['simpleProduct', 'variableProduct'].includes(key) ? key : 'archive',
+      kind: productTargetKinds.includes(key) ? key : pageTargetKinds[key] || 'archive',
       label: page.label || key,
       selectedItem: extractPageName(page),
+      productType: page.product?.type || '',
       url: extractPageUrl(page),
       required: true,
+    });
+  }
+
+  for (const [index, page] of (debugData?.onePageCheckoutPages || []).entries()) {
+    pushTarget({
+      key: `onePageCheckout-${page.id || index + 1}`,
+      role: 'onePageCheckout',
+      kind: 'onePageCheckout',
+      label: `One page checkout page: ${page.name || page.label || index + 1}`,
+      selectedItem: page.name || page.label || '',
+      url: extractPageUrl(page),
+      required: false,
     });
   }
 
@@ -587,6 +714,7 @@ function buildTargets(debugData, config) {
 
 function deriveFeatureFlags(runtime) {
   const settings = runtime?.settings || {};
+  const checkoutFieldConfig = parseJsonSetting(settings.checkout_form_setup, {});
   const directCheckoutBehave = runtime?.cartParams?.directCheckoutBehave || {};
   const directCheckoutMethod =
     directCheckoutBehave.rmenupro_wc_checkout_method ||
@@ -597,6 +725,16 @@ function deriveFeatureFlags(runtime) {
   return {
     directCheckout: parseBoolean(settings.rmenupro_add_direct_checkout_button, true),
     ajaxAddToCart: parseBoolean(settings.rmenupro_enable_ajax_add_to_cart, false),
+    customAddToCart: parseBoolean(settings.rmenupro_enable_custom_add_to_cart, false),
+    addToCartText: settings['txt-add-to-cart'] || 'Add to cart',
+    groupedAddToCartText: settings.rmenupro_grouped_add_to_cart_text || 'View products',
+    addToCartDefaultQty: Number(settings.rmenupro_add_to_cart_default_qty || 1) || 1,
+    addToCartCatalogDisplay: settings.rmenupro_add_to_cart_catalog_display || 'default',
+    addToCartRedirectAfterAdd: settings.rmenupro_redirect_after_add || (parseBoolean(runtime?.addToCartParams?.redirect, false) ? 'configured' : 'none'),
+    addToCartNotificationStyle: runtime?.addToCartParams?.notificationStyle || settings.rmenupro_add_to_cart_notification_style || 'default',
+    addToCartSuccessMessage: runtime?.addToCartParams?.i18n?.success || settings.rmenupro_add_to_cart_success_message || '{product} has been added to your cart.',
+    addToCartShowViewCartLink: parseBoolean(settings.rmenupro_show_view_cart_link, true),
+    addToCartShowCheckoutLink: parseBoolean(settings.rmenupro_show_checkout_link, false),
     quickView: parseBoolean(settings.rmenupro_enable_quick_view, false),
     quickViewButtonText: settings.rmenupro_quick_view_button_text || '',
     quickViewDisplayType: settings.rmenupro_quick_view_display_type || runtime?.quickViewParams?.displayType || 'icon',
@@ -633,10 +771,19 @@ function deriveFeatureFlags(runtime) {
     archiveVariation: parseBoolean(settings.rmenupro_variation_show_archive, true),
     onePageCheckoutAll: parseBoolean(settings.onepaqucpro_checkout_enable_all, false),
     onePageCheckoutEnabled: parseBoolean(settings.onepaqucpro_checkout_enable, true),
+    atLeastOneProductCart: parseBoolean(settings.rmenupro_at_one_product_cart, false),
+    disableCartPage: parseBoolean(settings.rmenupro_disable_cart_page, false),
     cartDrawerSticky: parseBoolean(settings.rmenu_enable_sticky_cart, false),
     mobileStickyAddToCart: parseBoolean(settings.rmenupro_sticky_add_to_cart_mobile, false),
     trustBadges: parseBoolean(settings.onepaqucpro_trust_badges_enabled, false),
+    trustBadgePosition: settings.onepaqucpro_trust_badge_position || 'below_checkout',
+    trustBadgeStyle: settings.onepaqucpro_trust_badge_style || 'horizontal',
     forceLogin: parseBoolean(settings.rmenupro_force_login, false),
+    checkoutQuantityControl: parseBoolean(runtime?.cartParams?.blocksQuantityControl ?? settings.rmenupro_quantity_control, true),
+    checkoutRemoveProduct: parseBoolean(runtime?.cartParams?.blocksRemoveProduct ?? settings.rmenupro_remove_product, true),
+    checkoutLinkProduct: parseBoolean(runtime?.cartParams?.blocksLinkProduct ?? settings.rmenupro_link_product, false),
+    checkoutFieldConfig,
+    checkoutRequiredDisabledFields: settingArray(settings.onepaqucpro_checkout_fields, []),
     checkoutMethod: directCheckoutMethod,
     directCheckoutOutcome: getExpectedDirectCheckoutOutcome(directCheckoutMethod),
     directCheckoutClearCart: parseBoolean(
@@ -683,6 +830,12 @@ function deriveFeatureFlags(runtime) {
       'widgets',
       'shortcodes',
     ]),
+    quickViewText: {
+      close: runtime?.quickViewParams?.i18n?.close || settings.rmenupro_quick_view_close_text || 'Close',
+      prev: runtime?.quickViewParams?.i18n?.prev || settings.rmenupro_quick_view_prev_text || 'Previous Product',
+      next: runtime?.quickViewParams?.i18n?.next || settings.rmenupro_quick_view_next_text || 'Next Product',
+      viewDetails: runtime?.quickViewParams?.i18n?.view_details || settings.rmenupro_quick_view_details_text || 'View Full Details',
+    },
   };
 }
 
@@ -690,6 +843,16 @@ function summarizeSettings(runtime) {
   const settings = runtime?.settings || {};
   const keys = [
     'rmenupro_add_direct_checkout_button',
+    'rmenupro_enable_custom_add_to_cart',
+    'txt-add-to-cart',
+    'rmenupro_grouped_add_to_cart_text',
+    'rmenupro_add_to_cart_catalog_display',
+    'rmenupro_add_to_cart_default_qty',
+    'rmenupro_redirect_after_add',
+    'rmenupro_add_to_cart_notification_style',
+    'rmenupro_add_to_cart_success_message',
+    'rmenupro_show_view_cart_link',
+    'rmenupro_show_checkout_link',
     'rmenupro_wc_checkout_method',
     'rmenupro_enable_ajax_add_to_cart',
     'rmenupro_wc_clear_cart',
@@ -716,11 +879,20 @@ function summarizeSettings(runtime) {
     'onepaqucpro_checkout_enable',
     'onepaqucpro_checkout_enable_all',
     'onepaqucpro_checkout_layout',
+    'rmenupro_at_one_product_cart',
+    'rmenupro_disable_cart_page',
+    'rmenupro_quantity_control',
+    'rmenupro_remove_product',
+    'rmenupro_link_product',
+    'rmenupro_cart_checkout_variation_switch',
+    'onepaqucpro_checkout_fields',
+    'checkout_form_setup',
     'rmenu_enable_sticky_cart',
     'rmenupro_sticky_add_to_cart_mobile',
     'rmenupro_force_login',
     'onepaqucpro_trust_badges_enabled',
     'onepaqucpro_trust_badge_position',
+    'onepaqucpro_trust_badge_style',
     'your_cart',
     'txt_subtotal',
     'txt_total',
@@ -797,6 +969,14 @@ function buildMarkdownReport(report) {
   if (report.discovery.missingRequiredPages.length && !report.discovery.strictRequiredTargets) {
     lines.push('- Missing catalog targets are informational because strict required targets are disabled.');
   }
+  if (report.targets.length) {
+    lines.push('');
+    lines.push('### Target URLs');
+    lines.push('');
+    for (const target of report.targets) {
+      lines.push(`- ${target.label}: ${target.url}`);
+    }
+  }
   lines.push('');
 
   lines.push('## Feature Flags');
@@ -819,6 +999,16 @@ function buildMarkdownReport(report) {
     if (test.screenshot) {
       lines.push('');
       lines.push(`Screenshot: ${test.screenshot}`);
+    }
+    lines.push('');
+  }
+
+  if ((report.issueScreenshotGroups || []).length) {
+    lines.push('## Screenshot Folders By Issue Reason');
+    lines.push('');
+    for (const group of report.issueScreenshotGroups) {
+      const count = group.screenshots.length;
+      lines.push(`- ${group.reason} (${count} ${count === 1 ? 'screenshot' : 'screenshots'}): ${group.folder}`);
     }
     lines.push('');
   }
@@ -935,6 +1125,11 @@ async function main() {
   });
 
   const delay = (ms) => page.waitForTimeout(ms);
+  const checkoutEnhancementSelectors = {
+    quantityControls:
+      '.checkout-quantity-control, .checkout-qty-input, .checkout-qty-btn, .onepaquc-blocks-qty, .onepaquc-blocks-qty-input, .onepaquc-blocks-qty-minus, .onepaquc-blocks-qty-plus, .wc-block-components-quantity-selector',
+    removeControls: '.remove-item-checkout, .onepaquc-blocks-remove, .wc-block-cart-item__remove-link, .wc-block-components-product-metadata__remove',
+  };
 
   async function dismissConsent() {
     for (const label of config.consentButtonNames || []) {
@@ -1000,6 +1195,7 @@ async function main() {
 
       const cartParams = window.onepaqucpro_wc_cart_params || {};
       const quickViewParams = window.rmenupro_quick_view_params || {};
+      const addToCartParams = window.rmenupro_ajax_object || {};
       const rmsgValue = window.onepaqucpro_rmsgValue || {};
 
       return {
@@ -1013,6 +1209,18 @@ async function main() {
         checkoutUrl: rmsgValue.checkout_url || cartParams.checkout_url || null,
         ajaxUrl: rmsgValue.ajax_url || cartParams.ajax_url || null,
         currencySymbol: rmsgValue.currency_symbol || null,
+        addToCartParams: {
+          ajaxUrl: addToCartParams.ajax_url || null,
+          nonce: addToCartParams.nonce || null,
+          redirect: addToCartParams.redirect ?? null,
+          redirectUrl: addToCartParams.redirect_url || null,
+          animation: addToCartParams.animation || null,
+          notificationStyle: addToCartParams.notification_style || null,
+          notificationDuration: addToCartParams.notification_duration || null,
+          toastPosition: addToCartParams.toast_position || null,
+          toastSize: addToCartParams.toast_size || null,
+          i18n: addToCartParams.i18n || {},
+        },
         cartParams: {
           ajaxUrl: cartParams.ajax_url || null,
           nonce: cartParams.nonce || null,
@@ -1029,6 +1237,7 @@ async function main() {
           premiumFeature: cartParams.premium_feature ?? null,
           blocksQuantityControl: cartParams.blocks_quantity_control ?? null,
           blocksRemoveProduct: cartParams.blocks_remove_product ?? null,
+          blocksLinkProduct: cartParams.blocks_link_product ?? null,
           variationSwitchEnabled: cartParams.variation_switch_enabled ?? null,
           directCheckoutBehave: cartParams.direct_checkout_behave || {},
         },
@@ -1039,13 +1248,14 @@ async function main() {
           closeOnAdd: quickViewParams.close_on_add ?? null,
           mobileOptimize: quickViewParams.mobile_optimize ?? null,
           elementsInPopup: quickViewParams.elements_in_popup || [],
+          i18n: quickViewParams.i18n || {},
         },
       };
     });
   }
 
   async function readPageFacts() {
-    return page.evaluate((selectors) => {
+    return page.evaluate(({ selectors, checkoutEnhancementSelectors }) => {
       const safeQueryAll = (selector) => {
         if (!selector) return [];
         try {
@@ -1122,6 +1332,22 @@ async function main() {
         );
       }).length;
 
+      const externalProductCards = productNodes.filter((node) => {
+        const classText = node.className || '';
+        return (
+          /product[_-]type[_-](external|affiliate)/i.test(classText) ||
+          Boolean(node.querySelector('.product_type_external, [data-product_type="external"], [data-product-type="external"]'))
+        );
+      }).length;
+
+      const groupedProductCards = productNodes.filter((node) => {
+        const classText = node.className || '';
+        return (
+          /product[_-]type[_-]grouped/i.test(classText) ||
+          Boolean(node.querySelector('.product_type_grouped, [data-product_type="grouped"], [data-product-type="grouped"]'))
+        );
+      }).length;
+
       const missingProductImages = productNodes
         .flatMap((node) => Array.from(node.querySelectorAll('img')))
         .filter((img) => !img.complete || img.naturalWidth === 0)
@@ -1134,7 +1360,7 @@ async function main() {
       const directCheckoutButtons = directCheckoutNodes.slice(0, 12).map((node) => {
         const productNode = node.closest('.product, li.product, .wc-block-grid__product');
         const productIndex = productNode ? productNodes.indexOf(productNode) : -1;
-        const classText = productNode?.className || '';
+        const classText = `${productNode?.className || ''} ${document.body?.className || ''} ${node.className || ''}`;
         let inferredProductType = node.getAttribute('data-product-type') || node.getAttribute('data-product_type') || '';
         if (!inferredProductType) {
           const classMatch = classText.match(/product[_-]type[_-]([a-z0-9_-]+)/i);
@@ -1161,7 +1387,7 @@ async function main() {
       const quickViewButtons = quickViewNodes.slice(0, 12).map((node) => {
         const productNode = node.closest('.product, li.product, .wc-block-grid__product');
         const productIndex = productNode ? productNodes.indexOf(productNode) : -1;
-        const classText = productNode?.className || '';
+        const classText = `${productNode?.className || ''} ${document.body?.className || ''} ${node.className || ''}`;
         const classMatch = classText.match(/product[_-]type[_-]([a-z0-9_-]+)/i);
 
         return {
@@ -1175,16 +1401,69 @@ async function main() {
         };
       });
 
+      const addToCartButtons = normalAddToCartNodes.slice(0, 16).map((node) => {
+        const productNode = node.closest('.product, li.product, .wc-block-grid__product');
+        const productIndex = productNode ? productNodes.indexOf(productNode) : -1;
+        const classText = `${productNode?.className || ''} ${document.body?.className || ''} ${node.className || ''}`;
+        const classMatch = classText.match(/product[_-]type[_-]([a-z0-9_-]+)/i);
+        const productType =
+          node.getAttribute('data-product-type') ||
+          node.getAttribute('data-product_type') ||
+          node.getAttribute('data-product_type') ||
+          (classMatch ? classMatch[1] : '') ||
+          (node.classList.contains('product_type_external') ? 'external' : '') ||
+          (node.classList.contains('product_type_grouped') ? 'grouped' : '') ||
+          (node.classList.contains('product_type_variable') ? 'variable' : '') ||
+          (node.classList.contains('product_type_simple') ? 'simple' : '');
+
+        return {
+          text: node.textContent.trim().replace(/\s+/g, ' '),
+          productId: node.getAttribute('data-product-id') || node.getAttribute('data-product_id') || node.value || '',
+          productType,
+          href: node.getAttribute('href') || node.closest('form')?.getAttribute('action') || '',
+          classes: node.className || '',
+          disabled: Boolean(node.disabled || node.getAttribute('aria-disabled') === 'true' || node.classList.contains('disabled')),
+          productIndex,
+          inProductLoop: Boolean(productNode),
+          inSingleSummary: Boolean(node.closest('.summary, .entry-summary, form.cart')),
+        };
+      });
+
+      const checkoutFieldNodes = safeQueryAll(selectors.checkoutForm)
+        .flatMap((form) => Array.from(form.querySelectorAll('input, select, textarea')))
+        .filter((node) => node.type !== 'hidden' && node.name);
+      const checkoutFields = checkoutFieldNodes.map((node) => {
+        const wrapper = node.closest('.form-row, .wc-block-components-text-input, .wc-block-components-address-form__address_1, p, label');
+        const labelNode =
+          (node.id && document.querySelector(`label[for="${CSS.escape(node.id)}"]`)) ||
+          wrapper?.querySelector('label') ||
+          null;
+        return {
+          name: node.name || '',
+          id: node.id || '',
+          type: node.type || node.tagName.toLowerCase(),
+          label: labelNode?.textContent?.trim().replace(/\s+/g, ' ') || '',
+          placeholder: node.getAttribute('placeholder') || '',
+          required: Boolean(node.required || node.getAttribute('aria-required') === 'true' || wrapper?.classList.contains('validate-required')),
+          visible: isVisible(node) || Boolean(wrapper && isVisible(wrapper)),
+          value: node.value || '',
+        };
+      });
+
       return {
         title: document.title,
         h1: text('h1'),
         bodyClasses: document.body ? document.body.className : '',
+        bodyLoggedIn: Boolean(document.body?.classList.contains('logged-in')),
         productCount: productNodes.length,
         visibleProductCount: productNodes.filter(isVisible).length,
         variableProductCards,
         simpleProductCards,
+        externalProductCards,
+        groupedProductCards,
         addToCartCount: visibleCount(selectors.addToCart),
         normalAddToCartCount: normalAddToCartNodes.length,
+        addToCartButtons,
         directCheckoutCount: visibleCount(selectors.directCheckout),
         directCheckoutButtons,
         quickViewButtonCount: visibleCount(selectors.quickViewButton),
@@ -1196,6 +1475,16 @@ async function main() {
         cartDrawerOpen: safeQueryAll(selectors.cartDrawer).some((node) => node.classList.contains('open') || isVisible(node)),
         onePageCheckoutCount: visibleCount(selectors.onePageCheckout),
         checkoutFormCount: visibleCount(selectors.checkoutForm),
+        cartFormCount: visibleCount('.woocommerce-cart-form, .wc-block-cart, .wp-block-woocommerce-cart'),
+        cartEmptyCount: visibleCount('.cart-empty, .wc-block-cart__empty-cart__title'),
+        checkoutCartItemCount: visibleCount('.woocommerce-checkout-review-order-table .cart_item, .wc-block-components-order-summary-item, .wc-block-cart-items__row'),
+        popupCheckoutVisible: safeQueryAll('.checkout-popup').some((node) => !node.classList.contains('onepagecheckoutwidget') && isVisible(node)),
+        checkoutQuantityControlCount: visibleCount(checkoutEnhancementSelectors.quantityControls),
+        checkoutRemoveButtonCount: visibleCount(checkoutEnhancementSelectors.removeControls),
+        checkoutVariationEditorCount: visibleCount('.onepaqucpro-cart-variation-editor'),
+        checkoutProductNameLinkCount: visibleCount('.woocommerce-checkout-review-order-table .product-name a, .wc-block-components-product-name a, .wc-block-components-order-summary-item__description a'),
+        forceLoginPromptCount: visibleCount('.woocommerce-form-login, .woocommerce-info .showlogin, .onepaqucpro-force-login, .onepaqucpro-login-required'),
+        checkoutFields,
         archiveVariationsCount: visibleCount(selectors.archiveVariations),
         archiveQuantityCount: visibleCount(selectors.archiveQuantity),
         variationFormCount: count('form.variations_form'),
@@ -1215,10 +1504,189 @@ async function main() {
           )
         ),
       };
-    }, config.selectors);
+    }, { selectors: config.selectors, checkoutEnhancementSelectors });
   }
 
-  function buildPageIssues({ target, response, facts, runtime, flags, relevantMessages }) {
+  async function waitForCheckoutEnhancements() {
+    await page
+      .waitForFunction(
+        ({ quantityControls, removeControls }) => {
+          const itemCount = document.querySelectorAll(
+            '.woocommerce-checkout-review-order-table .cart_item, .wc-block-components-order-summary-item, .wc-block-cart-items__row'
+          ).length;
+
+          if (!itemCount) {
+            return true;
+          }
+
+          const isEnabled = (value, defaultValue) => {
+            if (value === undefined || value === null || value === '') {
+              return defaultValue;
+            }
+
+            const normalized = String(value).trim().toLowerCase();
+            if (['1', 'true', 'yes', 'on', 'enabled'].includes(normalized)) return true;
+            if (['0', 'false', 'no', 'off', 'disabled'].includes(normalized)) return false;
+            return defaultValue;
+          };
+          const params = window.onepaqucpro_wc_cart_params || {};
+          const wantsQuantity = isEnabled(params.blocks_quantity_control, true);
+          const wantsRemove = isEnabled(params.blocks_remove_product, true);
+
+          return (
+            (!wantsQuantity || Boolean(document.querySelector(quantityControls))) &&
+            (!wantsRemove || Boolean(document.querySelector(removeControls)))
+          );
+        },
+        checkoutEnhancementSelectors,
+        { timeout: 3500 }
+      )
+      .catch(() => null);
+  }
+
+  function checkoutFieldConfigMap() {
+    return {
+      'first-name': 'billing_first_name',
+      'last-name': 'billing_last_name',
+      email: 'billing_email',
+      phone: 'billing_phone',
+      country: 'billing_country',
+      address: 'billing_address_1',
+      address2: 'billing_address_2',
+      city: 'billing_city',
+      state: 'billing_state',
+      postcode: 'billing_postcode',
+      company: 'billing_company',
+      'shipping-first-name': 'shipping_first_name',
+      'shipping-last-name': 'shipping_last_name',
+      'shipping-country': 'shipping_country',
+      'shipping-address': 'shipping_address_1',
+      'shipping-address2': 'shipping_address_2',
+      'shipping-city': 'shipping_city',
+      'shipping-state': 'shipping_state',
+      'shipping-postcode': 'shipping_postcode',
+      'shipping-company': 'shipping_company',
+      'order-notes': 'order_comments',
+    };
+  }
+
+  function buildCheckoutFieldIssues(facts, flags) {
+    const issues = [];
+    const config = flags.checkoutFieldConfig || {};
+    const fields = facts.checkoutFields || [];
+    const fieldByName = new Map(fields.map((field) => [field.name, field]));
+    const mapping = checkoutFieldConfigMap();
+
+    for (const [configKey, fieldName] of Object.entries(mapping)) {
+      const fieldConfig = config[configKey];
+      if (!fieldConfig || typeof fieldConfig !== 'object') {
+        continue;
+      }
+
+      const field = fieldByName.get(fieldName);
+      const visibleExpected = fieldConfig.visible === undefined ? true : parseBoolean(fieldConfig.visible, true);
+
+      if (!visibleExpected) {
+        if (field?.visible) {
+          issues.push(`Checkout field ${fieldName} is configured hidden, but it is visible.`);
+        }
+        continue;
+      }
+
+      if (!field) {
+        issues.push(`Checkout field ${fieldName} is configured visible, but it was not rendered.`);
+        continue;
+      }
+
+      if (hasValue(fieldConfig.label) && field.visible && !uiTextEquals(field.label.replace('*', ''), fieldConfig.label)) {
+        issues.push(`Checkout field ${fieldName} label mismatch. Expected "${fieldConfig.label}", found "${field.label}".`);
+      }
+
+      if (hasValue(fieldConfig.placeholder) && field.visible && normalizeUiText(field.placeholder) !== normalizeUiText(fieldConfig.placeholder)) {
+        issues.push(`Checkout field ${fieldName} placeholder mismatch. Expected "${fieldConfig.placeholder}", found "${field.placeholder}".`);
+      }
+
+      if (fieldConfig.required !== undefined) {
+        const requiredExpected = parseBoolean(fieldConfig.required, false);
+        if (field.visible && field.required !== requiredExpected) {
+          issues.push(`Checkout field ${fieldName} required state mismatch. Expected ${requiredExpected ? 'required' : 'optional'}.`);
+        }
+      }
+    }
+
+    for (const disabledKey of flags.checkoutRequiredDisabledFields || []) {
+      const matchingField = fields.find((field) => field.name.includes(disabledKey));
+      if (matchingField?.visible && matchingField.required) {
+        issues.push(`Checkout field ${matchingField.name} should not be required because ${disabledKey} is disabled in onepaqucpro_checkout_fields.`);
+      }
+    }
+
+    return issues;
+  }
+
+  function buildCheckoutSurfaceIssues({ target, facts, flags, preparation = {} }) {
+    const issues = [];
+    const hasCheckoutSurface = facts.checkoutFormCount > 0 || facts.onePageCheckoutCount > 0 || facts.popupCheckoutVisible;
+    const productPageKinds = ['simpleProduct', 'variableProduct', 'externalProduct', 'groupedProduct', 'onePageCheckoutProduct'];
+    const expectsCheckoutSurface =
+      ['checkout', 'onePageCheckout'].includes(target.kind) ||
+      (target.kind === 'onePageCheckoutProduct' && flags.onePageCheckoutEnabled) ||
+      (productPageKinds.includes(target.kind) && flags.onePageCheckoutEnabled && flags.onePageCheckoutAll);
+
+    if (expectsCheckoutSurface && !hasCheckoutSurface && !flags.forceLogin) {
+      issues.push('This page should render a one-page checkout/checkout form, but no checkout surface was visible.');
+    }
+
+    if (!hasCheckoutSurface) {
+      return issues;
+    }
+
+    if (flags.forceLogin && !facts.bodyLoggedIn && facts.forceLoginPromptCount === 0 && facts.checkoutFormCount > 0) {
+      issues.push('Force Login Before Checkout is enabled, but the checkout form is visible without a login prompt.');
+    }
+
+    const hasCheckoutItems = facts.checkoutCartItemCount > 0;
+
+    if (hasCheckoutItems && flags.checkoutQuantityControl && facts.checkoutQuantityControlCount === 0) {
+      issues.push('Product Quantity Controller is enabled, but no checkout quantity controls were rendered.');
+    }
+
+    if (!flags.checkoutQuantityControl && facts.checkoutQuantityControlCount > 0) {
+      issues.push('Product Quantity Controller is disabled, but checkout quantity controls are visible.');
+    }
+
+    if (hasCheckoutItems && flags.checkoutRemoveProduct && facts.checkoutRemoveButtonCount === 0) {
+      issues.push('Remove Product Button is enabled, but no checkout remove buttons were rendered.');
+    }
+
+    if (!flags.checkoutRemoveProduct && facts.checkoutRemoveButtonCount > 0) {
+      issues.push('Remove Product Button is disabled, but checkout remove buttons are visible.');
+    }
+
+    if (hasCheckoutItems && flags.checkoutLinkProduct && facts.checkoutProductNameLinkCount === 0) {
+      issues.push('Link Product Name in Checkout Page is enabled, but checkout product names are not links.');
+    }
+
+    if (!flags.checkoutLinkProduct && facts.checkoutProductNameLinkCount > 0) {
+      issues.push('Link Product Name in Checkout Page is disabled, but checkout product names are links.');
+    }
+
+    if (preparation.variableSeeded || facts.checkoutVariationEditorCount > 0) {
+      if (flags.floatingCartVariationSwitch && facts.checkoutVariationEditorCount === 0) {
+        issues.push('Variation Switcher in Cart & Checkout is enabled, but no checkout variation switcher was rendered for the variable cart item.');
+      }
+
+      if (!flags.floatingCartVariationSwitch && facts.checkoutVariationEditorCount > 0) {
+        issues.push('Variation Switcher in Cart & Checkout is disabled, but a checkout variation switcher is visible.');
+      }
+    }
+
+    issues.push(...buildCheckoutFieldIssues(facts, flags));
+
+    return issues;
+  }
+
+  function buildPageIssues({ target, response, facts, runtime, flags, relevantMessages, finalUrl, preparation = {} }) {
     const issues = [];
     const status = response ? response.status() : 0;
     const expectsDirectCheckout = isDirectCheckoutExpectedOnTarget(target, flags);
@@ -1242,6 +1710,22 @@ async function main() {
       issues.push('Plugincy checkout frontend runtime was not detected on this page.');
     }
 
+    if (target.kind === 'cart' && flags.disableCartPage) {
+      const checkoutUrl = runtime.cartParams.checkoutUrl || runtime.checkoutUrl || '';
+      const currentUrl = finalUrl || '';
+      if (checkoutUrl && !normalizeComparableUrl(currentUrl).startsWith(normalizeComparableUrl(checkoutUrl))) {
+        issues.push('Disable Cart Page is enabled, but the cart page did not redirect to checkout.');
+      }
+    }
+
+    if (target.kind === 'cart' && !flags.disableCartPage && facts.cartFormCount === 0 && facts.cartEmptyCount === 0) {
+      issues.push('Cart page is enabled, but no cart form or empty-cart state was visible.');
+    }
+
+    if (flags.atLeastOneProductCart && ['cart', 'checkout', 'onePageCheckout'].includes(target.kind) && facts.cartEmptyCount > 0) {
+      issues.push('At Least One Product in Cart is enabled, but this cart/checkout surface is empty.');
+    }
+
     if (!flags.cartDrawerSticky && facts.cartButtonCount > 0) {
       issues.push('Floating cart is disabled in settings, but a floating cart button is visible.');
     }
@@ -1252,6 +1736,27 @@ async function main() {
 
     if (!flags.directCheckout && facts.directCheckoutCount > 0) {
       issues.push('Direct checkout is disabled in settings, but direct checkout buttons are visible.');
+    }
+
+    if (flags.customAddToCart && target.kind === 'archive' && flags.addToCartCatalogDisplay === 'hide' && facts.normalAddToCartCount > 0) {
+      issues.push('Custom Add to Cart catalog display is set to hide, but normal add-to-cart buttons are visible.');
+    }
+
+    if (flags.customAddToCart && facts.normalAddToCartCount > 0) {
+      const firstSimpleAdd = (facts.addToCartButtons || []).find((button) => button.productType === 'simple');
+      if (firstSimpleAdd && flags.addToCartText && firstSimpleAdd.text && !firstSimpleAdd.text.toLowerCase().includes(String(flags.addToCartText).toLowerCase())) {
+        issues.push(`Simple add-to-cart button text does not match the configured text "${flags.addToCartText}".`);
+      }
+
+      const firstGroupedAdd = (facts.addToCartButtons || []).find((button) => button.productType === 'grouped');
+      if (firstGroupedAdd && flags.groupedAddToCartText && firstGroupedAdd.text && !firstGroupedAdd.text.toLowerCase().includes(String(flags.groupedAddToCartText).toLowerCase())) {
+        issues.push(`Grouped product button text does not match the configured text "${flags.groupedAddToCartText}".`);
+      }
+
+      const externalButtons = (facts.addToCartButtons || []).filter((button) => button.productType === 'external');
+      if (externalButtons.some((button) => !button.href)) {
+        issues.push('External/Affiliate add-to-cart button is visible but has no external product link.');
+      }
     }
 
     if (flags.directCheckout && facts.directCheckoutCount > 0) {
@@ -1390,6 +1895,24 @@ async function main() {
         issues.push('Mobile sticky add-to-cart is enabled, but no mobile sticky cart was found on the variable product page.');
       }
     }
+
+    if (target.kind === 'externalProduct') {
+      const externalButton =
+        (facts.addToCartButtons || []).find((button) => button.productType === 'external') ||
+        (facts.addToCartButtons || []).find((button) => button.inSingleSummary) ||
+        null;
+      if (!externalButton && facts.outOfStockCount === 0) {
+        issues.push('External/Affiliate product page has no external product button.');
+      } else if (externalButton && !externalButton.href) {
+        issues.push('External/Affiliate product button has no target URL.');
+      }
+    }
+
+    if (target.kind === 'groupedProduct' && facts.addToCartCount === 0 && facts.outOfStockCount === 0) {
+      issues.push('Grouped product page has no visible grouped add-to-cart/view-products button.');
+    }
+
+    issues.push(...buildCheckoutSurfaceIssues({ target, facts, flags, preparation }));
 
     if (flags.trustBadges && facts.checkoutFormCount > 0 && facts.trustBadgeCount === 0) {
       issues.push('Trust badges are enabled and a checkout form is present, but no trust badge UI was found.');
@@ -1551,6 +2074,27 @@ async function main() {
       targets.push(
         { selectors: config.selectors.trustBadges, label: 'Trust Badge Area', tone: 'filter' },
         { selectors: config.selectors.checkoutForm, label: 'Checkout Form', tone: 'context' }
+      );
+    }
+
+    if (/checkout field|checkout form|force login/.test(text)) {
+      targets.push(
+        { selectors: config.selectors.checkoutForm, label: 'Checkout Form', tone: 'filter' },
+        { selectors: '.woocommerce-billing-fields, .woocommerce-shipping-fields, .woocommerce-additional-fields', label: 'Checkout Fields', tone: 'context' }
+      );
+    }
+
+    if (/add-to-cart|add to cart/.test(text)) {
+      targets.push(
+        { selectors: '.rmenupro-ajax-add-to-cart, .add_to_cart_button, .single_add_to_cart_button', label: 'Add to Cart Button', tone: 'filter' },
+        { selectors: '.rmenupro-popup-notification, .rmenupro-toast-notification, .woocommerce-message', label: 'Add to Cart Notice', tone: 'result' }
+      );
+    }
+
+    if (/external\/affiliate|grouped product|product type/.test(text)) {
+      targets.push(
+        { selectors: 'form.cart, form.grouped_form, .summary, .entry-summary', label: 'Product Button Area', tone: 'filter' },
+        { selectors: '.single_add_to_cart_button, .product_type_external', label: 'Product Type Button', tone: 'context' }
       );
     }
 
@@ -1769,9 +2313,30 @@ async function main() {
       .catch(() => null);
   }
 
+  async function prepareIssueScreenshotPath(id, issues = []) {
+    const reason = primaryIssueReason(issues);
+    const folderName = issueReasonFolderName(reason);
+    const relativeDir = toReportPath(path.join('issues', folderName));
+    const absoluteDir = path.join(outputDir, 'issues', folderName);
+    const fileName = screenshotFileName(id);
+
+    await fs.mkdir(absoluteDir, { recursive: true });
+    await fs
+      .writeFile(path.join(absoluteDir, 'issue.txt'), `${reason}\n`, { flag: 'wx' })
+      .catch((error) => {
+        if (error.code !== 'EEXIST') {
+          throw error;
+        }
+      });
+
+    return {
+      filePath: path.join(absoluteDir, fileName),
+      reportPath: `${relativeDir}/${fileName}`,
+    };
+  }
+
   async function captureFailureScreenshot(id, options = {}) {
-    const fileName = `fail-${sanitizeId(id)}.png`;
-    const filePath = path.join(outputDir, fileName);
+    const { filePath, reportPath } = await prepareIssueScreenshotPath(id, options.issues || []);
 
     try {
       const boxes = await collectFailureHighlightBoxes(options);
@@ -1782,10 +2347,10 @@ async function main() {
       } else {
         await page.screenshot({ path: filePath, fullPage: true, animations: 'disabled' });
       }
-      return fileName;
+      return reportPath;
     } catch {
       await page.screenshot({ path: filePath, fullPage: true }).catch(() => null);
-      return fileName;
+      return reportPath;
     } finally {
       await clearFailureScreenshotOverlay();
     }
@@ -1831,7 +2396,7 @@ async function main() {
         window.__onepaqucQcQuickViewEvents = [];
         if (window.jQuery) {
           window.jQuery(document.body)
-            .off('rmenupro_quick_view_opened.onepaqucQcQuickView rmenupro_quick_view_closed.onepaqucQcQuickView')
+            .off('rmenupro_quick_view_opened.onepaqucQcQuickView rmenupro_quick_view_closed.onepaqucQcQuickView added_to_cart.onepaqucQcQuickView')
             .on('rmenupro_quick_view_opened.onepaqucQcQuickView', function (_event, productId) {
               window.__onepaqucQcQuickViewEvents.push({
                 type: 'rmenupro_quick_view_opened',
@@ -1844,6 +2409,14 @@ async function main() {
                 type: 'rmenupro_quick_view_closed',
                 timestamp: Date.now(),
               });
+            })
+            .on('added_to_cart.onepaqucQcQuickView', function (_event, fragments, cartHash) {
+              window.__onepaqucQcQuickViewEvents.push({
+                type: 'added_to_cart',
+                cartHash: cartHash || '',
+                fragmentKeys: fragments ? Object.keys(fragments) : [],
+                timestamp: Date.now(),
+              });
             });
         }
       });
@@ -1854,6 +2427,16 @@ async function main() {
       const modalState = await page.evaluate((modalSelector) => {
         const modal = document.querySelector(modalSelector);
         if (!modal) return { exists: false, active: false, hasContent: false };
+        const isVisible = (node) => {
+          if (!node) return false;
+          const style = window.getComputedStyle(node);
+          return (
+            style.display !== 'none' &&
+            style.visibility !== 'hidden' &&
+            style.opacity !== '0' &&
+            (node.offsetWidth > 0 || node.offsetHeight > 0 || node.getClientRects().length > 0)
+          );
+        };
         const style = window.getComputedStyle(modal);
         const active =
           modal.classList.contains('active') &&
@@ -1861,16 +2444,63 @@ async function main() {
           style.visibility !== 'hidden' &&
           (modal.offsetWidth > 0 || modal.offsetHeight > 0 || modal.getClientRects().length > 0);
         const hasContent = Boolean(modal.querySelector('.rmenupro-quick-view-inner')?.textContent?.trim());
+        const closeButton = modal.querySelector('.rmenupro-quick-view-close');
+        const prevButton = modal.querySelector('.rmenupro-quick-view-prev');
+        const nextButton = modal.querySelector('.rmenupro-quick-view-next');
+        const detailsLink = modal.querySelector('.rmenupro-quick-view-details-button a');
+        const socialLinks = Array.from(modal.querySelectorAll('.rmenupro-quick-view-social-share a'));
+        const normalizeHtmlText = (html) => {
+          const wrapper = document.createElement('div');
+          wrapper.innerHTML = String(html || '');
+          return (wrapper.textContent || wrapper.innerText || '').replace(/\s+/g, ' ').trim();
+        };
+        const quickView = window.rmenuproQuickView || {};
+        const currentProductId = quickView.currentProductId ? String(quickView.currentProductId) : '';
+        let productData =
+          currentProductId && quickView.productsData && quickView.productsData[currentProductId]
+            ? quickView.productsData[currentProductId]
+            : null;
+
+        if (!productData) {
+          for (const dataNode of Array.from(document.querySelectorAll('.rmenupro-product-data[data-product-info]'))) {
+            try {
+              const parsed = JSON.parse(dataNode.getAttribute('data-product-info') || '{}');
+              if (!currentProductId || String(parsed.id || '') === currentProductId) {
+                productData = parsed;
+                break;
+              }
+            } catch {
+              // Ignore malformed embedded product payloads.
+            }
+          }
+        }
+
+        const productExcerptText = normalizeHtmlText(productData?.excerpt || '');
+
         return {
           exists: true,
           active,
           hasContent,
+          currentProductId,
+          productDataAvailable: Boolean(productData),
+          productHasExcerpt: Boolean(productExcerptText),
+          productExcerptText: productExcerptText.slice(0, 240),
           titleText: modal.querySelector('.product_title, h1, h2')?.textContent?.trim() || '',
           imageCount: modal.querySelectorAll('.rmenupro-quick-view-images img, img.wp-post-image').length,
           priceText: modal.querySelector('.price')?.textContent?.trim() || '',
           excerptText: modal.querySelector('.woocommerce-product-details__short-description')?.textContent?.trim() || '',
           addToCartCount: modal.querySelectorAll('.add_to_cart_button, .single_add_to_cart_button, form.cart .button').length,
           metaCount: modal.querySelectorAll('.product_meta').length,
+          closeText: closeButton?.textContent?.trim().replace(/\s+/g, ' ') || '',
+          prevVisible: isVisible(prevButton),
+          prevText: prevButton?.textContent?.trim().replace(/\s+/g, ' ') || '',
+          nextVisible: isVisible(nextButton),
+          nextText: nextButton?.textContent?.trim().replace(/\s+/g, ' ') || '',
+          productCardCount: document.querySelectorAll('.product, li.product, .wc-block-grid__product').length,
+          detailsButtonText: detailsLink?.textContent?.trim().replace(/\s+/g, ' ') || '',
+          detailsButtonHref: detailsLink?.href || '',
+          socialShareCount: socialLinks.length,
+          socialShareHrefs: socialLinks.map((link) => link.href).filter(Boolean).slice(0, 10),
         };
       }, config.selectors.quickViewModal);
       details.modalState = modalState;
@@ -1888,6 +2518,132 @@ async function main() {
         }
         if (elements.includes('image') && modalState.imageCount === 0) {
           issues.push('Quick View is configured to show the product image, but the opened modal did not render an image.');
+        }
+        if (elements.includes('price') && !modalState.priceText) {
+          issues.push('Quick View is configured to show the product price, but the opened modal did not render a price.');
+        }
+        if (elements.includes('excerpt') && modalState.productDataAvailable && modalState.productHasExcerpt && !modalState.excerptText) {
+          issues.push('Quick View is configured to show the product excerpt, but the opened modal did not render an excerpt.');
+        }
+        if (elements.includes('add_to_cart') && modalState.addToCartCount === 0) {
+          issues.push('Quick View is configured to show add-to-cart, but the opened modal did not render an add-to-cart/detail action.');
+        }
+        if (elements.includes('meta') && modalState.metaCount === 0) {
+          issues.push('Quick View is configured to show product meta, but the opened modal did not render product meta.');
+        }
+        if (elements.includes('view_details')) {
+          if (!modalState.detailsButtonHref) {
+            issues.push('Quick View is configured to show View Details, but the details button/link was not rendered.');
+          } else if (
+            featureFlags.quickViewText.viewDetails &&
+            modalState.detailsButtonText &&
+            !modalState.detailsButtonText.toLowerCase().includes(String(featureFlags.quickViewText.viewDetails).toLowerCase())
+          ) {
+            issues.push(`Quick View details button text mismatch. Expected "${featureFlags.quickViewText.viewDetails}", found "${modalState.detailsButtonText}".`);
+          }
+        }
+        if (elements.includes('sharing')) {
+          if (modalState.socialShareCount === 0) {
+            issues.push('Quick View is configured to show social sharing, but no social share links were rendered.');
+          } else if (!modalState.socialShareHrefs.some((href) => /facebook|twitter|pinterest|wa\.me|linkedin|reddit|mailto/i.test(href))) {
+            issues.push('Quick View social share links were rendered, but no recognized share destination was found.');
+          }
+        }
+        if (featureFlags.quickViewText.close && modalState.closeText && !modalState.closeText.toLowerCase().includes(String(featureFlags.quickViewText.close).toLowerCase())) {
+          issues.push(`Quick View close text mismatch. Expected "${featureFlags.quickViewText.close}", found "${modalState.closeText}".`);
+        }
+        if (modalState.productCardCount > 1) {
+          if (!modalState.prevVisible || !modalState.nextVisible) {
+            issues.push('Quick View is open on a multi-product page, but previous/next navigation controls are not visible.');
+          }
+          if (featureFlags.quickViewText.prev && modalState.prevText && !modalState.prevText.toLowerCase().includes(String(featureFlags.quickViewText.prev).toLowerCase())) {
+            issues.push(`Quick View previous text mismatch. Expected "${featureFlags.quickViewText.prev}", found "${modalState.prevText}".`);
+          }
+          if (featureFlags.quickViewText.next && modalState.nextText && !modalState.nextText.toLowerCase().includes(String(featureFlags.quickViewText.next).toLowerCase())) {
+            issues.push(`Quick View next text mismatch. Expected "${featureFlags.quickViewText.next}", found "${modalState.nextText}".`);
+          }
+        }
+      }
+
+      if (modalState.active && modalState.productCardCount > 1 && modalState.nextVisible) {
+        const openedBeforeNext = await page
+          .evaluate(() => (window.__onepaqucQcQuickViewEvents || []).filter((event) => event.type === 'rmenupro_quick_view_opened').length)
+          .catch(() => 0);
+        await page.locator(`${config.selectors.quickViewModal}.active .rmenupro-quick-view-next`).first().click({ force: true, timeout: 1000 }).catch(() => null);
+        await delay(1000);
+        const openedAfterNext = await page
+          .evaluate(() => (window.__onepaqucQcQuickViewEvents || []).filter((event) => event.type === 'rmenupro_quick_view_opened').length)
+          .catch(() => openedBeforeNext);
+        details.nextNavigationOpenedEvents = { before: openedBeforeNext, after: openedAfterNext };
+        if (openedAfterNext <= openedBeforeNext) {
+          issues.push('Quick View next button was clicked, but no new rmenupro_quick_view_opened event was observed.');
+        }
+
+        if (await page.locator(`${config.selectors.quickViewModal}.active .rmenupro-quick-view-prev`).first().isVisible({ timeout: 1000 }).catch(() => false)) {
+          await page.locator(`${config.selectors.quickViewModal}.active .rmenupro-quick-view-prev`).first().click({ force: true }).catch(() => null);
+          await delay(800);
+        }
+      }
+
+      if (modalState.active && (featureFlags.quickViewContentElements || []).includes('add_to_cart')) {
+        const modalAddButton = page
+          .locator(`${config.selectors.quickViewModal}.active .add_to_cart_button:not(.product_type_variable):not(.product_type_external), ${config.selectors.quickViewModal}.active .single_add_to_cart_button:not(.product_type_variable):not(.product_type_external)`)
+          .first();
+
+        if ((await modalAddButton.count()) && (await modalAddButton.isVisible({ timeout: 1000 }).catch(() => false))) {
+          const ajaxResponsePromise = waitForCartAjax('onepaqucpro_ajax_add_to_cart', 12000);
+          await modalAddButton.click({ force: true });
+          const ajaxResponse = featureFlags.quickViewAjaxAddToCart
+            ? await ajaxResponsePromise
+            : await Promise.race([ajaxResponsePromise, delay(1200).then(() => null)]);
+          await delay(1200);
+
+          let ajaxPayload = null;
+          if (ajaxResponse) {
+            try {
+              ajaxPayload = await ajaxResponse.json();
+            } catch {
+              ajaxPayload = null;
+            }
+          }
+
+          const addState = await page.evaluate((modalSelector) => {
+            const modal = document.querySelector(modalSelector);
+            const style = modal ? window.getComputedStyle(modal) : null;
+            const active = Boolean(
+              modal &&
+              modal.classList.contains('active') &&
+              style.display !== 'none' &&
+              style.visibility !== 'hidden' &&
+              (modal.offsetWidth > 0 || modal.offsetHeight > 0 || modal.getClientRects().length > 0)
+            );
+            return {
+              modalActive: active,
+              events: window.__onepaqucQcQuickViewEvents || [],
+              noticeText:
+                document.querySelector('.woocommerce-message, .rmenupro-toast-notification, .rmenupro-popup-notification')?.textContent?.trim() || '',
+            };
+          }, config.selectors.quickViewModal);
+          details.addToCart = {
+            ajaxStatus: ajaxResponse ? ajaxResponse.status() : null,
+            ajaxPayload,
+            addState,
+          };
+
+          const addedEventSeen = (addState.events || []).some((event) => event.type === 'added_to_cart');
+          if (featureFlags.quickViewAjaxAddToCart && !ajaxResponse && !addedEventSeen) {
+            issues.push('Quick View add-to-cart should use AJAX, but no AJAX response or added_to_cart event was observed.');
+          } else if (ajaxResponse && ajaxResponse.status() >= 400) {
+            issues.push(`Quick View add-to-cart AJAX returned HTTP ${ajaxResponse.status()}.`);
+          } else if (ajaxPayload && ajaxPayload.success === false) {
+            issues.push(`Quick View add-to-cart failed: ${ajaxPayload.message || 'unknown error'}.`);
+          }
+
+          if (featureFlags.quickViewCloseOnAdd && addState.modalActive) {
+            issues.push('Quick View close-on-add is enabled, but the modal stayed open after add-to-cart.');
+          }
+        } else {
+          details.addToCartSkipped = 'No simple AJAX add-to-cart button was available inside the opened Quick View modal.';
         }
       }
 
@@ -2626,6 +3382,36 @@ async function main() {
           issues.push('AJAX Add to Cart did not produce a successful response, added-to-cart event, or visible notice.');
         }
       }
+
+      if (['popup_checkout', 'checkout_redirect'].includes(expectedOutcome)) {
+        const checkoutFacts = await readPageFacts();
+        const checkoutPreparation = {
+          variableSeeded: candidate.productType === 'variable' || target.kind === 'variableProduct',
+        };
+        details.checkoutSurfaceFacts = {
+          onePageCheckoutCount: checkoutFacts.onePageCheckoutCount,
+          checkoutFormCount: checkoutFacts.checkoutFormCount,
+          popupCheckoutVisible: checkoutFacts.popupCheckoutVisible,
+          checkoutQuantityControlCount: checkoutFacts.checkoutQuantityControlCount,
+          checkoutRemoveButtonCount: checkoutFacts.checkoutRemoveButtonCount,
+          checkoutVariationEditorCount: checkoutFacts.checkoutVariationEditorCount,
+          checkoutProductNameLinkCount: checkoutFacts.checkoutProductNameLinkCount,
+          forceLoginPromptCount: checkoutFacts.forceLoginPromptCount,
+          trustBadgeCount: checkoutFacts.trustBadgeCount,
+          checkoutFieldCount: (checkoutFacts.checkoutFields || []).length,
+        };
+        issues.push(
+          ...buildCheckoutSurfaceIssues({
+            target: { ...target, kind: 'checkout' },
+            facts: checkoutFacts,
+            flags: featureFlags,
+            preparation: checkoutPreparation,
+          })
+        );
+        if (featureFlags.trustBadges && checkoutFacts.checkoutFormCount > 0 && checkoutFacts.trustBadgeCount === 0) {
+          issues.push('Trust badges are enabled and the direct-checkout checkout form is present, but no trust badge UI was found.');
+        }
+      }
     } catch (error) {
       issues.push(error.message);
     }
@@ -2647,14 +3433,32 @@ async function main() {
     });
   }
 
-  async function testSafeAddToCart(target) {
+  async function testSafeAddToCart(target, featureFlags) {
     const id = `interaction-add-to-cart-${target.key}`;
     const issues = [];
+    const details = {};
     const before = messages.length;
 
+    if (!featureFlags.customAddToCart && !featureFlags.ajaxAddToCart) {
+      return makeResult({
+        id,
+        title: 'Add to cart interaction',
+        target,
+        skipped: true,
+        reason: 'Plugin add-to-cart/AJAX add-to-cart features are disabled by settings.',
+      });
+    }
+
     try {
+      const currentRuntime = await readRuntime();
+      details.runtime = {
+        addToCartParams: currentRuntime.addToCartParams,
+        cartUrl: currentRuntime.cartParams.cartUrl,
+        checkoutUrl: currentRuntime.cartParams.checkoutUrl || currentRuntime.checkoutUrl,
+      };
+
       const button = page
-        .locator('.add_to_cart_button:not(.product_type_variable):not(.direct-checkout-button):not(.onepaquc-checkout-btn), .single_add_to_cart_button:not(.direct-checkout-button):not(.onepaquc-checkout-btn)')
+        .locator('.rmenupro-ajax-add-to-cart:not(.product_type_variable):not(.product_type_external):not(.product_type_grouped):not(.direct-checkout-button):not(.onepaquc-checkout-btn), .add_to_cart_button:not(.product_type_variable):not(.product_type_external):not(.product_type_grouped):not(.direct-checkout-button):not(.onepaquc-checkout-btn), .single_add_to_cart_button:not(.product_type_variable):not(.product_type_external):not(.product_type_grouped):not(.direct-checkout-button):not(.onepaquc-checkout-btn)')
         .first();
 
       if (!(await button.count()) || !(await button.isVisible({ timeout: 1000 }).catch(() => false))) {
@@ -2667,20 +3471,144 @@ async function main() {
         });
       }
 
+      details.button = await button
+        .evaluate((node) => ({
+          text: node.textContent.trim().replace(/\s+/g, ' '),
+          productId: node.getAttribute('data-product_id') || node.getAttribute('data-product-id') || node.value || '',
+          defaultQty: node.getAttribute('data-default_qty') || node.getAttribute('data-quantity') || '',
+          href: node.getAttribute('href') || '',
+          classes: node.className || '',
+        }))
+        .catch(() => ({}));
+
+      if (featureFlags.addToCartText && details.button.text && !details.button.text.toLowerCase().includes(String(featureFlags.addToCartText).toLowerCase())) {
+        issues.push(`Add-to-cart button text mismatch. Expected "${featureFlags.addToCartText}", found "${details.button.text}".`);
+      }
+
+      await page.evaluate(() => {
+        window.__onepaqucQcAddToCartEvents = [];
+        if (window.jQuery) {
+          window.jQuery(document.body)
+            .off('added_to_cart.onepaqucQcAddToCart')
+            .on('added_to_cart.onepaqucQcAddToCart', function (_event, fragments, cartHash) {
+              window.__onepaqucQcAddToCartEvents.push({
+                type: 'added_to_cart',
+                cartHash: cartHash || '',
+                fragmentKeys: fragments ? Object.keys(fragments) : [],
+                timestamp: Date.now(),
+              });
+            });
+        }
+      });
+
+      const startUrl = page.url();
+      const redirectEnabled =
+        parseBoolean(currentRuntime.addToCartParams.redirect, false) ||
+        !['', 'none', '0', 'false'].includes(String(featureFlags.addToCartRedirectAfterAdd || 'none').toLowerCase());
+      const expectedRedirectUrl =
+        currentRuntime.addToCartParams.redirectUrl ||
+        (featureFlags.addToCartRedirectAfterAdd === 'cart' ? currentRuntime.cartParams.cartUrl : '') ||
+        (featureFlags.addToCartRedirectAfterAdd === 'checkout' ? currentRuntime.cartParams.checkoutUrl || currentRuntime.checkoutUrl : '');
+      const ajaxResponsePromise = waitForCartAjax('onepaqucpro_ajax_add_to_cart', 12000);
+      const navigationPromise = page
+        .waitForURL((url) => normalizeComparableUrl(url.toString()) !== normalizeComparableUrl(startUrl), { timeout: 12000 })
+        .catch(() => null);
+
       await button.click({ force: true });
-      await page.waitForLoadState('networkidle', { timeout: 10000 }).catch(() => null);
+
+      let ajaxResponse = null;
+      if (redirectEnabled) {
+        await navigationPromise;
+        ajaxResponse = await Promise.race([ajaxResponsePromise, delay(500).then(() => null)]);
+      } else {
+        ajaxResponse = await ajaxResponsePromise;
+        await page.waitForLoadState('networkidle', { timeout: 10000 }).catch(() => null);
+      }
       await delay(1200);
 
+      let ajaxPayload = null;
+      if (ajaxResponse) {
+        try {
+          ajaxPayload = await ajaxResponse.json();
+        } catch {
+          ajaxPayload = null;
+        }
+      }
+
       const addState = await page.evaluate(() => {
+        const visibleText = (selector) =>
+          Array.from(document.querySelectorAll(selector))
+            .map((node) => node.textContent.trim().replace(/\s+/g, ' '))
+            .filter(Boolean);
         return {
-          noticeText: document.querySelector('.woocommerce-message, .rmenupro-toast-notification, .rmenupro-popup-notification')?.textContent?.trim() || '',
+          finalUrl: window.location.href,
+          notices: visibleText('.woocommerce-message, .woocommerce-error, .woocommerce-info'),
+          popupText: visibleText('.rmenupro-popup-notification').join(' '),
+          toastText: visibleText('.rmenupro-toast-notification').join(' '),
+          popupVisible: Boolean(document.querySelector('.rmenupro-popup-notification')),
+          toastVisible: Boolean(document.querySelector('.rmenupro-toast-notification')),
+          viewCartLinks: Array.from(document.querySelectorAll('.rmenupro-popup-notification a, .rmenupro-toast-notification a, .woocommerce-message a'))
+            .filter((link) => /cart/i.test(link.textContent || link.href || '')).length,
+          checkoutLinks: Array.from(document.querySelectorAll('.rmenupro-popup-notification a, .rmenupro-toast-notification a, .woocommerce-message a'))
+            .filter((link) => /checkout/i.test(link.textContent || link.href || '')).length,
           cartCountText: document.querySelector('.cart-count, .rwc_cart-count, .cart-contents-count')?.textContent?.trim() || '',
+          events: window.__onepaqucQcAddToCartEvents || [],
           bodyText: document.body?.innerText || '',
         };
       });
+      details.ajaxStatus = ajaxResponse ? ajaxResponse.status() : null;
+      details.ajaxPayload = ajaxPayload;
+      details.addState = addState;
 
-      if (!addState.noticeText && !/added to (your )?cart/i.test(addState.bodyText)) {
-        issues.push('Add-to-cart click did not produce a visible success notification or cart message.');
+      const addedEventSeen = (addState.events || []).some((event) => event.type === 'added_to_cart');
+
+      if (redirectEnabled) {
+        if (expectedRedirectUrl && !normalizeComparableUrl(addState.finalUrl).startsWith(normalizeComparableUrl(expectedRedirectUrl))) {
+          issues.push(`Add-to-cart redirect is enabled, but the browser did not land on the configured URL "${expectedRedirectUrl}".`);
+        } else if (!expectedRedirectUrl && normalizeComparableUrl(addState.finalUrl) === normalizeComparableUrl(startUrl)) {
+          issues.push('Add-to-cart redirect is enabled, but the browser did not navigate away.');
+        }
+      } else if (!ajaxResponse && !addedEventSeen) {
+        issues.push('Add-to-cart should use AJAX, but no AJAX response or added_to_cart event was observed.');
+      }
+
+      if (ajaxResponse && ajaxResponse.status() >= 400) {
+        issues.push(`Add-to-cart AJAX returned HTTP ${ajaxResponse.status()}.`);
+      } else if (ajaxPayload && ajaxPayload.success === false) {
+        issues.push(`Add-to-cart AJAX failed: ${ajaxPayload.message || 'unknown error'}.`);
+      }
+
+      const notificationText = [addState.popupText, addState.toastText, ...(addState.notices || [])].join(' ');
+      if (!redirectEnabled) {
+        if (featureFlags.addToCartNotificationStyle === 'popup' && !addState.popupVisible) {
+          issues.push('Add-to-cart notification style is Popup, but no popup notification appeared.');
+        }
+        if (featureFlags.addToCartNotificationStyle === 'toast' && !addState.toastVisible) {
+          issues.push('Add-to-cart notification style is Toast, but no toast notification appeared.');
+        }
+        if (['popup', 'toast'].includes(featureFlags.addToCartNotificationStyle)) {
+          const productName = ajaxPayload?.product_name || '';
+          const expectedMessage = String(featureFlags.addToCartSuccessMessage || '').replace('{product}', productName).trim();
+          if (expectedMessage && notificationText && !normalizeTextForCompare(notificationText).includes(normalizeTextForCompare(expectedMessage).slice(0, 24))) {
+            issues.push(`Add-to-cart success message mismatch. Expected text based on "${featureFlags.addToCartSuccessMessage}".`);
+          }
+          if (featureFlags.addToCartShowViewCartLink && addState.viewCartLinks === 0) {
+            issues.push('Add-to-cart settings show View Cart link, but no View Cart link was visible in the notification.');
+          }
+          if (!featureFlags.addToCartShowViewCartLink && addState.viewCartLinks > 0) {
+            issues.push('Add-to-cart settings hide View Cart link, but a View Cart link was visible in the notification.');
+          }
+          if (featureFlags.addToCartShowCheckoutLink && addState.checkoutLinks === 0) {
+            issues.push('Add-to-cart settings show Checkout link, but no Checkout link was visible in the notification.');
+          }
+          if (!featureFlags.addToCartShowCheckoutLink && addState.checkoutLinks > 0) {
+            issues.push('Add-to-cart settings hide Checkout link, but a Checkout link was visible in the notification.');
+          }
+        }
+      }
+
+      if (!redirectEnabled && !ajaxPayload?.success && !addedEventSeen && !notificationText && !/added to (your )?cart/i.test(addState.bodyText)) {
+        issues.push('Add-to-cart click did not produce a successful response, event, visible notification, or cart message.');
       }
     } catch (error) {
       issues.push(error.message);
@@ -2696,7 +3624,122 @@ async function main() {
       title: 'Add to cart interaction',
       target,
       issues,
+      details,
       screenshot: await screenshotForIssues(id, 'Add to cart interaction', issues),
+    });
+  }
+
+  async function testProductTypeButtonBehavior(target, featureFlags) {
+    const id = `interaction-product-type-button-${target.key}`;
+    const issues = [];
+    const before = messages.length;
+
+    if (!['externalProduct', 'groupedProduct'].includes(target.kind)) {
+      return makeResult({
+        id,
+        title: 'Product type button behavior',
+        target,
+        skipped: true,
+        reason: 'This check only applies to external/affiliate and grouped product pages.',
+      });
+    }
+
+    const details = await page
+      .evaluate(() => {
+        const isVisible = (node) => {
+          if (!node) return false;
+          const style = window.getComputedStyle(node);
+          return (
+            style.display !== 'none' &&
+            style.visibility !== 'hidden' &&
+            style.opacity !== '0' &&
+            (node.offsetWidth > 0 || node.offsetHeight > 0 || node.getClientRects().length > 0)
+          );
+        };
+
+        const externalButton =
+          document.querySelector('.single_add_to_cart_button.product_type_external, a.product_type_external, form.cart button.single_add_to_cart_button') ||
+          null;
+        const groupedForm = document.querySelector('form.grouped_form');
+        const groupedButton = groupedForm?.querySelector('.single_add_to_cart_button, button[type="submit"]') || null;
+
+        return {
+          url: window.location.href,
+          external: externalButton
+            ? {
+                visible: isVisible(externalButton),
+                text: externalButton.textContent.trim().replace(/\s+/g, ' '),
+                href: externalButton.getAttribute('href') || '',
+                formAction: externalButton.closest('form')?.getAttribute('action') || '',
+                formMethod: externalButton.closest('form')?.getAttribute('method') || '',
+                target: externalButton.getAttribute('target') || '',
+                classes: externalButton.className || '',
+              }
+            : null,
+          grouped: groupedForm
+            ? {
+                formVisible: isVisible(groupedForm),
+                formAction: groupedForm.getAttribute('action') || '',
+                childRows: groupedForm.querySelectorAll('.woocommerce-grouped-product-list-item, tr').length,
+                quantityInputs: groupedForm.querySelectorAll('input.qty').length,
+                buttonVisible: isVisible(groupedButton),
+                buttonText: groupedButton?.textContent?.trim().replace(/\s+/g, ' ') || '',
+                buttonClasses: groupedButton?.className || '',
+              }
+            : null,
+        };
+      })
+      .catch((error) => ({ error: error.message }));
+
+    if (details.error) {
+      issues.push(details.error);
+    } else if (target.kind === 'externalProduct') {
+      if (!details.external?.visible) {
+        issues.push('External/Affiliate product click button is not visible.');
+      } else {
+        const clickTarget = details.external.href || details.external.formAction;
+        if (!clickTarget) {
+          issues.push('External/Affiliate product button has no href or form action for click navigation.');
+        }
+        if (/rmenupro-ajax-add-to-cart|onepaqucpro_ajax_add_to_cart/.test(details.external.classes || '')) {
+          issues.push('External/Affiliate product button is wired as AJAX add-to-cart, but external products should keep native external navigation.');
+        }
+      }
+    } else if (target.kind === 'groupedProduct') {
+      if (!details.grouped?.formVisible) {
+        issues.push('Grouped product form is not visible.');
+      } else {
+        if (details.grouped.childRows === 0) {
+          issues.push('Grouped product form has no child product rows.');
+        }
+        if (!details.grouped.buttonVisible) {
+          issues.push('Grouped product submit/add-to-cart button is not visible.');
+        }
+        if (
+          featureFlags.groupedAddToCartText &&
+          details.grouped.buttonText &&
+          !details.grouped.buttonText.toLowerCase().includes(String(featureFlags.groupedAddToCartText).toLowerCase())
+        ) {
+          issues.push(`Grouped product button text mismatch. Expected "${featureFlags.groupedAddToCartText}", found "${details.grouped.buttonText}".`);
+        }
+        if (/rmenupro-ajax-add-to-cart|onepaqucpro_ajax_add_to_cart/.test(details.grouped.buttonClasses || '')) {
+          issues.push('Grouped product button is wired as simple AJAX add-to-cart, but grouped products should submit the grouped form.');
+        }
+      }
+    }
+
+    const relevantMessages = filterRelevantMessages(messages.slice(before));
+    if (relevantMessages.length) {
+      issues.push(`Browser errors occurred during product-type button checks: ${relevantMessages[0].text || relevantMessages[0].url}`);
+    }
+
+    return makeResult({
+      id,
+      title: 'Product type button behavior',
+      target,
+      issues,
+      details,
+      screenshot: await screenshotForIssues(id, 'Product type button behavior', issues),
     });
   }
 
@@ -2920,6 +3963,49 @@ async function main() {
       variations: selection.variations,
     });
     return { ...result, selection };
+  }
+
+  function targetNeedsPreparedCart(target) {
+    return ['cart', 'checkout', 'onePageCheckout'].includes(target.kind);
+  }
+
+  async function prepareTargetCartState(target, debugData, targets, featureFlags) {
+    const details = {
+      attempted: false,
+      variableSeeded: false,
+      simpleSeeded: false,
+    };
+
+    if (!config.scenarioSettings.allowCartMutations || !targetNeedsPreparedCart(target)) {
+      return details;
+    }
+
+    const seedTarget =
+      findTarget(targets, 'simpleProduct') ||
+      (targets || []).find((candidate) => candidate.kind === 'archive') ||
+      (targets || [])[0];
+
+    if (!seedTarget?.url) {
+      details.skipped = true;
+      details.reason = 'No seed page was available before cart/checkout checks.';
+      return details;
+    }
+
+    details.attempted = true;
+    details.seedUrl = seedTarget.url;
+
+    await gotoPage(seedTarget.url);
+    details.clearCart = await clearCartViaAjax();
+    details.simpleAdd = await addSimpleProductToCart(debugData, 1);
+    details.simpleSeeded = Boolean(details.simpleAdd?.ok && details.simpleAdd?.json?.success !== false);
+
+    const variableTarget = findTarget(targets, 'variableProduct');
+    if (featureFlags.floatingCartVariationSwitch && variableTarget?.url) {
+      details.variableAdd = await addVariableProductToCart(debugData, variableTarget);
+      details.variableSeeded = Boolean(details.variableAdd?.ok && details.variableAdd?.json?.success !== false);
+    }
+
+    return details;
   }
 
   async function readFloatingCartState() {
@@ -3596,14 +4682,16 @@ async function main() {
     });
   }
 
-  async function testTargetPage(target, featureFlags) {
+  async function testTargetPage(target, featureFlags, preparation = {}) {
     const before = messages.length;
     const response = await gotoPage(target.url);
     const runtime = await readRuntime();
     const flags = featureFlags || deriveFeatureFlags(runtime);
+    await waitForCheckoutEnhancements();
     const facts = await readPageFacts();
     const relevantMessages = filterRelevantMessages(messages.slice(before));
-    const issues = buildPageIssues({ target, response, facts, runtime, flags, relevantMessages });
+    const finalUrl = page.url();
+    const issues = buildPageIssues({ target, response, facts, runtime, flags, relevantMessages, finalUrl, preparation });
     const id = `page-${target.key}`;
 
     return makeResult({
@@ -3613,7 +4701,8 @@ async function main() {
       issues,
       details: {
         responseStatus: response ? response.status() : null,
-        finalUrl: page.url(),
+        finalUrl,
+        preparation,
         facts,
         runtime: {
           settingsCount: runtime.settingsCount,
@@ -3621,6 +4710,7 @@ async function main() {
           quickViewParamsPresent: runtime.quickViewParamsPresent,
           rmsgValuePresent: runtime.rmsgValuePresent,
           ajaxAddToCartParamsPresent: runtime.ajaxAddToCartParamsPresent,
+          addToCartParams: runtime.addToCartParams,
           cartParams: runtime.cartParams,
           quickViewParams: runtime.quickViewParams,
         },
@@ -3706,7 +4796,8 @@ async function main() {
     for (const target of targets) {
       progress.step(target.label);
       try {
-        const pageResult = await testTargetPage(target, featureFlags);
+        const preparation = await prepareTargetCartState(target, debugData, targets, featureFlags);
+        const pageResult = await testTargetPage(target, featureFlags, preparation);
         tests.push(pageResult);
         if (!pageResult.passed) {
           console.log(`[issue found] ${pageResult.title}: ${pageResult.issues[0]}`);
@@ -3714,7 +4805,9 @@ async function main() {
 
         const facts = pageResult.details.facts || {};
         if (config.scenarioSettings.includeInteractions) {
-          if (target.kind === 'archive' && featureFlags.quickView && facts.quickViewButtonCount > 0) {
+          let needsReloadBeforeDirectCheckout = false;
+
+          if (featureFlags.quickView && facts.quickViewButtonCount > 0 && isQuickViewExpectedOnTarget(target, featureFlags)) {
             const result = await testQuickViewInteraction(target, featureFlags);
             tests.push(result);
             if (!result.passed && !result.skipped) console.log(`[issue found] ${result.title}: ${result.issues[0]}`);
@@ -3738,6 +4831,29 @@ async function main() {
             if (!result.passed && !result.skipped) console.log(`[issue found] ${result.title}: ${result.issues[0]}`);
           }
 
+          if (['externalProduct', 'groupedProduct'].includes(target.kind)) {
+            const result = await testProductTypeButtonBehavior(target, featureFlags);
+            tests.push(result);
+            if (!result.passed && !result.skipped) console.log(`[issue found] ${result.title}: ${result.issues[0]}`);
+          }
+
+          const safeAddToCartButtons = (facts.addToCartButtons || []).filter((button) => {
+            return !button.productType || button.productType === 'simple';
+          });
+          const shouldRunAddToCart =
+            config.scenarioSettings.includeAddToCartInteractions &&
+            config.scenarioSettings.allowCartMutations &&
+            (featureFlags.customAddToCart || featureFlags.ajaxAddToCart) &&
+            ['archive', 'simpleProduct', 'onePageCheckoutProduct'].includes(target.kind) &&
+            safeAddToCartButtons.length > 0;
+
+          if (shouldRunAddToCart) {
+            const result = await testSafeAddToCart(target, featureFlags);
+            tests.push(result);
+            needsReloadBeforeDirectCheckout = !result.skipped;
+            if (!result.passed && !result.skipped) console.log(`[issue found] ${result.title}: ${result.issues[0]}`);
+          }
+
           const shouldRunDirectCheckout =
             featureFlags.directCheckout &&
             facts.directCheckoutCount > 0 &&
@@ -3746,14 +4862,11 @@ async function main() {
             (!config.scenarioSettings.directCheckoutRequiredOnly || target.required);
 
           if (shouldRunDirectCheckout) {
+            if (needsReloadBeforeDirectCheckout) {
+              await gotoPage(target.url);
+            }
             directCheckoutInteractionRuns += 1;
             const result = await testDirectCheckoutBehavior(target, featureFlags);
-            tests.push(result);
-            if (!result.passed && !result.skipped) console.log(`[issue found] ${result.title}: ${result.issues[0]}`);
-          }
-
-          if (config.scenarioSettings.includeAddToCartInteractions && config.scenarioSettings.allowCartMutations && facts.addToCartCount > 0) {
-            const result = await testSafeAddToCart(target);
             tests.push(result);
             if (!result.passed && !result.skipped) console.log(`[issue found] ${result.title}: ${result.issues[0]}`);
           }
@@ -3810,6 +4923,8 @@ async function main() {
       uniqueMessages.push(message);
     }
 
+    const issueScreenshotGroups = buildIssueScreenshotGroups(tests);
+
     const report = {
       siteLabel: config.siteLabel,
       baseUrl: config.baseUrl,
@@ -3838,6 +4953,7 @@ async function main() {
       skippedTests: tests.filter((test) => test.skipped).length,
       failedCount: countFailed(tests),
       tests,
+      issueScreenshotGroups,
       uniqueMessages,
       responseStatuses: Object.fromEntries(Array.from(responseStatuses.entries()).slice(0, 300)),
       effectiveConfig: {

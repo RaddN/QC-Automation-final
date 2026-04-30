@@ -15,9 +15,9 @@
   "scenarioSettings": {
     "includeInteractions": true,
     "allowCartMutations": true,
-    "includeAddToCartInteractions": false,
-    "directCheckoutRequiredOnly": true,
-    "maxDirectCheckoutInteractions": 8,
+    "includeAddToCartInteractions": true,
+    "directCheckoutRequiredOnly": false,
+    "maxDirectCheckoutInteractions": 16,
     "maxTargets": 80
   }
 }

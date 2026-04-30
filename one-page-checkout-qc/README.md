@@ -58,6 +58,7 @@ Each run writes a timestamped folder under `reports/` containing:
 - `report.json`: machine-readable result
 - `report.md`: readable summary
 - `generated-config.json`: discovered targets/settings snapshot
-- `fail-*.png`: screenshots for failures
+- `issues/<reason>/fail-*.png`: failure screenshots grouped by primary issue reason
+- `issues/<reason>/issue.txt`: full reason text for that screenshot folder
 
 The script exits with code `1` when it finds QC failures.
