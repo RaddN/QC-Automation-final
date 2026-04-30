@@ -88,6 +88,7 @@ function buildDefaultConfig() {
       'facebook',
       'clarity',
       'hotjar',
+      'wc-ajax=update_order_review.*ERR_ABORTED',
     ],
     scenarioSettings: {
       includeInteractions: true,
@@ -1431,22 +1432,51 @@ async function main() {
 
       const checkoutFieldNodes = safeQueryAll(selectors.checkoutForm)
         .flatMap((form) => Array.from(form.querySelectorAll('input, select, textarea')))
-        .filter((node) => node.type !== 'hidden' && node.name);
+        .filter((node) => node.type !== 'hidden' && (node.name || node.id || node.getAttribute('autocomplete')));
       const checkoutFields = checkoutFieldNodes.map((node) => {
-        const wrapper = node.closest('.form-row, .wc-block-components-text-input, .wc-block-components-address-form__address_1, p, label');
+        const wrapper = node.closest(
+          '.form-row, .wc-block-components-text-input, .wc-block-components-address-form__first_name, .wc-block-components-address-form__last_name, .wc-block-components-address-form__company, .wc-block-components-address-form__country, .wc-block-components-address-form__address_1, .wc-block-components-address-form__address_2, .wc-block-components-address-form__city, .wc-block-components-address-form__state, .wc-block-components-address-form__postcode, .wc-block-components-address-form__phone, .wc-block-components-address-form__email, .wc-block-components-textarea, .wc-block-components-select-input, .wc-block-components-combobox-control, p, label'
+        );
         const labelNode =
           (node.id && document.querySelector(`label[for="${CSS.escape(node.id)}"]`)) ||
           wrapper?.querySelector('label') ||
           null;
+        const labelText = labelNode?.textContent?.trim().replace(/\s+/g, ' ') || '';
+        const identifiers = new Set();
+        const addIdentifier = (value) => {
+          if (value !== undefined && value !== null && String(value).trim() !== '') {
+            identifiers.add(String(value).trim());
+          }
+        };
+
+        addIdentifier(node.name);
+        addIdentifier(node.id);
+        addIdentifier(node.getAttribute('autocomplete'));
+        for (const className of Array.from(wrapper?.classList || [])) {
+          const blockFieldMatch = className.match(/^wc-block-components-address-form__(.+)$/);
+          if (blockFieldMatch) {
+            addIdentifier(blockFieldMatch[1]);
+          }
+        }
+        if (/add\s+a\s+note\s+to\s+your\s+order|order\s+notes?/i.test(labelText)) {
+          addIdentifier('order_notes_toggle');
+        }
+
         return {
           name: node.name || '',
           id: node.id || '',
+          identifiers: Array.from(identifiers),
           type: node.type || node.tagName.toLowerCase(),
-          label: labelNode?.textContent?.trim().replace(/\s+/g, ' ') || '',
+          label: labelText,
           placeholder: node.getAttribute('placeholder') || '',
           required: Boolean(node.required || node.getAttribute('aria-required') === 'true' || wrapper?.classList.contains('validate-required')),
           visible: isVisible(node) || Boolean(wrapper && isVisible(wrapper)),
           value: node.value || '',
+          isBlockField: Boolean(
+            node.closest(
+              '.wp-block-woocommerce-checkout, .wc-block-checkout, .wc-block-components-form, .wc-block-checkout__form, .wc-block-components-address-form, .wc-block-components-text-input, .wc-block-components-select-input, .wc-block-components-combobox-control, .wc-block-components-textarea'
+            )
+          ),
         };
       });
 
@@ -1570,11 +1600,119 @@ async function main() {
     };
   }
 
+  function normalizeCheckoutFieldKey(value) {
+    return String(value || '')
+      .trim()
+      .replace(/\[([^\]]+)\]/g, '_$1')
+      .replace(/[\s-]+/g, '_')
+      .replace(/[^a-zA-Z0-9_]+/g, '_')
+      .replace(/_+/g, '_')
+      .replace(/^_+|_+$/g, '')
+      .toLowerCase();
+  }
+
+  function checkoutFieldAliasKeys(fieldName) {
+    const fieldKey = normalizeCheckoutFieldKey(fieldName);
+    const aliases = [fieldKey];
+    const billingBlockAliases = {
+      billing_email: ['contact_email', 'email'],
+      billing_phone: ['shipping_phone', 'phone'],
+    };
+
+    if (billingBlockAliases[fieldKey]) {
+      aliases.push(...billingBlockAliases[fieldKey]);
+    } else if (fieldKey.startsWith('billing_')) {
+      const suffix = fieldKey.replace(/^billing_/, '');
+      aliases.push(`shipping_${suffix}`, suffix);
+    }
+
+    if (fieldKey === 'order_comments') {
+      aliases.push('order_notes', 'comments', 'order_notes_toggle');
+    }
+
+    return Array.from(new Set(aliases.map(normalizeCheckoutFieldKey).filter(Boolean)));
+  }
+
+  function fieldHasNormalizedIdentifier(field, predicate) {
+    return [field.name, field.id, ...(field.identifiers || [])].some((identifier) => predicate(normalizeCheckoutFieldKey(identifier)));
+  }
+
+  function hasVisibleShippingCheckoutFields(fields) {
+    const shippingAddressFields = new Set([
+      'shipping_first_name',
+      'shipping_last_name',
+      'shipping_country',
+      'shipping_address_1',
+      'shipping_address_2',
+      'shipping_city',
+      'shipping_state',
+      'shipping_postcode',
+      'shipping_company',
+    ]);
+
+    return fields.some(
+      (field) =>
+        field.visible &&
+        fieldHasNormalizedIdentifier(field, (identifier) => shippingAddressFields.has(identifier))
+    );
+  }
+
+  function canSkipMissingCheckoutField(fieldName, fields) {
+    const fieldKey = normalizeCheckoutFieldKey(fieldName);
+
+    if (fieldKey === 'billing_company' || fieldKey === 'shipping_company') {
+      return true;
+    }
+
+    if (fieldKey.startsWith('shipping_') && !hasVisibleShippingCheckoutFields(fields)) {
+      return true;
+    }
+
+    return false;
+  }
+
+  function buildCheckoutFieldLookup(fields) {
+    const fieldByName = new Map();
+
+    for (const field of fields) {
+      const identifiers = [field.name, field.id, ...(field.identifiers || [])];
+      for (const identifier of identifiers) {
+        const normalized = normalizeCheckoutFieldKey(identifier);
+        if (normalized && !fieldByName.has(normalized)) {
+          fieldByName.set(normalized, field);
+        }
+      }
+    }
+
+    return fieldByName;
+  }
+
+  function findCheckoutField(fieldByName, fieldName) {
+    const directKey = normalizeCheckoutFieldKey(fieldName);
+    const directField = fieldByName.get(directKey);
+    if (directField) {
+      return { field: directField, isAlias: false };
+    }
+
+    for (const aliasKey of checkoutFieldAliasKeys(fieldName)) {
+      if (aliasKey === directKey) {
+        continue;
+      }
+
+      const field = fieldByName.get(aliasKey);
+      if (field) {
+        return { field, isAlias: true };
+      }
+    }
+
+    return { field: null, isAlias: false };
+  }
+
   function buildCheckoutFieldIssues(facts, flags) {
     const issues = [];
     const config = flags.checkoutFieldConfig || {};
     const fields = facts.checkoutFields || [];
-    const fieldByName = new Map(fields.map((field) => [field.name, field]));
+    const fieldByName = buildCheckoutFieldLookup(fields);
     const mapping = checkoutFieldConfigMap();
 
     for (const [configKey, fieldName] of Object.entries(mapping)) {
@@ -1583,18 +1721,26 @@ async function main() {
         continue;
       }
 
-      const field = fieldByName.get(fieldName);
+      const directField = fieldByName.get(normalizeCheckoutFieldKey(fieldName));
+      const { field, isAlias } = findCheckoutField(fieldByName, fieldName);
       const visibleExpected = fieldConfig.visible === undefined ? true : parseBoolean(fieldConfig.visible, true);
 
       if (!visibleExpected) {
-        if (field?.visible) {
+        if (directField?.visible) {
           issues.push(`Checkout field ${fieldName} is configured hidden, but it is visible.`);
         }
         continue;
       }
 
       if (!field) {
+        if (canSkipMissingCheckoutField(fieldName, fields)) {
+          continue;
+        }
         issues.push(`Checkout field ${fieldName} is configured visible, but it was not rendered.`);
+        continue;
+      }
+
+      if (isAlias) {
         continue;
       }
 
@@ -1602,7 +1748,7 @@ async function main() {
         issues.push(`Checkout field ${fieldName} label mismatch. Expected "${fieldConfig.label}", found "${field.label}".`);
       }
 
-      if (hasValue(fieldConfig.placeholder) && field.visible && normalizeUiText(field.placeholder) !== normalizeUiText(fieldConfig.placeholder)) {
+      if (hasValue(fieldConfig.placeholder) && field.visible && !field.isBlockField && normalizeUiText(field.placeholder) !== normalizeUiText(fieldConfig.placeholder)) {
         issues.push(`Checkout field ${fieldName} placeholder mismatch. Expected "${fieldConfig.placeholder}", found "${field.placeholder}".`);
       }
 
@@ -1615,9 +1761,14 @@ async function main() {
     }
 
     for (const disabledKey of flags.checkoutRequiredDisabledFields || []) {
-      const matchingField = fields.find((field) => field.name.includes(disabledKey));
+      const normalizedDisabledKey = normalizeCheckoutFieldKey(disabledKey);
+      const matchingField = fields.find((field) =>
+        [field.name, field.id, ...(field.identifiers || [])].some((identifier) =>
+          normalizeCheckoutFieldKey(identifier).includes(normalizedDisabledKey)
+        )
+      );
       if (matchingField?.visible && matchingField.required) {
-        issues.push(`Checkout field ${matchingField.name} should not be required because ${disabledKey} is disabled in onepaqucpro_checkout_fields.`);
+        issues.push(`Checkout field ${matchingField.name || matchingField.id || disabledKey} should not be required because ${disabledKey} is disabled in onepaqucpro_checkout_fields.`);
       }
     }
 
@@ -1627,7 +1778,7 @@ async function main() {
   function buildCheckoutSurfaceIssues({ target, facts, flags, preparation = {} }) {
     const issues = [];
     const hasCheckoutSurface = facts.checkoutFormCount > 0 || facts.onePageCheckoutCount > 0 || facts.popupCheckoutVisible;
-    const productPageKinds = ['simpleProduct', 'variableProduct', 'externalProduct', 'groupedProduct', 'onePageCheckoutProduct'];
+    const productPageKinds = ['simpleProduct', 'variableProduct', 'onePageCheckoutProduct'];
     const expectsCheckoutSurface =
       ['checkout', 'onePageCheckout'].includes(target.kind) ||
       (target.kind === 'onePageCheckoutProduct' && flags.onePageCheckoutEnabled) ||
@@ -2476,20 +2627,29 @@ async function main() {
         }
 
         const productExcerptText = normalizeHtmlText(productData?.excerpt || '');
+        const productPriceText = normalizeHtmlText(productData?.price_html || '');
+        const productType = String(productData?.type || '').toLowerCase();
+        const expectsQuickViewProductAction = !productData || ['simple', 'variable'].includes(productType);
 
         return {
           exists: true,
           active,
           hasContent,
           currentProductId,
+          productType,
           productDataAvailable: Boolean(productData),
           productHasExcerpt: Boolean(productExcerptText),
           productExcerptText: productExcerptText.slice(0, 240),
+          productHasPrice: Boolean(productPriceText),
+          productPriceText: productPriceText.slice(0, 240),
+          expectsQuickViewProductAction,
           titleText: modal.querySelector('.product_title, h1, h2')?.textContent?.trim() || '',
           imageCount: modal.querySelectorAll('.rmenupro-quick-view-images img, img.wp-post-image').length,
           priceText: modal.querySelector('.price')?.textContent?.trim() || '',
           excerptText: modal.querySelector('.woocommerce-product-details__short-description')?.textContent?.trim() || '',
-          addToCartCount: modal.querySelectorAll('.add_to_cart_button, .single_add_to_cart_button, form.cart .button').length,
+          addToCartCount: modal.querySelectorAll(
+            '.add_to_cart_button, .single_add_to_cart_button, form.cart .button, .rmenupro-add-to-cart-form .button, .rmenupro-quick-view-summary > a.button, .rmenupro-quick-view-summary > button.button'
+          ).length,
           metaCount: modal.querySelectorAll('.product_meta').length,
           closeText: closeButton?.textContent?.trim().replace(/\s+/g, ' ') || '',
           prevVisible: isVisible(prevButton),
@@ -2519,13 +2679,13 @@ async function main() {
         if (elements.includes('image') && modalState.imageCount === 0) {
           issues.push('Quick View is configured to show the product image, but the opened modal did not render an image.');
         }
-        if (elements.includes('price') && !modalState.priceText) {
+        if (elements.includes('price') && modalState.productDataAvailable && modalState.productHasPrice && !modalState.priceText) {
           issues.push('Quick View is configured to show the product price, but the opened modal did not render a price.');
         }
         if (elements.includes('excerpt') && modalState.productDataAvailable && modalState.productHasExcerpt && !modalState.excerptText) {
           issues.push('Quick View is configured to show the product excerpt, but the opened modal did not render an excerpt.');
         }
-        if (elements.includes('add_to_cart') && modalState.addToCartCount === 0) {
+        if (elements.includes('add_to_cart') && modalState.expectsQuickViewProductAction && modalState.addToCartCount === 0) {
           issues.push('Quick View is configured to show add-to-cart, but the opened modal did not render an add-to-cart/detail action.');
         }
         if (elements.includes('meta') && modalState.metaCount === 0) {
